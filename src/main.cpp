@@ -1,22 +1,19 @@
 #include <Arduino.h>
-#include <SPI.h>
 #include <Wire.h>
+#include <Midi.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "fonts/Org_01.h"
 #include <string>
 #include "strip.h"
 #include "map"
-#include "particles/particle.h"
 #include "particles/flame.h"
 #include "random.hpp"
-#include "number.h"
+#include "HardwareSerial.h"
 
 using Random = effolkronium::random_static;
 
 // -------------------------------------------------------------------------------
-
-#define SERIAL_BUFFER_SIZE 128
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 32
@@ -36,6 +33,17 @@ using Random = effolkronium::random_static;
 #define PIANO_KEY_WIDTH 3
 #define PIANO_KEY_WHITE_HEIGHT 20
 #define PIANO_KEY_BLACK_HEIGHT 12
+
+// ---------------------------------- MIDI ----------------------------------
+
+// Override the default MIDI baudrate to
+// a decoding program such as Hairless MIDI (set baudrate to 115200)
+struct CustomBaudRateSettings : public MIDI_NAMESPACE::DefaultSerialSettings {
+	static const long BaudRate = 115200;
+};
+
+MIDI_NAMESPACE::SerialMIDI<HardwareSerial, CustomBaudRateSettings> serialMIDI(Serial);
+MIDI_NAMESPACE::MidiInterface<MIDI_NAMESPACE::SerialMIDI<HardwareSerial, CustomBaudRateSettings>> MIDI((MIDI_NAMESPACE::SerialMIDI<HardwareSerial, CustomBaudRateSettings>&)serialMIDI);
 
 // ---------------------------------- Piano ----------------------------------
 
@@ -125,7 +133,19 @@ void displayRender() {
 	if (millis() <= displayRenderDeadline)
 		return;
 
+	displayClear();
+
+	display.print("MIDI ");
+	display.print(String((int) MIDI.getType()));
+	display.print(" ");
+	display.print(String((int) MIDI.getChannel()));
+	display.print(" ");
+	display.print(String((int) MIDI.getData1()));
+	display.print(" ");
+	display.print(String((int) MIDI.getData2()));
+
 	display.display();
+
 	displayRenderDeadline = millis() + 10;
 }
 
@@ -153,15 +173,10 @@ void LEDOnboardUpdate() {
 
 Strip strip = Strip(LED_STRIP_LENGTH, LED_STRIP_PIN);
 
-unsigned long stripUpdateDeadline;
 unsigned long stripRenderDeadline;
 
 int PianoNoteToKeyIndex(int note) {
 	return note - PIANO_KEY_MIN;
-}
-
-int PianoKeyIndexToStripIndex(int index) {
-	return (int) ((float) (PIANO_KEY_TOTAL - index - 1) / PIANO_KEY_TOTAL * strip.getLength());
 }
 
 std::map<int, FlameParticle*> pianoKeysParticles;
@@ -252,56 +267,46 @@ void stripRender() {
 	stripRenderDeadline = millis() + 1000 / 60;
 }
 
-// ---------------------------------- Serial ----------------------------------
+// ---------------------------------- MIDI ----------------------------------
 
-char serialBuffer[SERIAL_BUFFER_SIZE];
+void MIDIRead() {
+	while (MIDI.read()) {
+		switch (MIDI.getType()) {
+			case midi::NoteOn:
+				stripNoteOn((int) MIDI.getData1(), (uint8_t) MIDI.getData2());
+				break;
 
-void SerialRead() {
-	auto available = Serial.available();
+			case midi::NoteOff:
+				stripNoteOff((int) MIDI.getData1());
+				break;
 
-	if (available == 0)
-		return;
+			case midi::ControlChange:
+				switch (MIDI.getData1()) {
+//				// Horizontal
+//				case 74:
+//					strip.ambient = Number::clamp(MIDI.getData2() / 127.0f * 0.5, 0, 1);
+//					break;
 
-	auto bytesRead = Serial.readBytes(serialBuffer, available);
-
-	if (bytesRead == 0)
-		return;
-
-	for (int i = 0; i < bytesRead; i++) {
-		switch (serialBuffer[i]) {
-			// Note on
-			case 144:
-				stripNoteOn((int) serialBuffer[i + 1], (uint8_t) serialBuffer[i + 2]);
-				i += 2;
+					// Vertical
+					case 71:
+						strip.brightness = Number::clamp(MIDI.getData2() / 127.0f, 0, 1);
+						break;
+				}
 
 				break;
 
-			// Note off
-			case 128:
-				stripNoteOff((int) serialBuffer[i + 1]);
-				i += 2;
-
+			default:
 				break;
-		}	
+		}
+
+		onboardLEDBlink();
 	}
-
-	// Printing data
-	displayClear();
-
-	display.print("MIDI");
-
-	for (int i = 0; i < bytesRead; i++) {
-		display.print(" ");
-		display.print((int) serialBuffer[i]);
-	}
-
-	// Blink!
-	onboardLEDBlink();
 }
 
 // ---------------------------------- Penis ----------------------------------
 
 void setup() {
+	MIDI.begin();
 	Serial.begin(115200);
 
 	// Onboard LEDs
@@ -325,7 +330,7 @@ void setup() {
 }
 
 void loop() {
-	SerialRead();
+	MIDIRead();
 
 	stripRender();
 

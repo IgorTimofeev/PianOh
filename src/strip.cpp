@@ -44,7 +44,7 @@ void Strip::begin() {
 
 void Strip::render() {
 	for (int i = 0; i < getLength(); i++)
-		setPixel(i, AMBIENT);
+		setPixel(i, ambient);
 
 	Particle* particle;
 
@@ -64,7 +64,7 @@ void Strip::render() {
 	float value;
 
 	for (int i = 0; i < getLength(); i++) {
-		value = pixels[i];
+		value = pixels[i] * brightness;
 
 		leds.setPixelColor(
 			i,

@@ -10,13 +10,14 @@ class Strip {
 		const uint8_t R = 0xf2;
 		const uint8_t G = 0xbe;
 		const uint8_t B = 0x3a;
-		const uint8_t AMBIENT = 0x00;
 
 		Adafruit_NeoPixel leds;
 		std::vector<Particle*> particles;
 
 	public:
 		float* pixels;
+		float ambient = 0;
+		float brightness = 1;
 
 		Strip(uint16_t _length, int16_t _pin);
 
