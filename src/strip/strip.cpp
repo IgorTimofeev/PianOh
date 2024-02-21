@@ -36,7 +36,7 @@ void Strip::setBrightness(uint8_t value) {
 
 Color Strip::getColor(uint16_t index) {
 	if (!isIndexInRange(index))
-		return Color();
+		return Color::black;
 
 	revertIndexIfRequired(index);
 

@@ -173,7 +173,7 @@ void LEDOnboardUpdate() {
 
 // ---------------------------------- LED strip ----------------------------------
 
-ColorFiller* stripFiller = new ColorFiller(Color(0, 0, 0));
+ColorFiller* stripFiller = new ColorFiller(Color::black);
 
 Strip strip = Strip(LED_STRIP_LENGTH, LED_STRIP_PIN);
 
@@ -290,7 +290,7 @@ void MIDIRead() {
 
 //					// Horizontal
 //					case 74:
-//						auto color = Color(0xF2, 0xBE, 0x3A);
+//						auto color = Color(Color::gold);
 //						color.multiply((float) MIDI.getData2() / 127.0f);
 //						stripFiller->color = color;
 //

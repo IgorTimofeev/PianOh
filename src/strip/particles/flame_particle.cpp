@@ -8,9 +8,7 @@
 using Random = effolkronium::random_static;
 
 FlameParticle::FlameParticle() {
-	color.r = 0xF2;
-	color.g = 0xBE;
-	color.b = 0x3A;
+	color = Color::gold;
 }
 
 void FlameParticle::render(Strip& strip) {

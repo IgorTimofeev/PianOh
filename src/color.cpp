@@ -1,6 +1,9 @@
 #include "color.h"
 #include "number.h"
 
+const Color Color::black = Color(0, 0, 0);
+const Color Color::gold = Color(0xF2, 0xB3, 0x3A);
+
 Color::Color(uint8_t _r, uint8_t _g, uint8_t _b) {
 	r = _r;
 	g = _g;
