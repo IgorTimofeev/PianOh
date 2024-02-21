@@ -1,9 +1,9 @@
 #pragma once
 
-#include "particles/particle.h"
-#include "strip.h"
-#include <random.hpp>
-#include <number.h>
+#include "particle.h"
+#include "strip/strip.h"
+#include "random.hpp"
+#include "number.h"
 
 using Random = effolkronium::random_static;
 

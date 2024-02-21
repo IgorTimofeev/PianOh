@@ -1,6 +1,5 @@
 #include "strip.h"
 #include "particles/particle.h"
-#include "number.h"
 
 Strip::Strip(uint16_t _length, int16_t _pin) {
 	leds = Adafruit_NeoPixel(_length, _pin, NEO_GRB + NEO_KHZ800);
@@ -38,6 +37,11 @@ void Strip::addParticle(Particle* particle) {
 	particles.push_back(particle);
 }
 
+void Strip::removeParticleAt(uint8_t index) {
+	particles.erase(particles.begin() + index);
+	delete particles[index];
+}
+
 void Strip::begin() {
 	leds.begin();
 }
@@ -54,9 +58,7 @@ void Strip::render() {
 		particle->render(*this);
 
 		if (particle->life <= 0) {
-			particles.erase(particles.begin() + i);
-			delete particle;
-
+			removeParticleAt(i);
 			i--;
 		}
 	}

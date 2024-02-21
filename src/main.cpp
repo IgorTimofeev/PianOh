@@ -5,9 +5,9 @@
 #include <Adafruit_SSD1306.h>
 #include "fonts/Org_01.h"
 #include <string>
-#include "strip.h"
+#include "strip/strip.h"
 #include "map"
-#include "particles/flame.h"
+#include "strip/particles/flame.h"
 #include "random.hpp"
 #include "HardwareSerial.h"
 
@@ -175,28 +175,28 @@ Strip strip = Strip(LED_STRIP_LENGTH, LED_STRIP_PIN);
 
 unsigned long stripRenderDeadline;
 
-int PianoNoteToKeyIndex(int note) {
+int PianoNoteToKeyIndex(byte note) {
 	return note - PIANO_KEY_MIN;
 }
 
 std::map<int, FlameParticle*> pianoKeysParticles;
 
-void stripNoteOn(int note, uint8_t velocity) {
-	float floatVelocity = (float) velocity / 127 * PIANO_KEY_VELOCITY_FACTOR;
+void stripNoteOn(byte note, float velocity) {
+	velocity *= PIANO_KEY_VELOCITY_FACTOR;
 
-	if (floatVelocity > 1)
-		floatVelocity = 1;
+	if (velocity > 1)
+		velocity = 1;
 
 	auto index = PianoNoteToKeyIndex(note);
 
-	pianoKeysVelocities[index] = floatVelocity;
+	pianoKeysVelocities[index] = velocity;
 
 	auto particle = new FlameParticle();
 	particle->position = ((float) (PIANO_KEY_TOTAL - index) / PIANO_KEY_TOTAL) * strip.getLength();
 	particle->sizeLeft = 5;
 	particle->sizeRight = 5;
 
-	particle->brightness = floatVelocity;
+	particle->brightness = velocity;
 	particle->brightnessMaximum = particle->brightness;
 	particle->brightnessMinimum = particle->brightness * 0.4f;
 	particle->brightnessLeft = 0.1;
@@ -210,7 +210,7 @@ void stripNoteOn(int note, uint8_t velocity) {
 	strip.addParticle(particle);
 }
 
-void stripNoteOff(int note) {
+void stripNoteOff(byte note) {
 	auto index = PianoNoteToKeyIndex(note);
 	
 	pianoKeysVelocities[index] = 0;
@@ -273,18 +273,18 @@ void MIDIRead() {
 	while (MIDI.read()) {
 		switch (MIDI.getType()) {
 			case midi::NoteOn:
-				stripNoteOn((int) MIDI.getData1(), (uint8_t) MIDI.getData2());
+				stripNoteOn(MIDI.getData1(), MIDI.getData2() / 127.0f);
 				break;
 
 			case midi::NoteOff:
-				stripNoteOff((int) MIDI.getData1());
+				stripNoteOff(MIDI.getData1());
 				break;
 
 			case midi::ControlChange:
 				switch (MIDI.getData1()) {
 //				// Horizontal
 //				case 74:
-//					strip.ambient = Number::clamp(MIDI.getData2() / 127.0f * 0.5, 0, 1);
+//					strip.ambient = Number::clamp(MIDI.getData2() / 127.0f, 0, 1);
 //					break;
 
 					// Vertical

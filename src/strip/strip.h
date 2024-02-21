@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Adafruit_NeoPixel.h>
+#include "Adafruit_NeoPixel.h"
 #include <vector>
 
 class Particle;
@@ -24,6 +24,7 @@ class Strip {
 		~Strip();
 
 		void addParticle(Particle* particle);
+		void removeParticleAt(uint8_t index);
 
 		float getPixel(int i);
 
