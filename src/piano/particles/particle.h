@@ -2,7 +2,7 @@
 
 #include "color.h"
 
-class Strip;
+class Piano;
 
 class Particle {
 	public:
@@ -14,5 +14,5 @@ class Particle {
 
 		virtual ~Particle() = default;
 
-		virtual void render(Strip& strip) = 0;
+		virtual void render(Piano& piano) = 0;
 };

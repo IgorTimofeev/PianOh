@@ -1,6 +1,6 @@
 
-#include "strip/particles/flame_particle.h"
-#include "strip/strip.h"
+#include "piano/particles/flame_particle.h"
+#include "piano/piano.h"
 #include "color.h"
 #include "random.h"
 #include "number.h"
@@ -11,12 +11,12 @@ FlameParticle::FlameParticle() {
 	color = Color::gold;
 }
 
-void FlameParticle::render(Strip& strip) {
+void FlameParticle::render(Piano& piano) {
 	int intPosition = (int) round(position);
 	float sideFactor;
 
 	for (int i = intPosition - (int) sizeLeft; i <= intPosition + (int) sizeRight; i++) {
-		if (i < 0 || i >= strip.getLength())
+		if (i < 0 || i >= piano.getStripLEDCount())
 			continue;
 
 		if (i < intPosition) {
@@ -32,9 +32,9 @@ void FlameParticle::render(Strip& strip) {
 		auto newColor = Color(color);
 
 		newColor.multiply(life * brightness * sideFactor);
-		newColor.add(strip.getColor(i));
+		newColor.add(piano.getStripColor(i));
 
-		strip.setColor(i, newColor);
+		piano.setStripColor(i, newColor);
 	}
 
 	// Position

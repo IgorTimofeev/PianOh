@@ -3,6 +3,7 @@
 
 const Color Color::black = Color(0, 0, 0);
 const Color Color::gold = Color(0xF2, 0xB3, 0x3A);
+const Color Color::white = Color(0xFF, 0xFF, 0xFF);
 
 Color::Color(uint8_t _r, uint8_t _g, uint8_t _b) {
 	r = _r;
@@ -33,9 +34,9 @@ void Color::add(const Color &color) {
 }
 
 void Color::add(uint8_t _r, uint8_t _g, uint8_t _b) {
-	r = (uint8_t) Number::clamp((int16_t) r + _r, (int16_t) 0, (int16_t) 255);
-	g = (uint8_t) Number::clamp((int16_t) g + _g, (int16_t) 0, (int16_t) 255);
-	b = (uint8_t) Number::clamp((int16_t) b + _b, (int16_t) 0, (int16_t) 255);
+	r = (uint8_t) Number::clamp((int32_t) r + _r, (int32_t) 0, (int32_t) 255);
+	g = (uint8_t) Number::clamp((int32_t) g + _g, (int32_t) 0, (int32_t) 255);
+	b = (uint8_t) Number::clamp((int32_t) b + _b, (int32_t) 0, (int32_t) 255);
 }
 
 void Color::multiply(float factor) {
@@ -44,6 +45,6 @@ void Color::multiply(float factor) {
 	b = (uint8_t) Number::clamp((float) b * factor, 0.0f, 255.0f);
 }
 
-uint32_t Color::toUint32() {
+uint32_t Color::toUint32() const {
 	return r << 16 | g << 8 | b;
 }

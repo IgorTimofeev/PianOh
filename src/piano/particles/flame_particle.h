@@ -1,7 +1,7 @@
 #pragma once
 
 #include "particle.h"
-#include "strip/strip.h"
+#include "piano/piano.h"
 #include "color.h"
 
 class FlameParticle : public Particle {
@@ -22,5 +22,5 @@ class FlameParticle : public Particle {
 
 		FlameParticle();
 
-		void render(Strip& strip) override;
+		void render(Piano& piano) override;
 };

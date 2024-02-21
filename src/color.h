@@ -6,6 +6,7 @@ class Color {
 	public:
 		static const Color black;
 		static const Color gold;
+		static const Color white;
 
 		uint8_t r = 0;
 		uint8_t g = 0;
@@ -25,5 +26,5 @@ class Color {
 
 		void add(const Color& color);
 
-		uint32_t toUint32();
+		uint32_t toUint32() const;
 };
