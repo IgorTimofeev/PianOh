@@ -4,6 +4,7 @@
 #include "strip/strip.h"
 #include "random.hpp"
 #include "number.h"
+#include "../color.h"
 
 using Random = effolkronium::random_static;
 
@@ -23,10 +24,16 @@ class FlameParticle : public Particle {
 
 		float lifeVector = 0;
 
+		FlameParticle() {
+			color.r = 0xF2;
+			color.g = 0xBE;
+			color.b = 0x3A;
+		}
+
 		void render(Strip& strip) override {
 			int intPosition = (int) round(position);
 			float sideFactor;
-			
+
 			for (int i = intPosition - (int) sizeLeft; i <= intPosition + (int) sizeRight; i++) {
 				if (i < 0 || i >= strip.getLength())
 					continue;
@@ -41,14 +48,19 @@ class FlameParticle : public Particle {
 					sideFactor = 1;
 				}
 
-				strip.setPixel(i, Number::clamp(strip.getPixel(i) + life * brightness * sideFactor));
+				auto newColor = Color(color);
+
+				newColor.multiply(life * brightness * sideFactor);
+				newColor.add(strip.getColor(i));
+
+				strip.setColor(i, newColor);
 			}
 
 			// Position
 			position += positionVector;
 
 			// Brightness
-			brightness = Number::clamp(
+			brightness = Number::clampFloat(
 				brightness + brightnessVector,
 				brightnessMinimum,
 				brightnessMaximum
@@ -57,6 +69,6 @@ class FlameParticle : public Particle {
 			brightnessVector = Random::get(-0.05f, 0.05f);
 
 			// Life
-			life = Number::clamp(life + lifeVector);
+			life = Number::clampFloat(life + lifeVector);
 		}
 };

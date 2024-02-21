@@ -2,37 +2,32 @@
 
 #include "Adafruit_NeoPixel.h"
 #include <vector>
+#include "color.h"
 
 class Particle;
 
 class Strip {
 	private:
-		const uint8_t R = 0xf2;
-		const uint8_t G = 0xbe;
-		const uint8_t B = 0x3a;
-
 		Adafruit_NeoPixel leds;
 		std::vector<Particle*> particles;
 
 	public:
-		float* pixels;
-		float ambient = 0;
-		float brightness = 1;
-
 		Strip(uint16_t _length, int16_t _pin);
 
 		~Strip();
 
 		void addParticle(Particle* particle);
-		void removeParticleAt(uint8_t index);
-
-		float getPixel(int i);
-
-		bool isIndexInRange(int index);
-
-		void setPixel(int i, float value);
+		void removeParticleAt(uint16_t index);
 
 		uint16_t getLength();
+
+		bool isIndexInRange(uint16_t index);
+
+		uint8_t getBrightness();
+		void setBrightness(uint8_t value);
+
+		Color getColor(uint16_t index);
+		void setColor(uint16_t index, const Color& value);
 
 		void begin();
 

@@ -289,7 +289,7 @@ void MIDIRead() {
 
 					// Vertical
 					case 71:
-						strip.brightness = Number::clamp(MIDI.getData2() / 127.0f, 0, 1);
+						strip.setBrightness(MIDI.getData2());
 						break;
 				}
 
