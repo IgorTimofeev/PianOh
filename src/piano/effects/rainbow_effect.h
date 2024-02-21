@@ -17,8 +17,10 @@ class RainbowEffect : public ParticlesEffect {
 
 		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
 			auto key = Piano::noteToKeyIndex(note);
+			auto hue = (float) key / (float) piano.keysCount;
 
 			auto particle = new FlameParticle();
+			particle->color = Color(HsbColor(hue, 1, 1));
 			particle->position = piano.keyToStripIndex(key);
 			particle->sizeLeft = 2;
 			particle->sizeRight = 2;
@@ -28,7 +30,7 @@ class RainbowEffect : public ParticlesEffect {
 			particle->brightnessLeft = 0.2;
 			particle->brightnessRight = 0.2;
 			particle->life = 0;
-			particle->lifeVector = 0.2;
+			particle->lifeVector = 0.3;
 
 			keysAndParticlesMap[key] = particle;
 
@@ -39,7 +41,7 @@ class RainbowEffect : public ParticlesEffect {
 			auto index = Piano::noteToKeyIndex(note);
 
 			FlameParticle* particle = keysAndParticlesMap[index];
-			particle->lifeVector = -0.09;
+			particle->lifeVector = -0.12;
 			keysAndParticlesMap.erase(index);
 		}
 

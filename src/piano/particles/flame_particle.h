@@ -7,8 +7,8 @@
 class FlameParticle : public Particle {
 	public:
 		float positionVector = 0;
-		float sizeLeft = 0;
-		float sizeRight = 0;
+		uint8_t sizeLeft = 0;
+		uint8_t sizeRight = 0;
 
 		float brightness = 0;
 		float brightnessMinimum = 0;

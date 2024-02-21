@@ -27,7 +27,7 @@ uint16_t Piano::getStripLEDCount() {
 
 void Piano::invertStripIndexIfRequired(uint16_t& index) {
 	if (isStripInverted)
-		index = getStripLEDCount() - index - 2;
+		index = getStripLEDCount() - index - 1;
 }
 
 bool Piano::isStripIndexInRange(uint16_t index) {

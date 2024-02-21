@@ -52,8 +52,8 @@ class GoldenEffect : public ParticlesEffect {
 		}
 
 		void spawnSparks() {
-			const float bigOffset = 6;
-			const float smallOffset = 4;
+			const uint bigOffset = 6;
+			const uint smallOffset = 4;
 
 			bool isLeft;
 			float isLeftFactor;

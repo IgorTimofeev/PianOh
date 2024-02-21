@@ -17,6 +17,56 @@ Color::Color(const Color &source) {
 	b = source.b;
 }
 
+Color::Color(const HsbColor &hsb) {
+	auto hueSector = hsb.h * 6.0f;
+	auto hueSectorIntegerPart = (uint8_t) hueSector;
+	auto hueSectorFractionalPart = hueSector - (float) hueSectorIntegerPart;
+
+	auto
+		p = (uint8_t) (255.0f * hsb.b * (1 - hsb.s)),
+		q = (uint8_t) (255.0f * hsb.b * (1 - hueSectorFractionalPart * hsb.s)),
+		t = (uint8_t) (255.0f * hsb.b * (1 - (1 - hueSectorFractionalPart) * hsb.s)),
+		v = (uint8_t) (255.0f * hsb.b);
+
+	switch (hueSectorIntegerPart) {
+		case 1:
+			r = q;
+			g = v;
+			b = p;
+			break;
+
+		case 2:
+			r = p;
+			g = v;
+			b = t;
+			break;
+
+		case 3:
+			r = p;
+			g = q;
+			b = v;
+			break;
+
+		case 4:
+			r = t;
+			g = p;
+			b = v;
+			break;
+
+		case 5:
+			r = v;
+			g = p;
+			b = q;
+			break;
+
+		default:
+			r = v;
+			g = t;
+			b = p;
+			break;
+	}
+}
+
 Color::Color() {
 	r = 0;
 	g = 0;

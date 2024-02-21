@@ -2,6 +2,17 @@
 
 #include <cstdint>
 
+class HsbColor {
+	public:
+		float h = 0;
+		float s = 0;
+		float b = 0;
+
+	HsbColor(float h, float s, float b) : h(h), s(s), b(b) {
+
+	}
+};
+
 class Color {
 	public:
 		static const Color black;
@@ -15,6 +26,8 @@ class Color {
 		Color(uint8_t _r, uint8_t _g, uint8_t _b);
 
 		Color(Color const &source);
+
+		explicit Color(const HsbColor &hsb);
 
 		Color();
 

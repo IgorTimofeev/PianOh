@@ -15,15 +15,15 @@ void FlameParticle::render(Piano& piano) {
 	int intPosition = (int) round(position);
 	float sideFactor;
 
-	for (int i = intPosition - (int) sizeLeft; i <= intPosition + (int) sizeRight; i++) {
+	for (int i = intPosition - sizeLeft; i <= intPosition + sizeRight; i++) {
 		if (i < 0 || i >= piano.getStripLEDCount())
 			continue;
 
 		if (i < intPosition) {
-			sideFactor = (1 - (float) (intPosition - i) / sizeLeft) * brightnessLeft;
+			sideFactor = (1 - (float) (intPosition - i) / (float) sizeLeft) * brightnessLeft;
 		}
 		else if (i > intPosition) {
-			sideFactor = (1 - (float) (i - intPosition) / sizeRight) * brightnessRight;
+			sideFactor = (1 - (float) (i - intPosition) / (float) sizeRight) * brightnessRight;
 		}
 		else {
 			sideFactor = 1;
