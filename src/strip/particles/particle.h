@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../color.h"
+#include "color.h"
 
 class Strip;
 
@@ -10,9 +10,7 @@ class Particle {
 		float life = 1;
 		Color color;
 
-		Particle() {
-
-		}
+		Particle() = default;
 
 		virtual ~Particle() = default;
 

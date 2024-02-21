@@ -3,7 +3,9 @@
 #include "Adafruit_NeoPixel.h"
 #include <vector>
 #include "color.h"
+#include "strip/fillers/filler.h"
 
+class Filler;
 class Particle;
 
 class Strip {
@@ -11,7 +13,12 @@ class Strip {
 		Adafruit_NeoPixel leds;
 		std::vector<Particle*> particles;
 
+		bool revertIndexIfRequired(uint16_t& index);
+
 	public:
+		Filler* filler = nullptr;
+		bool isReversed = false;
+
 		Strip(uint16_t _length, int16_t _pin);
 
 		~Strip();
@@ -32,4 +39,10 @@ class Strip {
 		void begin();
 
 		void render();
+
+		void clear();
+
+		void fill(uint16_t from, uint16_t to, Color color);
+
+		void fill(const Color& color);
 };

@@ -1,6 +1,7 @@
-#include "strip.h"
+#include "strip/strip.h"
+#include "strip/particles/particle.h"
+#include "strip/fillers/color_filler.h"
 #include "color.h"
-#include "particles/particle.h"
 
 Strip::Strip(uint16_t _length, int16_t _pin) {
 	leds = Adafruit_NeoPixel(_length, _pin, NEO_GRB + NEO_KHZ800);
@@ -16,6 +17,11 @@ uint16_t Strip::getLength() {
 	return leds.numPixels();
 }
 
+bool Strip::revertIndexIfRequired(uint16_t& index) {
+	if (isReversed)
+		index = getLength() - index - 1;
+}
+
 bool Strip::isIndexInRange(uint16_t index) {
 	return index >= 0 && index < getLength();
 }
@@ -29,12 +35,19 @@ void Strip::setBrightness(uint8_t value) {
 }
 
 Color Strip::getColor(uint16_t index) {
-	return isIndexInRange(index) ? Color(leds.getPixelColor(index)) : Color();
+	if (!isIndexInRange(index))
+		return Color();
+
+	revertIndexIfRequired(index);
+
+	return Color(leds.getPixelColor(index));
 }
 
 void Strip::setColor(uint16_t index, const Color& value) {
 	if (!isIndexInRange(index))
 		return;
+
+	revertIndexIfRequired(index);
 
 	leds.setPixelColor(index, value.r, value.g, value.b);
 }
@@ -54,8 +67,12 @@ void Strip::begin() {
 }
 
 void Strip::render() {
-	for (int i = 0; i < getLength(); i++)
-		setColor(i, Color());
+	if (filler) {
+		filler->render(*this);
+	}
+	else {
+		clear();
+	}
 
 	Particle* particle;
 
@@ -71,4 +88,19 @@ void Strip::render() {
 	}
 
 	leds.show();
+}
+
+void Strip::clear() {
+	leds.clear();
+}
+
+void Strip::fill(uint16_t from, uint16_t to, Color color) {
+	revertIndexIfRequired(from);
+	revertIndexIfRequired(to);
+
+	leds.fill(from, to, color.toUint32());
+}
+
+void Strip::fill(const Color& color) {
+	fill(0, getLength() - 1, color);
 }
