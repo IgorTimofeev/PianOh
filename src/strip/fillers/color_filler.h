@@ -13,10 +13,8 @@ class ColorFiller : public Filler {
 		}
 
 		void render(Strip& strip) override {
-//			for (int i = 0; i < strip.getLength(); i++) {
-//				strip.setColor(i, color);
-//			}
-
-			strip.setColor(10, color);
+			for (int i = 0; i < strip.getLength(); i++) {
+				strip.setColor(i, color);
+			}
 		}
 };

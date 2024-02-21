@@ -13,11 +13,11 @@ class Strip {
 		Adafruit_NeoPixel leds;
 		std::vector<Particle*> particles;
 
-		bool revertIndexIfRequired(uint16_t& index);
+		void revertIndexIfRequired(uint16_t& index);
 
 	public:
 		Filler* filler = nullptr;
-		bool isReversed = false;
+		bool isReversed = true;
 
 		Strip(uint16_t _length, int16_t _pin);
 

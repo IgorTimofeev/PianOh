@@ -17,9 +17,9 @@ uint16_t Strip::getLength() {
 	return leds.numPixels();
 }
 
-bool Strip::revertIndexIfRequired(uint16_t& index) {
+void Strip::revertIndexIfRequired(uint16_t& index) {
 	if (isReversed)
-		index = getLength() - index - 1;
+		index = getLength() - index - 2;
 }
 
 bool Strip::isIndexInRange(uint16_t index) {

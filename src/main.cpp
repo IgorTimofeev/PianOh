@@ -193,7 +193,7 @@ void stripNoteOn(byte note, uint8_t velocity) {
 	pianoKeysVelocities[index] = floatVelocity;
 
 	auto particle = new FlameParticle();
-	particle->position = ((float) (PIANO_KEY_TOTAL - index) / PIANO_KEY_TOTAL) * (float) strip.getLength();
+	particle->position = ((float) index / PIANO_KEY_TOTAL) * (float) strip.getLength();
 	particle->sizeLeft = 5;
 	particle->sizeRight = 5;
 
@@ -322,6 +322,7 @@ void setup() {
 	// LED strip
 	strip.filler = stripFiller;
 	strip.begin();
+	strip.clear();
 
 	// Display
 	if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS))
