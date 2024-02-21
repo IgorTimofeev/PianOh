@@ -12,6 +12,7 @@ class Particle;
 class Piano {
 	private:
 		Adafruit_NeoPixel strip;
+		Effect* effect = nullptr;
 
 		void invertStripIndexIfRequired(uint16_t& index);
 
@@ -19,7 +20,6 @@ class Piano {
 		static const uint8_t midiKeyMinimum = 21;
 
 		uint8_t keysCount = 88;
-		Effect* effect = nullptr;
 		bool isStripInverted = true;
 
 		std::map<uint16_t, uint8_t> pressedKeysVelocities;
@@ -58,7 +58,10 @@ class Piano {
 
 		void addOnMidiRead(const std::function<void(const MidiEvent &)> &callback);
 
-	uint16_t keyToStripIndex(uint16_t key);
+		uint16_t keyToStripIndex(uint16_t key);
 
-	uint16_t noteToStripIndex(uint8_t note);
+		void setEffect(Effect* _effect) {
+			delete effect;
+			effect = _effect;
+		}
 };

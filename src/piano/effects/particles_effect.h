@@ -7,10 +7,12 @@
 
 class ParticlesEffect : public Effect {
 	protected:
-		std::vector<Particle*> particles;
+		std::vector<Particle*> particles {};
 
 	public:
-		explicit ParticlesEffect() = default;
+		explicit ParticlesEffect() {
+
+		}
 
 		~ParticlesEffect() override {
 			for (auto particle : particles) {

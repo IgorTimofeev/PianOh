@@ -10,7 +10,7 @@
 
 class RainbowEffect : public ParticlesEffect {
 	private:
-		std::map<int, FlameParticle*> keysAndParticlesMap;
+		std::map<int, WaveParticle*> keysAndParticlesMap {};
 
 	public:
 		explicit RainbowEffect() = default;
@@ -19,14 +19,12 @@ class RainbowEffect : public ParticlesEffect {
 			auto key = Piano::noteToKeyIndex(note);
 			auto hue = (float) key / (float) piano.keysCount;
 
-			auto particle = new FlameParticle();
+			auto particle = new WaveParticle();
 			particle->color = Color(HsbColor(hue, 1, 1));
 			particle->position = piano.keyToStripIndex(key);
 			particle->sizeLeft = 2;
 			particle->sizeRight = 2;
 			particle->brightness = Number::clamp((float) velocity / 127.0f * 1.5f);
-			particle->brightnessMaximum = particle->brightness;
-			particle->brightnessMinimum = particle->brightness * 0.4f;
 			particle->brightnessLeft = 0.2;
 			particle->brightnessRight = 0.2;
 			particle->life = 0;
@@ -40,7 +38,7 @@ class RainbowEffect : public ParticlesEffect {
 		void onNoteOff(uint8_t note) {
 			auto index = Piano::noteToKeyIndex(note);
 
-			FlameParticle* particle = keysAndParticlesMap[index];
+			WaveParticle* particle = keysAndParticlesMap[index];
 			particle->lifeVector = -0.12;
 			keysAndParticlesMap.erase(index);
 		}

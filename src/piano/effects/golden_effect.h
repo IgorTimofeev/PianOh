@@ -12,12 +12,14 @@ using Random = effolkronium::random_static;
 
 class GoldenEffect : public ParticlesEffect {
 	private:
-		std::map<int, FlameParticle*> keysAndParticlesMap;
+		std::map<int, FlameParticle*> keysAndParticlesMap {};
 
 	public:
 		Color backgroundColor = Color::black;
 
-		explicit GoldenEffect() = default;
+		explicit GoldenEffect() {
+
+		}
 
 		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
 			auto floatVelocity = Number::clamp((float) velocity / 127.0f * 1.5f);

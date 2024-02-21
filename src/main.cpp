@@ -189,13 +189,26 @@ void setup() {
 	display.display();
 
 	// Piano
+	piano.setEffect(new RainbowEffect());
+
 	piano.begin();
 	piano.clearStrip();
-//	piano.effect = new GoldenEffect();
-	piano.effect = new RainbowEffect();
 
 	piano.addOnMidiRead([](const MidiEvent& event) {
 		switch (event.type) {
+			case midi::NoteOff:
+				switch (Piano::noteToKeyIndex(event.data1)) {
+					case 86:
+						piano.setEffect(new RainbowEffect());
+						break;
+
+					case 87:
+						piano.setEffect(new GoldenEffect());
+						break;
+				}
+
+				break;
+
 			case midi::ControlChange:
 				switch (event.data1) {
 					// Vertical

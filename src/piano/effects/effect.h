@@ -7,9 +7,13 @@ class Piano;
 
 class Effect {
 	public:
-		Effect() = default;
+		Effect() {
 
-		virtual ~Effect() = default;
+		}
+
+		virtual ~Effect() {
+
+		}
 
 		virtual void handleEvent(Piano& piano, const MidiEvent& event) {
 
