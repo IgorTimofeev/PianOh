@@ -14,6 +14,7 @@
 #include "piano/effects/rainbow_effect.h"
 #include "piano/effects/water_effect.h"
 #include "piano/effects/test_effect.h"
+#include "piano/effects/gradient_effect.h"
 
 // -------------------------------------------------------------------------------
 
@@ -174,6 +175,14 @@ void updateOnboardLED() {
 
 // ---------------------------------- Penis ----------------------------------
 
+void setGradientEffect() {
+	auto gradientEffect = new GradientEffect();
+	gradientEffect->gradient.steps.push_back(new GradientStep(0, Color(0xFF, 0x00, 0x00)));
+	gradientEffect->gradient.steps.push_back(new GradientStep(0.5, Color(0x00, 0xFF, 0x00)));
+	gradientEffect->gradient.steps.push_back(new GradientStep(1, Color(0x00, 0x00, 0xFF)));
+	piano.setEffect(gradientEffect);
+}
+
 void setup() {
 	// Onboard LED
 	pinMode(LED_ONBOARD_PIN1, OUTPUT);
@@ -192,7 +201,8 @@ void setup() {
 	// Piano
 	piano.begin(115200);
 	piano.clearStrip();
-	piano.setEffect(new RainbowEffect());
+//	piano.setEffect(new RainbowEffect());
+	setGradientEffect();
 
 	piano.addOnMidiRead([](MidiEvent& event) {
 		switch (event.type) {
@@ -200,6 +210,10 @@ void setup() {
 				pressedKeysVelocities[Piano::noteToKey(event.data1)] = event.data2;
 
 				switch (Piano::noteToKey(event.data1)) {
+					case 83:
+						setGradientEffect();
+						break;
+
 					case 84:
 						piano.setEffect(new WaterEffect());
 						break;
