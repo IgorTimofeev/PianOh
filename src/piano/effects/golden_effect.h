@@ -12,22 +12,18 @@ using Random = effolkronium::random_static;
 
 class GoldenEffect : public ParticlesEffect {
 	private:
-		std::map<int, FlameParticle*> keysAndParticlesMap {};
+		std::map<uint8_t, FlameParticle*> keysAndParticlesMap {};
 
 	public:
 		Color backgroundColor = Color::black;
 
-		explicit GoldenEffect() {
-
-		}
+		explicit GoldenEffect() = default;
 
 		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
 			auto floatVelocity = Number::clamp((float) velocity / 127.0f * 1.5f);
 
-			auto key = Piano::noteToKeyIndex(note);
-
 			auto particle = new FlameParticle();
-			particle->position = piano.keyToStripIndex(key);
+			particle->position = piano.noteToStripIndex(note);
 			particle->sizeLeft = 5;
 			particle->sizeRight = 5;
 
@@ -40,17 +36,15 @@ class GoldenEffect : public ParticlesEffect {
 			particle->life = 0;
 			particle->lifeVector = 0.2;
 
-			keysAndParticlesMap[key] = particle;
+			keysAndParticlesMap[note] = particle;
 
 			addParticle(particle);
 		}
 
 		void onNoteOff(uint8_t note) {
-			auto index = Piano::noteToKeyIndex(note);
-
-			FlameParticle* particle = keysAndParticlesMap[index];
+			FlameParticle* particle = keysAndParticlesMap[note];
 			particle->lifeVector = -0.09;
-			keysAndParticlesMap.erase(index);
+			keysAndParticlesMap.erase(note);
 		}
 
 		void spawnSparks() {
@@ -87,7 +81,7 @@ class GoldenEffect : public ParticlesEffect {
 			}
 		}
 
-		void handleEvent(Piano& piano, const MidiEvent& event) override {
+		void handleEvent(Piano& piano, MidiEvent& event) override {
 			switch (event.type) {
 				case midi::NoteOn:
 					onNoteOn(piano, event.data1, event.data2);

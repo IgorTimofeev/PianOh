@@ -23,11 +23,15 @@ class Piano {
 		bool isStripInverted = true;
 
 		std::map<uint16_t, uint8_t> pressedKeysVelocities;
-		std::vector<std::function<void(const MidiEvent&)>> onMidiRead;
+		std::vector<std::function<void(MidiEvent&)>> onMidiRead;
 
 		Piano(uint8_t keysCount, uint16_t stripLEDCount, int16_t stripPin);
 
 		~Piano();
+
+		static uint16_t noteToKey(uint8_t note);
+		uint16_t keyToStripIndex(uint16_t key);
+		uint16_t noteToStripIndex(uint8_t note);
 
 		uint16_t getStripLEDCount();
 
@@ -46,22 +50,17 @@ class Piano {
 
 		void clearStrip();
 
-		void fillStrip(uint16_t from, uint16_t to, Color color);
+		void fillStrip(uint16_t from, uint16_t to, Color& color);
 
-		void fillStrip(const Color& color);
+		void fillStrip(Color& color);
 
 		void readMidi();
 
-		static uint16_t noteToKeyIndex(uint8_t note);
-
 		uint8_t getKeyVelocity(uint16_t index);
 
-		void addOnMidiRead(const std::function<void(const MidiEvent &)> &callback);
+		void addOnMidiRead(const std::function<void(MidiEvent&)> &callback);
 
-		uint16_t keyToStripIndex(uint16_t key);
+		void setEffect(Effect* _effect);
 
-		void setEffect(Effect* _effect) {
-			delete effect;
-			effect = _effect;
-		}
+		void updateStrip();
 };

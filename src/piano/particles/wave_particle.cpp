@@ -37,6 +37,5 @@ void WaveParticle::render(Piano& piano) {
 		piano.setStripColor(i, newColor);
 	}
 
-	// Life
-	life = Number::clamp(life + lifeVector);
+	Particle::render(piano);
 }

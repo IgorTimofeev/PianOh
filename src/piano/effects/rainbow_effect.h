@@ -10,13 +10,13 @@
 
 class RainbowEffect : public ParticlesEffect {
 	private:
-		std::map<int, WaveParticle*> keysAndParticlesMap {};
+		std::map<uint8_t, WaveParticle*> keysAndParticlesMap {};
 
 	public:
 		explicit RainbowEffect() = default;
 
 		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
-			auto key = Piano::noteToKeyIndex(note);
+			auto key = Piano::noteToKey(note);
 			auto hue = (float) key / (float) piano.keysCount;
 
 			auto particle = new WaveParticle();
@@ -27,23 +27,21 @@ class RainbowEffect : public ParticlesEffect {
 			particle->brightness = Number::clamp((float) velocity / 127.0f * 1.5f);
 			particle->brightnessLeft = 0.2;
 			particle->brightnessRight = 0.2;
-			particle->life = 0;
+			particle->life = 0.5;
 			particle->lifeVector = 0.3;
 
-			keysAndParticlesMap[key] = particle;
+			keysAndParticlesMap[note] = particle;
 
 			addParticle(particle);
 		}
 
 		void onNoteOff(uint8_t note) {
-			auto index = Piano::noteToKeyIndex(note);
-
-			WaveParticle* particle = keysAndParticlesMap[index];
+			WaveParticle* particle = keysAndParticlesMap[note];
 			particle->lifeVector = -0.12;
-			keysAndParticlesMap.erase(index);
+			keysAndParticlesMap.erase(note);
 		}
 
-		void handleEvent(Piano& piano, const MidiEvent& event) override {
+		void handleEvent(Piano& piano, MidiEvent& event) override {
 			switch (event.type) {
 				case midi::NoteOn:
 					onNoteOn(piano, event.data1, event.data2);

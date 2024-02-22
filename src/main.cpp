@@ -14,6 +14,7 @@
 #include "number.h"
 #include "piano/effects/golden_effect.h"
 #include "piano/effects/rainbow_effect.h"
+#include "piano/effects/water_effect.h"
 
 using Random = effolkronium::random_static;
 
@@ -38,7 +39,7 @@ Piano piano = Piano(88, 180, 18);
 
 unsigned long pianoRenderDeadline;
 
-void renderPiano() {
+void renderPianoStrip() {
 	if (millis() <= pianoRenderDeadline)
 		return;
 
@@ -120,12 +121,29 @@ void displayDrawOctaves() {
 		displayDrawOctave(x, y, keyIndex);
 }
 
-void displayClear() {
+MidiEvent* lastMidiEvent = nullptr;
+
+void renderMidiEventOnDisplay() {
+	if (millis() < displayRenderDeadline || !lastMidiEvent)
+		return;
+
 	display.clearDisplay();
 
 	displayDrawOctaves();
 
-	display.setCursor(0, 5);	
+	display.setCursor(0, 5);
+	display.print("MIDI ");
+	display.print(String((int) lastMidiEvent->data1));
+	display.print(" ");
+	display.print(String((int) lastMidiEvent->channel));
+	display.print(" ");
+	display.print(String((int) lastMidiEvent->data1));
+	display.print(" ");
+	display.print(String((int) lastMidiEvent->data2));
+
+	display.display();
+
+	displayRenderDeadline = millis() + 10;
 }
 
 // ---------------------------------- Onboard LED ----------------------------------
@@ -148,26 +166,6 @@ void updateOnboardLED() {
 	onboardLEDBlinkDeadline = 0;
 }
 
-void renderMidiEventOnDisplay(const MidiEvent& event) {
-	if (millis() < displayRenderDeadline)
-		return;
-
-	displayClear();
-
-	display.print("MIDI ");
-	display.print(String((int) event.data1));
-	display.print(" ");
-	display.print(String((int) event.channel));
-	display.print(" ");
-	display.print(String((int) event.data1));
-	display.print(" ");
-	display.print(String((int) event.data2));
-
-	display.display();
-
-	displayRenderDeadline = millis() + 10;
-}
-
 // ---------------------------------- Penis ----------------------------------
 
 void setup() {
@@ -181,23 +179,27 @@ void setup() {
 	if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS))
 		return;
 
+	display.clearDisplay();
 	display.setFont(&Org_01);
 	display.setTextColor(WHITE);
-
-	displayClear();
 	display.print("Ready");
 	display.display();
 
 	// Piano
 	piano.setEffect(new RainbowEffect());
-
 	piano.begin();
 	piano.clearStrip();
 
-	piano.addOnMidiRead([](const MidiEvent& event) {
+	piano.addOnMidiRead([](MidiEvent& event) {
+		lastMidiEvent = &event;
+
 		switch (event.type) {
 			case midi::NoteOff:
-				switch (Piano::noteToKeyIndex(event.data1)) {
+				switch (Piano::noteToKey(event.data1)) {
+					case 85:
+						piano.setEffect(new WaterEffect());
+						break;
+
 					case 86:
 						piano.setEffect(new RainbowEffect());
 						break;
@@ -231,7 +233,6 @@ void setup() {
 				break;
 		}
 
-		renderMidiEventOnDisplay(event);
 		onboardLEDBlink();
 	});
 }
@@ -239,6 +240,7 @@ void setup() {
 void loop() {
 	piano.readMidi();
 
-	renderPiano();
+	renderPianoStrip();
+	renderMidiEventOnDisplay();
 	updateOnboardLED();
 }

@@ -6,7 +6,6 @@
 
 class FlameParticle : public WaveParticle {
 	public:
-		float positionVector = 0;
 		float brightnessMinimum = 0;
 		float brightnessMaximum = 0;
 		float brightnessVector = 0;

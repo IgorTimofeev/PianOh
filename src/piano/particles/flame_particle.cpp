@@ -14,9 +14,6 @@ FlameParticle::FlameParticle() {
 void FlameParticle::render(Piano& piano) {
 	WaveParticle::render(piano);
 
-	// Position
-	position += positionVector;
-
 	// Brightness
 	brightness = Number::clamp(
 		brightness + brightnessVector,
@@ -25,7 +22,4 @@ void FlameParticle::render(Piano& piano) {
 	);
 
 	brightnessVector = Random::get(-0.05f, 0.05f);
-
-	// Life
-	life = Number::clamp(life + lifeVector);
 }

@@ -10,9 +10,7 @@ class ParticlesEffect : public Effect {
 		std::vector<Particle*> particles {};
 
 	public:
-		explicit ParticlesEffect() {
-
-		}
+		ParticlesEffect() = default;
 
 		~ParticlesEffect() override {
 			for (auto particle : particles) {

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 class MidiEvent {
 	public:
 		const uint8_t type;

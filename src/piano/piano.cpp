@@ -65,6 +65,10 @@ void Piano::begin() {
 	strip.begin();
 }
 
+void Piano::updateStrip() {
+	strip.show();
+}
+
 void Piano::renderStrip() {
 	if (effect) {
 		effect->render(*this);
@@ -73,21 +77,21 @@ void Piano::renderStrip() {
 		clearStrip();
 	}
 
-	strip.show();
+	updateStrip();
 }
 
 void Piano::clearStrip() {
 	strip.clear();
 }
 
-void Piano::fillStrip(uint16_t from, uint16_t to, Color color) {
+void Piano::fillStrip(uint16_t from, uint16_t to, Color& color) {
 	invertStripIndexIfRequired(from);
 	invertStripIndexIfRequired(to);
 
 	strip.fill(color.toUint32(), from, to);
 }
 
-void Piano::fillStrip(const Color& color) {
+void Piano::fillStrip(Color& color) {
 	fillStrip(0, getStripLEDCount() - 1, color);
 }
 
@@ -97,28 +101,28 @@ void Piano::readMidi() {
 
 		switch (event.type) {
 			case midi::NoteOn:
-				pressedKeysVelocities[noteToKeyIndex(event.data1)] = event.data2;
+				pressedKeysVelocities[noteToKey(event.data1)] = event.data2;
 				break;
 
 			case midi::NoteOff:
-				pressedKeysVelocities.erase(noteToKeyIndex(event.data1));
+				pressedKeysVelocities.erase(noteToKey(event.data1));
 				break;
 		}
-
-		if (effect)
-			effect->handleEvent(*this, event);
 
 		for (const auto& callback : onMidiRead) {
 			callback(event);
 		}
+
+		if (effect)
+			effect->handleEvent(*this, event);
 	}
 }
 
-void Piano::addOnMidiRead(const std::function<void(const MidiEvent&)> &callback) {
+void Piano::addOnMidiRead(const std::function<void(MidiEvent&)> &callback) {
 	onMidiRead.push_back(callback);
 }
 
-uint16_t Piano::noteToKeyIndex(uint8_t note) {
+uint16_t Piano::noteToKey(uint8_t note) {
 	return note - Piano::midiKeyMinimum;
 }
 
@@ -126,6 +130,15 @@ uint16_t Piano::keyToStripIndex(uint16_t key) {
 	return (uint16_t) ((float) key / (float) keysCount * (float) getStripLEDCount());
 }
 
+uint16_t Piano::noteToStripIndex(uint8_t note) {
+	return keyToStripIndex(noteToKey(note));
+}
+
 uint8_t Piano::getKeyVelocity(uint16_t index) {
 	return pressedKeysVelocities.count(index) > 0 ? pressedKeysVelocities.at(index) : 0;
+}
+
+void Piano::setEffect(Effect *_effect) {
+	delete effect;
+	effect = _effect;
 }
