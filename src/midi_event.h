@@ -2,10 +2,10 @@
 
 class MidiEvent {
 	public:
-		const uint8_t type;
-		const uint8_t channel;
-		const uint8_t data1;
-		const uint8_t data2;
+		uint8_t type;
+		uint8_t channel;
+		uint8_t data1;
+		uint8_t data2;
 
 		MidiEvent(uint8_t type, uint8_t channel, uint8_t data1, uint8_t data2) :
 			type(type),
@@ -15,4 +15,10 @@ class MidiEvent {
 		{
 
 		}
+
+		MidiEvent() : MidiEvent(0, 0, 0, 0) {
+
+		}
+
+		MidiEvent& operator=(const MidiEvent& other) = default;
 };

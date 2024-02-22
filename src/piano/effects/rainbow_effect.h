@@ -26,7 +26,7 @@ class RainbowEffect : public ParticlesEffect {
 			particle->position = piano.keyToStripIndex(key);
 			particle->sizeLeft = 2;
 			particle->sizeRight = 2;
-			particle->brightness = Number::clamp((float) velocity / 127.0f * 1.5f);
+			particle->brightness = Number::clampFloat((float) velocity / 127.0f * 1.5f);
 			particle->brightnessLeft = 0.2;
 			particle->brightnessRight = 0.2;
 			particle->life = 0.5;

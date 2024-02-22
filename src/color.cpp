@@ -85,15 +85,15 @@ void Color::add(const Color &color) {
 }
 
 void Color::add(uint8_t _r, uint8_t _g, uint8_t _b) {
-	r = (uint8_t) Number::clamp((int32_t) r + _r, (int32_t) 0, (int32_t) 255);
-	g = (uint8_t) Number::clamp((int32_t) g + _g, (int32_t) 0, (int32_t) 255);
-	b = (uint8_t) Number::clamp((int32_t) b + _b, (int32_t) 0, (int32_t) 255);
+	r = (uint8_t) Number::clampInt32(r + _r, 0, 255);
+	g = (uint8_t) Number::clampInt32(g + _g, 0, 255);
+	b = (uint8_t) Number::clampInt32(b + _b, 0, 255);
 }
 
 void Color::multiply(float factor) {
-	r = (uint8_t) Number::clamp((float) r * factor, 0.0f, 255.0f);
-	g = (uint8_t) Number::clamp((float) g * factor, 0.0f, 255.0f);
-	b = (uint8_t) Number::clamp((float) b * factor, 0.0f, 255.0f);
+	r = (uint8_t) Number::clampFloat((float) r * factor, 0.0f, 255.0f);
+	g = (uint8_t) Number::clampFloat((float) g * factor, 0.0f, 255.0f);
+	b = (uint8_t) Number::clampFloat((float) b * factor, 0.0f, 255.0f);
 }
 
 uint32_t Color::toUint32() const {

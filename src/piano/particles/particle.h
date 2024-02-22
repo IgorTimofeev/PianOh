@@ -17,7 +17,7 @@ class Particle {
 
 		virtual void render(Piano& piano) {
 			// Life
-			life = Number::clamp(life + lifeVector, 0.0f, 1.0f);
+			life = Number::clampFloat(life + lifeVector, 0.0f, 1.0f);
 
 			// Position
 			position += positionVector;

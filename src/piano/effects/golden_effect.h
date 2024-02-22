@@ -22,7 +22,7 @@ class GoldenEffect : public ParticlesEffect {
 		}
 
 		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
-			auto floatVelocity = Number::clamp((float) velocity / 127.0f * 1.5f);
+			auto floatVelocity = Number::clampFloat((float) velocity / 127.0f * 1.5f);
 
 			auto particle = new FlameParticle();
 			particle->position = piano.noteToStripIndex(note);

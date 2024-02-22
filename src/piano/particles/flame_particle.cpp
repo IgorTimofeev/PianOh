@@ -15,7 +15,7 @@ void FlameParticle::render(Piano& piano) {
 	WaveParticle::render(piano);
 
 	// Brightness
-	brightness = Number::clamp(
+	brightness = Number::clampFloat(
 		brightness + brightnessVector,
 		brightnessMinimum,
 		brightnessMaximum

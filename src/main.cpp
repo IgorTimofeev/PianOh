@@ -130,10 +130,10 @@ void displayDrawOctaves() {
 		displayDrawOctave(x, y, keyIndex);
 }
 
-MidiEvent* lastMidiEvent = nullptr;
+MidiEvent lastMidiEvent;
 
 void renderMidiEventOnDisplay() {
-	if (millis() < displayRenderDeadline || lastMidiEvent == nullptr)
+	if (millis() < displayRenderDeadline)
 		return;
 
 	display.clearDisplay();
@@ -142,13 +142,13 @@ void renderMidiEventOnDisplay() {
 
 	display.setCursor(0, 5);
 	display.print("MIDI ");
-	display.print(String((int) lastMidiEvent->data1));
+	display.print(String((int) lastMidiEvent.data1));
 	display.print(" ");
-	display.print(String((int) lastMidiEvent->channel));
+	display.print(String((int) lastMidiEvent.channel));
 	display.print(" ");
-	display.print(String((int) lastMidiEvent->data1));
+	display.print(String((int) lastMidiEvent.data1));
 	display.print(" ");
-	display.print(String((int) lastMidiEvent->data2));
+	display.print(String((int) lastMidiEvent.data2));
 
 	display.display();
 
@@ -233,7 +233,7 @@ void setup() {
 				switch (event.data1) {
 					// Vertical
 					case 71:
-						piano.setStripBrightness(event.data2);
+						piano.setStripBrightness(Number::clampUint8(event.data2 * 2));
 						break;
 
 //					// Horizontal
@@ -253,7 +253,7 @@ void setup() {
 
 		onboardLEDBlink();
 
-		lastMidiEvent = &event;
+		lastMidiEvent = event;
 	});
 }
 
