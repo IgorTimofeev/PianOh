@@ -21,17 +21,17 @@ Piano::~Piano() {
 	delete effect;
 }
 
-uint16_t Piano::getStripLEDCount() {
+uint16_t Piano::getStripLength() {
 	return strip.numPixels();
 }
 
 void Piano::invertStripIndexIfRequired(uint16_t& index) {
 	if (isStripInverted)
-		index = getStripLEDCount() - index - 1;
+		index = getStripLength() - index - 1;
 }
 
 bool Piano::isStripIndexInRange(uint16_t index) {
-	return index >= 0 && index < getStripLEDCount();
+	return index >= 0 && index < getStripLength();
 }
 
 uint8_t Piano::getStripBrightness() {
@@ -92,22 +92,12 @@ void Piano::fillStrip(uint16_t from, uint16_t to, Color& color) {
 }
 
 void Piano::fillStrip(Color& color) {
-	fillStrip(0, getStripLEDCount() - 1, color);
+	fillStrip(0, getStripLength() - 1, color);
 }
 
 void Piano::readMidi() {
 	while (MIDI.read()) {
 		auto event = MidiEvent(MIDI.getType(), MIDI.getChannel(), MIDI.getData1(), MIDI.getData2());
-
-		switch (event.type) {
-			case midi::NoteOn:
-				pressedKeysVelocities[noteToKey(event.data1)] = event.data2;
-				break;
-
-			case midi::NoteOff:
-				pressedKeysVelocities.erase(noteToKey(event.data1));
-				break;
-		}
 
 		for (const auto& callback : onMidiRead) {
 			callback(event);
@@ -127,18 +117,9 @@ uint16_t Piano::noteToKey(uint8_t note) {
 }
 
 uint16_t Piano::keyToStripIndex(uint16_t key) {
-	return (uint16_t) ((float) key / (float) keysCount * (float) getStripLEDCount());
+	return (uint16_t) ((float) key / (float) keysCount * (float) getStripLength());
 }
 
 uint16_t Piano::noteToStripIndex(uint8_t note) {
 	return keyToStripIndex(noteToKey(note));
-}
-
-uint8_t Piano::getKeyVelocity(uint16_t index) {
-	return pressedKeysVelocities.count(index) > 0 ? pressedKeysVelocities.at(index) : 0;
-}
-
-void Piano::setEffect(Effect *_effect) {
-	delete effect;
-	effect = _effect;
 }

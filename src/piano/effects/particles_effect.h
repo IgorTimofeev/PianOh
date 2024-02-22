@@ -7,15 +7,15 @@
 
 class ParticlesEffect : public Effect {
 	protected:
-		std::vector<Particle*> particles {};
+		std::vector<Particle*> particles;
 
 	public:
-		ParticlesEffect() = default;
-
 		~ParticlesEffect() override {
-			for (auto particle : particles) {
+			for (auto & particle : particles) {
 				delete particle;
 			}
+
+			particles.clear();
 		}
 
 		void addParticle(Particle* particle) {

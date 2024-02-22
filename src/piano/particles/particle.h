@@ -13,8 +13,6 @@ class Particle {
 		float lifeVector = 0;
 		Color color = Color::white;
 
-		Particle() = default;
-
 		virtual ~Particle() = default;
 
 		virtual void render(Piano& piano) {

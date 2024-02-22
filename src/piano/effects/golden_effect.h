@@ -12,12 +12,14 @@ using Random = effolkronium::random_static;
 
 class GoldenEffect : public ParticlesEffect {
 	private:
-		std::map<uint8_t, FlameParticle*> keysAndParticlesMap {};
+		std::map<uint8_t, FlameParticle*> notesAndParticlesMap {};
 
 	public:
 		Color backgroundColor = Color::black;
 
-		explicit GoldenEffect() = default;
+		~GoldenEffect() override {
+			notesAndParticlesMap.clear();
+		}
 
 		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
 			auto floatVelocity = Number::clamp((float) velocity / 127.0f * 1.5f);
@@ -36,15 +38,20 @@ class GoldenEffect : public ParticlesEffect {
 			particle->life = 0;
 			particle->lifeVector = 0.2;
 
-			keysAndParticlesMap[note] = particle;
+			notesAndParticlesMap[note] = particle;
 
 			addParticle(particle);
 		}
 
 		void onNoteOff(uint8_t note) {
-			FlameParticle* particle = keysAndParticlesMap[note];
+			auto noteAndParticle = notesAndParticlesMap.find(note);
+
+			if (noteAndParticle == notesAndParticlesMap.end())
+				return;
+
+			FlameParticle* particle = noteAndParticle->second;
 			particle->lifeVector = -0.09;
-			keysAndParticlesMap.erase(note);
+			notesAndParticlesMap.erase(note);
 		}
 
 		void spawnSparks() {
@@ -55,7 +62,7 @@ class GoldenEffect : public ParticlesEffect {
 			float isLeftFactor;
 			FlameParticle* particle;
 
-			for (auto keyAndParticle : keysAndParticlesMap) {
+			for (auto keyAndParticle : notesAndParticlesMap) {
 				if (!Random::get<bool>(0.2))
 					continue;
 
@@ -98,7 +105,7 @@ class GoldenEffect : public ParticlesEffect {
 
 		void render(Piano& piano) override {
 			// Clearing
-			for (int i = 0; i < piano.getStripLEDCount(); i++) {
+			for (int i = 0; i < piano.getStripLength(); i++) {
 				piano.setStripColor(i, backgroundColor);
 			}
 

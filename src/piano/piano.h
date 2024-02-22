@@ -22,7 +22,6 @@ class Piano {
 		uint8_t keysCount = 88;
 		bool isStripInverted = true;
 
-		std::map<uint16_t, uint8_t> pressedKeysVelocities;
 		std::vector<std::function<void(MidiEvent&)>> onMidiRead;
 
 		Piano(uint8_t keysCount, uint16_t stripLEDCount, int16_t stripPin);
@@ -33,7 +32,7 @@ class Piano {
 		uint16_t keyToStripIndex(uint16_t key);
 		uint16_t noteToStripIndex(uint8_t note);
 
-		uint16_t getStripLEDCount();
+		uint16_t getStripLength();
 
 		bool isStripIndexInRange(uint16_t index);
 
@@ -46,6 +45,8 @@ class Piano {
 
 		void begin();
 
+		void updateStrip();
+
 		void renderStrip();
 
 		void clearStrip();
@@ -56,11 +57,10 @@ class Piano {
 
 		void readMidi();
 
-		uint8_t getKeyVelocity(uint16_t index);
-
 		void addOnMidiRead(const std::function<void(MidiEvent&)> &callback);
 
-		void setEffect(Effect* _effect);
-
-		void updateStrip();
+		void setEffect(Effect* newEffect) {
+			delete effect;
+			effect = newEffect;
+		}
 };

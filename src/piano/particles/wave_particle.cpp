@@ -16,7 +16,7 @@ void WaveParticle::render(Piano& piano) {
 	float sideFactor;
 
 	for (int i = intPosition - sizeLeft; i <= intPosition + sizeRight; i++) {
-		if (i < 0 || i >= piano.getStripLEDCount())
+		if (i < 0 || i >= piano.getStripLength())
 			continue;
 
 		if (i < intPosition) {

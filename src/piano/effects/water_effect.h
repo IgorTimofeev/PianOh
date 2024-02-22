@@ -11,84 +11,89 @@
 using Random = effolkronium::random_static;
 
 class WaterEffect : public ParticlesEffect {
-	private:
-		std::map<uint8_t, WaveParticle*> keysAndParticlesMap {};
+private:
+	std::map<uint8_t, WaveParticle*> notesAndParticlesMap {};
 
-	public:
-		WaterEffect() = default;
+public:
+	void spawnSplash(WaveParticle* mainParticle, bool isLeft, uint16_t offset) {
+		float isLeftFactor = isLeft ? -1.0f : 1.0f;
 
-		void spawnSplash(WaveParticle* mainParticle, bool isLeft) {
-			float isLeftFactor = isLeft ? -1.0f : 1.0f;
+		auto particle = new WaveParticle();
+		particle->color = Color::water;
+		particle->position = mainParticle->position + isLeftFactor * (float) offset;
+		particle->positionVector = isLeftFactor * 1.2f;
+		particle->sizeLeft = 6;
+		particle->sizeRight = 6;
 
-			auto particle = new WaveParticle();
-			particle->color = Color::water;
-			particle->position = mainParticle->position + isLeftFactor * 2;
-			particle->positionVector = isLeftFactor * 1.2f;
-			particle->sizeLeft = 6;
-			particle->sizeRight = 6;
+		particle->brightness = mainParticle->brightness * 0.2f;
+		particle->brightnessLeft = 0.1;
+		particle->brightnessRight = 0.1;
 
-			particle->brightness = mainParticle->brightness * 0.4f;
-			particle->brightnessLeft = 0.1;
-			particle->brightnessRight = 0.1;
+		particle->life = 1;
+		particle->lifeVector = -0.03;
 
-			particle->life = 1;
-			particle->lifeVector = -0.03;
+		addParticle(particle);
+	}
 
-			addParticle(particle);
+	void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
+		auto floatVelocity = Number::clamp((float) velocity / 127.0f * 1.5f);
+
+		auto key = Piano::noteToKey(note);
+
+		auto particle = new WaveParticle();
+		particle->color = Color::water;
+		particle->position = piano.keyToStripIndex(key);
+		particle->sizeLeft = 5;
+		particle->sizeRight = 5;
+
+		particle->brightness = floatVelocity;
+		particle->brightnessLeft = 0.1;
+		particle->brightnessRight = 0.1;
+
+		particle->life = 0;
+		particle->lifeVector = 0.3;
+
+		notesAndParticlesMap[note] = particle;
+
+		addParticle(particle);
+
+		for (int i = 0; i < 2; i++) {
+			spawnSplash(particle, true, i * 10);
+			spawnSplash(particle, false, i * 10);
 		}
+	}
 
-		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
-			auto floatVelocity = Number::clamp((float) velocity / 127.0f * 1.5f);
+	void onNoteOff(uint8_t note) {
+		auto noteAndParticle = notesAndParticlesMap.find(note);
 
-			auto key = Piano::noteToKey(note);
+		if (noteAndParticle == notesAndParticlesMap.end())
+			return;
 
-			auto particle = new WaveParticle();
-			particle->color = Color::water;
-			particle->position = piano.keyToStripIndex(key);
-			particle->sizeLeft = 5;
-			particle->sizeRight = 5;
+		WaveParticle* particle = noteAndParticle->second;
+		particle->lifeVector = -0.09;
+		notesAndParticlesMap.erase(note);
+	}
 
-			particle->brightness = floatVelocity;
-			particle->brightnessLeft = 0.1;
-			particle->brightnessRight = 0.1;
+	void handleEvent(Piano& piano, MidiEvent& event) override {
+		switch (event.type) {
+			case midi::NoteOn:
+				onNoteOn(piano, event.data1, event.data2);
+				break;
 
-			particle->life = 0;
-			particle->lifeVector = 0.3;
+			case midi::NoteOff:
+				onNoteOff(event.data1);
+				break;
 
-			keysAndParticlesMap[note] = particle;
-
-			addParticle(particle);
-
-			spawnSplash(particle, true);
-			spawnSplash(particle, false);
+			default:
+				break;
 		}
+	}
 
-		void onNoteOff(uint8_t note) {
-			WaveParticle* particle = keysAndParticlesMap[note];
-			particle->lifeVector = -0.09;
-			keysAndParticlesMap.erase(note);
-		}
+	void render(Piano& piano) override {
+		// Clearing
+		piano.clearStrip();
 
-		void handleEvent(Piano& piano, MidiEvent& event) override {
-			switch (event.type) {
-				case midi::NoteOn:
-					onNoteOn(piano, event.data1, event.data2);
-					break;
-
-				case midi::NoteOff:
-					onNoteOff(event.data1);
-					break;
-
-				default:
-					break;
-			}
-		}
-
-		void render(Piano& piano) override {
-			// Clearing
-			piano.clearStrip();
-
-			// Rendering particles
-			ParticlesEffect::render(piano);
-		}
+		// Rendering particles
+		ParticlesEffect::render(piano);
+	}
 };

@@ -18,6 +18,7 @@ class Color {
 		static const Color black;
 		static const Color gold;
 		static const Color white;
+		static const Color water;
 
 		uint8_t r = 0;
 		uint8_t g = 0;

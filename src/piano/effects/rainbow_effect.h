@@ -10,10 +10,12 @@
 
 class RainbowEffect : public ParticlesEffect {
 	private:
-		std::map<uint8_t, WaveParticle*> keysAndParticlesMap {};
+		std::map<uint8_t, WaveParticle*> notesAndParticlesMap {};
 
 	public:
-		explicit RainbowEffect() = default;
+		~RainbowEffect() override {
+			notesAndParticlesMap.clear();
+		}
 
 		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
 			auto key = Piano::noteToKey(note);
@@ -30,15 +32,20 @@ class RainbowEffect : public ParticlesEffect {
 			particle->life = 0.5;
 			particle->lifeVector = 0.3;
 
-			keysAndParticlesMap[note] = particle;
+			notesAndParticlesMap[note] = particle;
 
 			addParticle(particle);
 		}
 
 		void onNoteOff(uint8_t note) {
-			WaveParticle* particle = keysAndParticlesMap[note];
+			auto noteAndParticle = notesAndParticlesMap.find(note);
+
+			if (noteAndParticle == notesAndParticlesMap.end())
+				return;
+
+			WaveParticle* particle = noteAndParticle->second;
 			particle->lifeVector = -0.12;
-			keysAndParticlesMap.erase(note);
+			notesAndParticlesMap.erase(note);
 		}
 
 		void handleEvent(Piano& piano, MidiEvent& event) override {

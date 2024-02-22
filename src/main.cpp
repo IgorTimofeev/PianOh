@@ -15,6 +15,7 @@
 #include "piano/effects/golden_effect.h"
 #include "piano/effects/rainbow_effect.h"
 #include "piano/effects/water_effect.h"
+#include "piano/effects/test_effect.h"
 
 using Random = effolkronium::random_static;
 
@@ -37,6 +38,8 @@ using Random = effolkronium::random_static;
 
 Piano piano = Piano(88, 180, 18);
 
+std::map<uint16_t, uint8_t> pressedKeysVelocities;
+
 unsigned long pianoRenderDeadline;
 
 void renderPianoStrip() {
@@ -47,6 +50,12 @@ void renderPianoStrip() {
 	piano.renderStrip();
 
 	pianoRenderDeadline = millis() + 1000 / 60;
+}
+
+uint8_t getKeyVelocity(uint16_t index) {
+	auto kayAndVelocity = pressedKeysVelocities.find(index);
+
+	return kayAndVelocity == pressedKeysVelocities.end() ? 0 : kayAndVelocity->second;
 }
 
 // ---------------------------------- Display ----------------------------------
@@ -61,7 +70,7 @@ void displayDrawWhiteKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
 		y,
 		PIANO_KEY_WIDTH,
 		PIANO_KEY_WHITE_HEIGHT,
-		piano.getKeyVelocity(keyIndex) > 0 ? BLACK : WHITE
+		getKeyVelocity(keyIndex) > 0 ? BLACK : WHITE
 	);
 
 	x += PIANO_KEY_WIDTH + 1;
@@ -73,7 +82,7 @@ void displayDrawBlackKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
 		y,
 		PIANO_KEY_WIDTH,
 		PIANO_KEY_BLACK_HEIGHT,
-		piano.getKeyVelocity(keyIndex) > 0 ? WHITE : BLACK
+		getKeyVelocity(keyIndex) > 0 ? WHITE : BLACK
 	);
 
 	x += PIANO_KEY_WIDTH + 1;
@@ -124,7 +133,7 @@ void displayDrawOctaves() {
 MidiEvent* lastMidiEvent = nullptr;
 
 void renderMidiEventOnDisplay() {
-	if (millis() < displayRenderDeadline || !lastMidiEvent)
+	if (millis() < displayRenderDeadline || lastMidiEvent == nullptr)
 		return;
 
 	display.clearDisplay();
@@ -191,23 +200,32 @@ void setup() {
 	piano.clearStrip();
 
 	piano.addOnMidiRead([](MidiEvent& event) {
-		lastMidiEvent = &event;
-
 		switch (event.type) {
-			case midi::NoteOff:
+			case midi::NoteOn:
+				pressedKeysVelocities[Piano::noteToKey(event.data1)] = event.data2;
+
 				switch (Piano::noteToKey(event.data1)) {
-					case 85:
+					case 84:
 						piano.setEffect(new WaterEffect());
 						break;
 
-					case 86:
+					case 85:
 						piano.setEffect(new RainbowEffect());
 						break;
 
+					case 86:
+						piano.setEffect(new GoldenEffect);
+						break;
+
 					case 87:
-						piano.setEffect(new GoldenEffect());
+						piano.setEffect(new TestEffect(Color(255, 0, 0)));
 						break;
 				}
+
+				break;
+
+			case midi::NoteOff:
+				pressedKeysVelocities.erase(Piano::noteToKey(event.data1));
 
 				break;
 
@@ -234,6 +252,8 @@ void setup() {
 		}
 
 		onboardLEDBlink();
+
+		lastMidiEvent = &event;
 	});
 }
 
