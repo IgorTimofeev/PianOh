@@ -10,7 +10,7 @@
 #include "piano/particles/flame_particle.h"
 #include "HardwareSerial.h"
 #include "number.h"
-#include "piano/effects/golden_effect.h"
+#include "piano/effects/flame_effect.h"
 #include "piano/effects/rainbow_effect.h"
 #include "piano/effects/water_effect.h"
 #include "piano/effects/test_effect.h"
@@ -24,7 +24,6 @@
 #define LED_ONBOARD_PIN1 12
 #define LED_ONBOARD_PIN2 13
 #define LED_ONBOARD_BLINK_PIN LED_ONBOARD_PIN1
-#define LED_ONBOARD_BLINK_TIMEOUT 5
 
 #define PIANO_KEY_WIDTH 3
 #define PIANO_KEY_WHITE_HEIGHT 20
@@ -36,16 +35,18 @@ Piano piano = Piano(88, 180, 18);
 
 std::map<uint16_t, uint8_t> pressedKeysVelocities;
 
-unsigned long pianoRenderDeadline;
+uint32_t pianoRenderDeadline;
 
 void renderPianoStrip() {
-	if (millis() <= pianoRenderDeadline)
+	uint32_t time = millis();
+
+	if (time <= pianoRenderDeadline)
 		return;
 
 	// Updating piano
-	piano.renderStrip();
+	piano.renderStrip(time);
 
-	pianoRenderDeadline = millis() + 1000 / 60;
+	pianoRenderDeadline = time + 1000 / 60;
 }
 
 uint8_t getKeyVelocity(uint16_t index) {
@@ -56,7 +57,7 @@ uint8_t getKeyVelocity(uint16_t index) {
 
 // ---------------------------------- Display ----------------------------------
 
-unsigned long displayRenderDeadline = 0;
+uint32_t displayRenderDeadline = 0;
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire);
 
@@ -153,14 +154,14 @@ void renderMidiEventOnDisplay() {
 
 // ---------------------------------- Onboard LED ----------------------------------
 
-unsigned long onboardLEDBlinkDeadline = 0;
+uint32_t onboardLEDBlinkDeadline = 0;
 
 void onboardLEDBlink() {
 	if (onboardLEDBlinkDeadline > 0)
 		return;
 
 	digitalWrite(LED_ONBOARD_BLINK_PIN, HIGH);
-	onboardLEDBlinkDeadline = millis() + LED_ONBOARD_BLINK_TIMEOUT;
+	onboardLEDBlinkDeadline = millis() + 5;
 }
 
 void updateOnboardLED() {
@@ -187,13 +188,11 @@ void setup() {
 	display.clearDisplay();
 	display.setFont(&Org_01);
 	display.setTextColor(WHITE);
-	display.print("Ready");
-	display.display();
 
 	// Piano
-	piano.setEffect(new RainbowEffect());
 	piano.begin(115200);
 	piano.clearStrip();
+	piano.setEffect(new RainbowEffect());
 
 	piano.addOnMidiRead([](MidiEvent& event) {
 		switch (event.type) {
@@ -210,7 +209,7 @@ void setup() {
 						break;
 
 					case 86:
-						piano.setEffect(new GoldenEffect);
+						piano.setEffect(new FlameEffect);
 						break;
 
 					case 87:
@@ -222,7 +221,6 @@ void setup() {
 
 			case MidiEventType::NoteOff:
 				pressedKeysVelocities.erase(Piano::noteToKey(event.data1));
-
 				break;
 
 			case MidiEventType::ControlChange:

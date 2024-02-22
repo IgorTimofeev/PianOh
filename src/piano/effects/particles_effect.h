@@ -28,13 +28,13 @@ class ParticlesEffect : public Effect {
 			delete particle;
 		}
 
-		void render(Piano& piano) override {
+		void render(Piano& piano, const uint32_t& time) override {
 			Particle* particle;
 
 			for (int i = 0; i < particles.size(); i++) {
 				particle = particles[i];
 
-				particle->render(piano);
+				particle->render(piano, time);
 
 				if (particle->life <= 0) {
 					removeParticleAt(i);

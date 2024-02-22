@@ -10,14 +10,14 @@
 
 using Random = effolkronium::random_static;
 
-class GoldenEffect : public ParticlesEffect {
+class FlameEffect : public ParticlesEffect {
 	private:
 		std::map<uint8_t, FlameParticle*> notesAndParticlesMap {};
 
 	public:
 		Color backgroundColor = Color::black;
 
-		~GoldenEffect() override {
+		~FlameEffect() override {
 			notesAndParticlesMap.clear();
 		}
 
@@ -103,14 +103,14 @@ class GoldenEffect : public ParticlesEffect {
 			}
 		}
 
-		void render(Piano& piano) override {
+		void render(Piano& piano, const uint32_t& time) override {
 			// Clearing
 			for (int i = 0; i < piano.getStripLength(); i++) {
 				piano.setStripColor(i, backgroundColor);
 			}
 
 			// Rendering particles
-			ParticlesEffect::render(piano);
+			ParticlesEffect::render(piano, time);
 
 			spawnSparks();
 		}

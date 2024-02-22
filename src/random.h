@@ -62,8 +62,8 @@ namespace effolkronium {
                 || std::is_same<T,          long long>::value
                 || std::is_same<T,     unsigned short>::value
                 || std::is_same<T,       unsigned int>::value
-                || std::is_same<T,      unsigned long>::value
-                || std::is_same<T, unsigned long long>::value;
+                || std::is_same<T,      uint32_t>::value
+                || std::is_same<T, uint32_t long>::value;
         };
 
         /// True if type T is applicable by a std::uniform_real_distribution
@@ -234,7 +234,7 @@ namespace effolkronium {
         }
 
         /// Advances the internal state by z times
-        static void discard( const unsigned long long z ) {
+        static void discard( const uint32_t long z ) {
             engine_instance( ).discard( z );
         }
 
@@ -923,7 +923,7 @@ namespace effolkronium {
         using weight = details::weight;
 
         /// Advances the internal state by z times
-        void discard( const unsigned long long z ) {
+        void discard( const uint32_t long z ) {
             m_engine.discard( z );
         }
 

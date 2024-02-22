@@ -15,7 +15,7 @@ class Particle {
 
 		virtual ~Particle() = default;
 
-		virtual void render(Piano& piano) {
+		virtual void render(Piano& piano, const uint32_t& time) {
 			// Life
 			life = Number::clampFloat(life + lifeVector, 0.0f, 1.0f);
 

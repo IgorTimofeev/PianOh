@@ -45,11 +45,11 @@ class Piano {
 
 		void setStripColor(uint16_t index, const Color& value);
 
-		void begin(unsigned long stripBaudRate = 31250);
+		void begin(uint32_t stripBaudRate = 31250);
 
 		void updateStrip();
 
-		void renderStrip();
+		void renderStrip(const uint32_t& time);
 
 		void clearStrip();
 

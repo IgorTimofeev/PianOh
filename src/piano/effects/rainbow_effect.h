@@ -63,9 +63,9 @@ class RainbowEffect : public ParticlesEffect {
 			}
 		}
 
-		void render(Piano& piano) override {
+		void render(Piano& piano, const uint32_t& time) override {
 			piano.clearStrip();
 
-			ParticlesEffect::render(piano);
+			ParticlesEffect::render(piano, time);
 		}
 };

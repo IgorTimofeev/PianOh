@@ -14,5 +14,5 @@ class Effect {
 
 		}
 
-		virtual void render(Piano& piano) = 0;
+		virtual void render(Piano& piano, const uint32_t& time) = 0;
 };

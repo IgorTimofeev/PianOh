@@ -1,6 +1,6 @@
 #include "piano/piano.h"
 #include "piano/particles/particle.h"
-#include "piano/effects/golden_effect.h"
+#include "piano/effects/flame_effect.h"
 #include "color.h"
 
 Piano::Piano(uint8_t keysCount, uint16_t stripLEDCount, int16_t stripPin) :
@@ -52,7 +52,7 @@ void Piano::setStripColor(uint16_t index, const Color& value) {
 	strip.setPixelColor(index, value.r, value.g, value.b);
 }
 
-void Piano::begin(unsigned long stripBaudRate) {
+void Piano::begin(uint32_t stripBaudRate) {
 	Serial.begin(stripBaudRate);
 	strip.begin();
 }
@@ -61,9 +61,9 @@ void Piano::updateStrip() {
 	strip.show();
 }
 
-void Piano::renderStrip() {
+void Piano::renderStrip(const uint32_t& time) {
 	if (effect) {
-		effect->render(*this);
+		effect->render(*this, time);
 	}
 	else {
 		clearStrip();
