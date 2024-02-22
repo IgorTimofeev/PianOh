@@ -56,10 +56,6 @@ void Piano::begin(uint32_t stripBaudRate) {
 	_strip.begin();
 }
 
-void Piano::updateStrip() {
-	_strip.show();
-}
-
 void Piano::renderStrip(const uint32_t& time) {
 	if (_effect) {
 		_effect->render(*this, time);
@@ -68,22 +64,21 @@ void Piano::renderStrip(const uint32_t& time) {
 		clearStrip();
 	}
 
-	updateStrip();
+	_strip.show();
 }
 
 void Piano::clearStrip() {
 	_strip.clear();
 }
 
-void Piano::fillStrip(uint16_t from, uint16_t to, Color& color) {
+void Piano::fillStripColor(uint16_t from, uint16_t count, Color& color) {
 	invertStripIndexIfRequired(from);
-	invertStripIndexIfRequired(to);
 
-	_strip.fill(color.toUint32(), from, to);
+	_strip.fill(color.toUint32(), from, count);
 }
 
-void Piano::fillStrip(Color& color) {
-	fillStrip(0, getStripLength() - 1, color);
+void Piano::fillStripColor(Color& color) {
+	fillStripColor(0, getStripLength(), color);
 }
 
 void Piano::readMidiEvents() {

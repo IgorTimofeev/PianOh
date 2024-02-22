@@ -31,25 +31,39 @@ class StrobeEffect : public Effect {
 		void render(Piano& piano, const uint32_t& time) override {
 			piano.clearStrip();
 
-			if (time < _strobeDeadline || _pressedStripIndices.empty())
+			if (time < _strobeDeadline || _pressedStripIndicesAndVelocities.empty())
 				return;
 
-			for (auto& index : _pressedStripIndices)
-				piano.setStripColor(index, _color);
+			Color color;
 
-			_strobeDeadline = time + 100;
+			for (auto& stripIndexAndVelocity : _pressedStripIndicesAndVelocities) {
+				color = _color;
+				color.multiply(stripIndexAndVelocity.second);
+				piano.setStripColor(stripIndexAndVelocity.first, color);
+			}
+
+			_strobeDeadline = time + _strobeInterval;
+		}
+
+		uint16_t getStrobeInterval() const {
+			return _strobeInterval;
+		}
+
+		void setStrobeInterval(uint16_t value) {
+			_strobeInterval = value;
 		}
 
 	private:
-		std::unordered_set<uint8_t> _pressedStripIndices;
+		std::map<uint8_t, float> _pressedStripIndicesAndVelocities;
 		Color _color;
 		uint32_t _strobeDeadline = 0;
+		uint16_t _strobeInterval = 100;
 
 		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
-			_pressedStripIndices.insert(piano.noteToStripIndex(note));
+			_pressedStripIndicesAndVelocities[piano.noteToStripIndex(note)] = (float) velocity / 127.f;
 		}
 
 		void onNoteOff(Piano& piano, uint8_t note) {
-			_pressedStripIndices.erase(piano.noteToStripIndex(note));
+			_pressedStripIndicesAndVelocities.erase(piano.noteToStripIndex(note));
 		}
 };

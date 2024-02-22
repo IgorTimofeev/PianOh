@@ -38,15 +38,13 @@ class Piano {
 
 		void begin(uint32_t stripBaudRate = 31250);
 
-		void updateStrip();
-
 		void renderStrip(const uint32_t& time);
 
 		void clearStrip();
 
-		void fillStrip(uint16_t from, uint16_t to, Color& color);
+		void fillStripColor(uint16_t from, uint16_t to, Color& color);
 
-		void fillStrip(Color& color);
+		void fillStripColor(Color& color);
 
 		void readMidiEvents();
 
