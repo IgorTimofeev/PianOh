@@ -11,11 +11,8 @@ class ParticlesEffect : public Effect {
 
 	public:
 		~ParticlesEffect() override {
-			for (auto & particle : particles) {
+			for (auto & particle : particles)
 				delete particle;
-			}
-
-			particles.clear();
 		}
 
 		void addParticle(Particle* particle) {

@@ -15,6 +15,7 @@
 #include "piano/effects/water_effect.h"
 #include "piano/effects/test_effect.h"
 #include "piano/effects/gradient_effect.h"
+#include "piano/effects/strobe_effect.h"
 
 // -------------------------------------------------------------------------------
 
@@ -54,6 +55,20 @@ uint8_t getKeyVelocity(uint16_t index) {
 	auto kayAndVelocity = pressedKeysVelocities.find(index);
 
 	return kayAndVelocity == pressedKeysVelocities.end() ? 0 : kayAndVelocity->second;
+}
+
+void changeEffect(Effect* effect) {
+	delete piano.getEffect();
+
+	piano.setEffect(effect);
+}
+
+void setGradientEffect() {
+	changeEffect(new GradientEffect(new LinearGradient(std::vector<GradientStep*> {
+		new GradientStep(0, Color(0xFF, 0x00, 0x00)),
+		new GradientStep(0.5, Color(0x00, 0xFF, 0x00)),
+		new GradientStep(1, Color(0x00, 0x00, 0xFF))
+	})));
 }
 
 // ---------------------------------- Display ----------------------------------
@@ -175,14 +190,6 @@ void updateOnboardLED() {
 
 // ---------------------------------- Penis ----------------------------------
 
-void setGradientEffect() {
-	auto gradientEffect = new GradientEffect();
-	gradientEffect->gradient.steps.push_back(new GradientStep(0, Color(0xFF, 0x00, 0x00)));
-	gradientEffect->gradient.steps.push_back(new GradientStep(0.5, Color(0x00, 0xFF, 0x00)));
-	gradientEffect->gradient.steps.push_back(new GradientStep(1, Color(0x00, 0x00, 0xFF)));
-	piano.setEffect(gradientEffect);
-}
-
 void setup() {
 	// Onboard LED
 	pinMode(LED_ONBOARD_PIN1, OUTPUT);
@@ -201,8 +208,7 @@ void setup() {
 	// Piano
 	piano.begin(115200);
 	piano.clearStrip();
-//	piano.setEffect(new RainbowEffect());
-	setGradientEffect();
+	changeEffect(new RainbowEffect());
 
 	piano.addOnMidiRead([](MidiEvent& event) {
 		switch (event.type) {
@@ -215,19 +221,19 @@ void setup() {
 						break;
 
 					case 84:
-						piano.setEffect(new WaterEffect());
+						changeEffect(new WaterEffect());
 						break;
 
 					case 85:
-						piano.setEffect(new RainbowEffect());
+						changeEffect(new RainbowEffect());
 						break;
 
 					case 86:
-						piano.setEffect(new FlameEffect);
+						changeEffect(new FlameEffect);
 						break;
 
 					case 87:
-						piano.setEffect(new TestEffect(Color(255, 0, 0)));
+						changeEffect(new StrobeEffect(Color::white));
 						break;
 				}
 

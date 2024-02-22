@@ -11,15 +11,45 @@
 using Random = effolkronium::random_static;
 
 class FlameEffect : public ParticlesEffect {
-	private:
-		std::map<uint8_t, FlameParticle*> notesAndParticlesMap {};
-
 	public:
-		Color backgroundColor = Color::black;
+		void handleEvent(Piano& piano, MidiEvent& event) override {
+			switch (event.type) {
+				case MidiEventType::NoteOn:
+					onNoteOn(piano, event.data1, event.data2);
+					break;
 
-		~FlameEffect() override {
-			notesAndParticlesMap.clear();
+				case MidiEventType::NoteOff:
+					onNoteOff(event.data1);
+					break;
+
+				default:
+					break;
+			}
 		}
+
+		void render(Piano& piano, const uint32_t& time) override {
+			// Clearing
+			for (int i = 0; i < piano.getStripLength(); i++) {
+				piano.setStripColor(i, _backgroundColor);
+			}
+
+			// Rendering particles
+			ParticlesEffect::render(piano, time);
+
+			spawnSparks();
+		}
+
+		Color& getBackgroundColor() {
+			return _backgroundColor;
+		}
+
+		void setBackgroundColor(Color& value) {
+			_backgroundColor = value;
+		}
+
+	private:
+		Color _backgroundColor = Color::black;
+		std::map<uint8_t, FlameParticle*> _notesAndParticlesMap;
 
 		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
 			auto floatVelocity = Number::clampFloat((float) velocity / 127.0f * 1.5f);
@@ -38,20 +68,20 @@ class FlameEffect : public ParticlesEffect {
 			particle->life = 0;
 			particle->lifeVector = 0.2;
 
-			notesAndParticlesMap[note] = particle;
+			_notesAndParticlesMap[note] = particle;
 
 			addParticle(particle);
 		}
 
 		void onNoteOff(uint8_t note) {
-			auto noteAndParticle = notesAndParticlesMap.find(note);
+			auto noteAndParticle = _notesAndParticlesMap.find(note);
 
-			if (noteAndParticle == notesAndParticlesMap.end())
+			if (noteAndParticle == _notesAndParticlesMap.end())
 				return;
 
 			FlameParticle* particle = noteAndParticle->second;
 			particle->lifeVector = -0.09;
-			notesAndParticlesMap.erase(note);
+			_notesAndParticlesMap.erase(note);
 		}
 
 		void spawnSparks() {
@@ -62,7 +92,7 @@ class FlameEffect : public ParticlesEffect {
 			float isLeftFactor;
 			FlameParticle* particle;
 
-			for (auto keyAndParticle : notesAndParticlesMap) {
+			for (auto keyAndParticle : _notesAndParticlesMap) {
 				if (!Random::get<bool>(0.2))
 					continue;
 
@@ -86,32 +116,5 @@ class FlameEffect : public ParticlesEffect {
 
 				addParticle(particle);
 			}
-		}
-
-		void handleEvent(Piano& piano, MidiEvent& event) override {
-			switch (event.type) {
-				case MidiEventType::NoteOn:
-					onNoteOn(piano, event.data1, event.data2);
-					break;
-
-				case MidiEventType::NoteOff:
-					onNoteOff(event.data1);
-					break;
-
-				default:
-					break;
-			}
-		}
-
-		void render(Piano& piano, const uint32_t& time) override {
-			// Clearing
-			for (int i = 0; i < piano.getStripLength(); i++) {
-				piano.setStripColor(i, backgroundColor);
-			}
-
-			// Rendering particles
-			ParticlesEffect::render(piano, time);
-
-			spawnSparks();
 		}
 };

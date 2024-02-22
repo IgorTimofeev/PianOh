@@ -8,41 +8,15 @@
 #include "gradient.h"
 
 class GradientEffect : public ParticlesEffect {
-	private:
-		std::map<uint8_t, WaveParticle*> notesAndParticlesMap;
-
 	public:
-		LinearGradient gradient;
+		GradientEffect() = default;
 
-		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
-			auto key = Piano::noteToKey(note);
-			auto position = (float) key / (float) piano.keysCount;
-
-			auto particle = new WaveParticle();
-			particle->color = gradient.getColor(position);
-			particle->position = piano.keyToStripIndex(key);
-			particle->sizeLeft = 3;
-			particle->sizeRight = 3;
-			particle->brightness = Number::clampFloat((float) velocity / 127.0f * 1.5f);
-			particle->brightnessLeft = 0.5;
-			particle->brightnessRight = 0.5;
-			particle->life = 0;
-			particle->lifeVector = 0.3;
-
-			notesAndParticlesMap[note] = particle;
-
-			addParticle(particle);
+		~GradientEffect() override {
+			delete _gradient;
 		}
 
-		void onNoteOff(uint8_t note) {
-			auto noteAndParticle = notesAndParticlesMap.find(note);
-
-			if (noteAndParticle == notesAndParticlesMap.end())
-				return;
-
-			WaveParticle* particle = noteAndParticle->second;
-			particle->lifeVector = -0.12;
-			notesAndParticlesMap.erase(note);
+		explicit GradientEffect(LinearGradient* gradient) {
+			setGradient(gradient);
 		}
 
 		void handleEvent(Piano& piano, MidiEvent& event) override {
@@ -64,5 +38,51 @@ class GradientEffect : public ParticlesEffect {
 			piano.clearStrip();
 
 			ParticlesEffect::render(piano, time);
+		}
+
+		LinearGradient* getGradient() {
+			return _gradient;
+		}
+
+		void setGradient(LinearGradient* gradient) {
+			_gradient = gradient;
+		}
+
+	private:
+		LinearGradient* _gradient = nullptr;
+		std::map<uint8_t, WaveParticle*> _notesAndParticlesMap;
+
+		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
+			if (!_gradient)
+				return;
+
+			auto key = Piano::noteToKey(note);
+			auto position = (float) key / (float) piano.getKeyCount();
+
+			auto particle = new WaveParticle();
+			particle->color = _gradient->getColor(position);
+			particle->position = piano.keyToStripIndex(key);
+			particle->sizeLeft = 3;
+			particle->sizeRight = 3;
+			particle->brightness = Number::clampFloat((float) velocity / 127.0f * 1.5f);
+			particle->brightnessLeft = 0.5;
+			particle->brightnessRight = 0.5;
+			particle->life = 0;
+			particle->lifeVector = 0.3;
+
+			_notesAndParticlesMap[note] = particle;
+
+			addParticle(particle);
+		}
+
+		void onNoteOff(uint8_t note) {
+			auto noteAndParticle = _notesAndParticlesMap.find(note);
+
+			if (noteAndParticle == _notesAndParticlesMap.end())
+				return;
+
+			WaveParticle* particle = noteAndParticle->second;
+			particle->lifeVector = -0.12;
+			_notesAndParticlesMap.erase(note);
 		}
 };

@@ -6,32 +6,31 @@
 #include "particles_effect.h"
 
 class TestEffect : public Effect {
-public:
-	uint8_t lastKey = 0;
+	public:
+		uint8_t lastKey = 0;
+		Color color;
 
-	Color color;
+		explicit TestEffect(const Color& color) : color(color) {
 
-	explicit TestEffect(const Color& color) : color(color) {
-
-	}
-
-	void handleEvent(Piano& piano, MidiEvent& event) override {
-		switch (event.type) {
-			case MidiEventType::NoteOn:
-				lastKey = event.data1;
-				break;
-
-			case MidiEventType::NoteOff:
-				lastKey = 0;
-				break;
-
-			default:
-				break;
 		}
-	}
 
-	void render(Piano& piano, const uint32_t& time) override {
-		piano.clearStrip();
-		piano.setStripColor(lastKey, color);
+		void handleEvent(Piano& piano, MidiEvent& event) override {
+			switch (event.type) {
+				case MidiEventType::NoteOn:
+					lastKey = event.data1;
+					break;
+
+				case MidiEventType::NoteOff:
+					lastKey = 0;
+					break;
+
+				default:
+					break;
+			}
+		}
+
+		void render(Piano& piano, const uint32_t& time) override {
+			piano.clearStrip();
+			piano.setStripColor(lastKey, color);
 	}
 };

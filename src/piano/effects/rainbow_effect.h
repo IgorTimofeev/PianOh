@@ -9,17 +9,34 @@
 #include "random.h"
 
 class RainbowEffect : public ParticlesEffect {
+	public:
+		void handleEvent(Piano& piano, MidiEvent& event) override {
+			switch (event.type) {
+				case MidiEventType::NoteOn:
+					onNoteOn(piano, event.data1, event.data2);
+					break;
+
+				case MidiEventType::NoteOff:
+					onNoteOff(event.data1);
+					break;
+
+				default:
+					break;
+			}
+		}
+
+		void render(Piano& piano, const uint32_t& time) override {
+			piano.clearStrip();
+
+			ParticlesEffect::render(piano, time);
+		}
+
 	private:
 		std::map<uint8_t, WaveParticle*> notesAndParticlesMap;
 
-	public:
-		~RainbowEffect() override {
-			notesAndParticlesMap.clear();
-		}
-
 		void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
 			auto key = Piano::noteToKey(note);
-			auto hue = (float) key / (float) piano.keysCount;
+			auto hue = (float) key / (float) piano.getKeyCount();
 
 			auto particle = new WaveParticle();
 			particle->color = Color(HsbColor(hue, 1, 1));
@@ -46,26 +63,5 @@ class RainbowEffect : public ParticlesEffect {
 			WaveParticle* particle = noteAndParticle->second;
 			particle->lifeVector = -0.12;
 			notesAndParticlesMap.erase(note);
-		}
-
-		void handleEvent(Piano& piano, MidiEvent& event) override {
-			switch (event.type) {
-				case MidiEventType::NoteOn:
-					onNoteOn(piano, event.data1, event.data2);
-					break;
-
-				case MidiEventType::NoteOff:
-					onNoteOff(event.data1);
-					break;
-
-				default:
-					break;
-			}
-		}
-
-		void render(Piano& piano, const uint32_t& time) override {
-			piano.clearStrip();
-
-			ParticlesEffect::render(piano, time);
 		}
 };
