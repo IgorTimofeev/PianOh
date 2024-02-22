@@ -15,24 +15,29 @@ private:
 	std::map<uint8_t, WaveParticle*> notesAndParticlesMap {};
 
 public:
-	void spawnSplash(WaveParticle* mainParticle, bool isLeft, uint16_t offset) {
+	void spawnSplash(WaveParticle* mainParticle, bool isLeft, uint16_t offset, float positionVector, float brightness) {
 		float isLeftFactor = isLeft ? -1.0f : 1.0f;
 
 		auto particle = new WaveParticle();
 		particle->color = Color::water;
 		particle->position = mainParticle->position + isLeftFactor * (float) offset;
-		particle->positionVector = isLeftFactor * 1.2f;
-		particle->sizeLeft = 6;
-		particle->sizeRight = 6;
+		particle->positionVector = isLeftFactor * positionVector;
+		particle->sizeLeft = 5;
+		particle->sizeRight = 5;
 
-		particle->brightness = mainParticle->brightness * 0.2f;
-		particle->brightnessLeft = 0.1;
-		particle->brightnessRight = 0.1;
+		particle->brightness = mainParticle->brightness * brightness;
+		particle->brightnessLeft = 0.4;
+		particle->brightnessRight = 0.4;
 
 		particle->life = 1;
 		particle->lifeVector = -0.03;
 
 		addParticle(particle);
+	}
+
+	void spawnSplashes(WaveParticle* particle, uint16_t offset, float positionVector, float brightness) {
+		spawnSplash(particle, true, offset, positionVector, brightness);
+		spawnSplash(particle, false, offset, positionVector, brightness);
 	}
 
 	void onNoteOn(Piano& piano, uint8_t note, uint8_t velocity) {
@@ -47,8 +52,8 @@ public:
 		particle->sizeRight = 5;
 
 		particle->brightness = floatVelocity;
-		particle->brightnessLeft = 0.1;
-		particle->brightnessRight = 0.1;
+		particle->brightnessLeft = 0.4;
+		particle->brightnessRight = 0.4;
 
 		particle->life = 0;
 		particle->lifeVector = 0.3;
@@ -57,10 +62,9 @@ public:
 
 		addParticle(particle);
 
-		for (int i = 0; i < 2; i++) {
-			spawnSplash(particle, true, i * 10);
-			spawnSplash(particle, false, i * 10);
-		}
+		spawnSplashes(particle, 1, 1.0f, 0.8f * floatVelocity);
+		spawnSplashes(particle, 9, 1.3f, 0.4f * floatVelocity);
+		spawnSplashes(particle, 18, 1.6f, 0.1f * floatVelocity);
 	}
 
 	void onNoteOff(uint8_t note) {
@@ -76,11 +80,11 @@ public:
 
 	void handleEvent(Piano& piano, MidiEvent& event) override {
 		switch (event.type) {
-			case midi::NoteOn:
+			case MidiEventType::NoteOn:
 				onNoteOn(piano, event.data1, event.data2);
 				break;
 
-			case midi::NoteOff:
+			case MidiEventType::NoteOff:
 				onNoteOff(event.data1);
 				break;
 

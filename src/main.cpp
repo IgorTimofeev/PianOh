@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <Midi.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "fonts/Org_01.h"
@@ -9,15 +8,12 @@
 #include "piano/piano.h"
 #include "map"
 #include "piano/particles/flame_particle.h"
-#include "random.h"
 #include "HardwareSerial.h"
 #include "number.h"
 #include "piano/effects/golden_effect.h"
 #include "piano/effects/rainbow_effect.h"
 #include "piano/effects/water_effect.h"
 #include "piano/effects/test_effect.h"
-
-using Random = effolkronium::random_static;
 
 // -------------------------------------------------------------------------------
 
@@ -196,12 +192,12 @@ void setup() {
 
 	// Piano
 	piano.setEffect(new RainbowEffect());
-	piano.begin();
+	piano.begin(115200);
 	piano.clearStrip();
 
 	piano.addOnMidiRead([](MidiEvent& event) {
 		switch (event.type) {
-			case midi::NoteOn:
+			case MidiEventType::NoteOn:
 				pressedKeysVelocities[Piano::noteToKey(event.data1)] = event.data2;
 
 				switch (Piano::noteToKey(event.data1)) {
@@ -224,12 +220,12 @@ void setup() {
 
 				break;
 
-			case midi::NoteOff:
+			case MidiEventType::NoteOff:
 				pressedKeysVelocities.erase(Piano::noteToKey(event.data1));
 
 				break;
 
-			case midi::ControlChange:
+			case MidiEventType::ControlChange:
 				switch (event.data1) {
 					// Vertical
 					case 71:
@@ -258,7 +254,7 @@ void setup() {
 }
 
 void loop() {
-	piano.readMidi();
+	piano.readMidiEvents();
 
 	renderPianoStrip();
 	renderMidiEventOnDisplay();

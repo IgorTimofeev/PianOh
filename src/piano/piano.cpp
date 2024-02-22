@@ -1,19 +1,11 @@
 #include "piano/piano.h"
 #include "piano/particles/particle.h"
 #include "piano/effects/golden_effect.h"
-#include <Midi.h>
 #include "color.h"
 
-// Override the default MIDI baudrate to
-// a decoding program such as Hairless MIDI (set baudrate to 115200)
-struct CustomBaudRateSettings : public MIDI_NAMESPACE::DefaultSerialSettings {
-	static const long BaudRate = 115200;
-};
-
-MIDI_NAMESPACE::SerialMIDI<HardwareSerial, CustomBaudRateSettings> serialMIDI(Serial);
-MIDI_NAMESPACE::MidiInterface<MIDI_NAMESPACE::SerialMIDI<HardwareSerial, CustomBaudRateSettings>> MIDI((MIDI_NAMESPACE::SerialMIDI<HardwareSerial, CustomBaudRateSettings>&)serialMIDI);
-
-Piano::Piano(uint8_t keysCount, uint16_t stripLEDCount, int16_t stripPin) : keysCount(keysCount) {
+Piano::Piano(uint8_t keysCount, uint16_t stripLEDCount, int16_t stripPin) :
+	keysCount(keysCount)
+{
 	strip = Adafruit_NeoPixel(stripLEDCount, stripPin, NEO_GRB + NEO_KHZ800);
 }
 
@@ -60,8 +52,8 @@ void Piano::setStripColor(uint16_t index, const Color& value) {
 	strip.setPixelColor(index, value.r, value.g, value.b);
 }
 
-void Piano::begin() {
-	MIDI.begin();
+void Piano::begin(unsigned long stripBaudRate) {
+	Serial.begin(stripBaudRate);
 	strip.begin();
 }
 
@@ -95,16 +87,32 @@ void Piano::fillStrip(Color& color) {
 	fillStrip(0, getStripLength() - 1, color);
 }
 
-void Piano::readMidi() {
-	while (MIDI.read()) {
-		auto event = MidiEvent(MIDI.getType(), MIDI.getChannel(), MIDI.getData1(), MIDI.getData2());
+void Piano::readMidiEvents() {
+	if (Serial.available() == 0)
+		return;
 
-		for (const auto& callback : onMidiRead) {
-			callback(event);
+	const int bufferLength = 64;
+	uint8_t buffer[bufferLength];
+
+	MidiEvent event;
+
+	while (Serial.available() > 0) {
+		auto bytesRead = Serial.read(buffer, Serial.available());
+
+		if (bytesRead == 0)
+			break;
+
+		int index = 0;
+		while (index < bytesRead) {
+			event = MidiEvent::fromByteBuffer(buffer, index);
+
+			for (const auto& callback : onMidiRead) {
+				callback(event);
+			}
+
+			if (effect)
+				effect->handleEvent(*this, event);
 		}
-
-		if (effect)
-			effect->handleEvent(*this, event);
 	}
 }
 

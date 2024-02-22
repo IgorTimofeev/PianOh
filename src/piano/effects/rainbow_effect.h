@@ -50,11 +50,11 @@ class RainbowEffect : public ParticlesEffect {
 
 		void handleEvent(Piano& piano, MidiEvent& event) override {
 			switch (event.type) {
-				case midi::NoteOn:
+				case MidiEventType::NoteOn:
 					onNoteOn(piano, event.data1, event.data2);
 					break;
 
-				case midi::NoteOff:
+				case MidiEventType::NoteOff:
 					onNoteOff(event.data1);
 					break;
 

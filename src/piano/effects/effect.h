@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Midi.h>
 #include "midi_event.h"
 
 class Piano;

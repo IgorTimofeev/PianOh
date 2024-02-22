@@ -19,7 +19,8 @@ class Piano {
 	public:
 		static const uint8_t midiKeyMinimum = 21;
 
-		uint8_t keysCount = 88;
+		const uint8_t keysCount;
+
 		bool isStripInverted = true;
 
 		std::vector<std::function<void(MidiEvent&)>> onMidiRead;
@@ -37,13 +38,14 @@ class Piano {
 		bool isStripIndexInRange(uint16_t index);
 
 		uint8_t getStripBrightness();
+
 		void setStripBrightness(uint8_t value);
 
 		Color getStripColor(uint16_t index);
 
 		void setStripColor(uint16_t index, const Color& value);
 
-		void begin();
+		void begin(unsigned long stripBaudRate = 31250);
 
 		void updateStrip();
 
@@ -55,7 +57,7 @@ class Piano {
 
 		void fillStrip(Color& color);
 
-		void readMidi();
+		void readMidiEvents();
 
 		void addOnMidiRead(const std::function<void(MidiEvent&)> &callback);
 
