@@ -2,19 +2,22 @@
 
 #include "element.h"
 #include "color.h"
-#include "geometry/rectangle.h"
+#include "screen/display.h"
+#include "screen/ui/geometry/bounds.h"
+#include "fonts/Org_01.h"
 
 namespace ui {
 	class Text : public Element {
 		public:
-			Text() = default;
-
-			const Size& onMeasure(const Rectangle& bounds) override {
-				return Size(16 * getText().length(), 16);
+			Size onMeasure(const Bounds& bounds) override {
+				return {
+					(uint16_t) (16 * getText().length()),
+					16
+				};
 			}
 
-			void render() override {
-				// Screen.drawText
+			void render(Display& display) override {
+				display.drawText(getCalculatedPosition(), getColor(), getText());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------
@@ -37,6 +40,6 @@ namespace ui {
 
 		private:
 			String _text;
-			Color _color;
+			Color _color = Color::white;
 	};
 }

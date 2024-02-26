@@ -33,6 +33,12 @@ namespace ui {
 				height = value;
 			}
 
+			void debugPrint() const {
+				Serial.print(getWidth());
+				Serial.print(" x ");
+				Serial.print(getHeight());
+			}
+
 		private:
 			uint16_t width = 0;
 			uint16_t height = 0;

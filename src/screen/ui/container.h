@@ -2,29 +2,29 @@
 
 #include "element.h"
 #include "vector"
-#include "ui/geometry/rectangle.h"
+#include "screen/ui/geometry/bounds.h"
 
 namespace ui {
 	class Container : public Element {
 		public:
-			void render() override {
+			void render(Display& display) override {
 				for (auto child : getChildren()) {
-					child.render();
+					child->render(display);
 				}
 			}
 
-			std::vector<Element> getChildren() {
+			std::vector<Element*>& getChildren() {
 				return children;
 			}
 
 		protected:
-			void onArrange(const Rectangle& bounds) override {
+			void onArrange(const Bounds& bounds) override {
 				for (auto child : getChildren()) {
-					child.arrange(bounds);
+					child->arrange(bounds);
 				}
 			}
 
 		private:
-			std::vector<Element> children {};
+			std::vector<Element*> children {};
 	};
 }

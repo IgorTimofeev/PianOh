@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ui/container.h"
+#include "container.h"
 
 namespace ui {
 	class Stack : public Container {
@@ -22,43 +22,43 @@ namespace ui {
 			}
 
 		protected:
-			void onArrange(const Rectangle& bounds) override {
+			void onArrange(const Bounds& bounds) override {
 				int32_t x = bounds.point.getX();
 				int32_t y = bounds.point.getY();
 
 				switch (getOrientation()) {
 					case Horizontal:
 						for (auto child : getChildren()) {
-							child.arrange(Rectangle(
+							child->arrange(Bounds(
 								x,
 								y,
 								bounds.size.getWidth(),
-								child.getCalculatedSize().getHeight()
+								child->getCalculatedSize().getHeight()
 							));
-						}
 
-						x += getSpacing();
+							x += getSpacing();
+						}
 
 						break;
 
 					case Vertical:
 						for (auto child : getChildren()) {
-							child.arrange(Rectangle(
+							child->arrange(Bounds(
 								x,
 								y,
-								child.getCalculatedSize().getWidth(),
+								child->getCalculatedSize().getWidth(),
 								bounds.size.getHeight()
 							));
-						}
 
-						y += getSpacing();
+							y += getSpacing();
+						}
 
 						break;
 				}
 			}
 
 		private:
-			int32_t _spacing = 0;
+			int32_t _spacing = 10;
 			Orientation _orientation = Orientation::Vertical;
 	};
 }

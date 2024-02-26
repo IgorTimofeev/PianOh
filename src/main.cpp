@@ -2,7 +2,6 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include "fonts/Org_01.h"
 #include <string>
 #include "color.h"
 #include "piano/piano.h"
@@ -16,15 +15,15 @@
 #include "piano/effects/test_effect.h"
 #include "piano/effects/gradient_effect.h"
 #include "piano/effects/strobe_effect.h"
-#include "ui/text.h"
-#include "ui/stack.h"
-#include "ui/workspace.h"
+#include "screen/ui/workspace.h"
+#include "screen/ui/text.h"
+#include "screen/ui/stack.h"
+#include "screen/display.h"
+#include "screen/ui/rectangle.h"
+
+using namespace ui;
 
 // -------------------------------------------------------------------------------
-
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 32
-#define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 
 #define LED_ONBOARD_PIN1 12
 #define LED_ONBOARD_PIN2 13
@@ -78,10 +77,11 @@ void setGradientEffect() {
 
 uint32_t displayRenderDeadline = 0;
 
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire);
+Adafruit_SSD1306 adafruitDisplay(128, 32, &Wire);
+SSD1306Display display = SSD1306Display(adafruitDisplay);
 
 void displayDrawWhiteKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
-	display.fillRect(
+	adafruitDisplay.fillRect(
 		x,
 		y,
 		PIANO_KEY_WIDTH,
@@ -93,7 +93,7 @@ void displayDrawWhiteKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
 }
 
 void displayDrawBlackKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
-	display.fillRect(
+	adafruitDisplay.fillRect(
 		x,
 		y,
 		PIANO_KEY_WIDTH,
@@ -119,7 +119,7 @@ void displayDrawOctave(int16_t &x, int16_t &y, uint8_t &keyIndex) {
 	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
 	displayDrawBlackKey(x, y, keyIndex); keyIndex += 3;
 	x += PIANO_KEY_WIDTH + 1;
-	
+
 	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
 	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
 	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
@@ -128,8 +128,8 @@ void displayDrawOctave(int16_t &x, int16_t &y, uint8_t &keyIndex) {
 
 void displayDrawOctaves() {
 	int16_t x = 0;
-	int16_t y = SCREEN_HEIGHT - PIANO_KEY_WHITE_HEIGHT;
-	uint8_t keyIndex = 0; 
+	int16_t y = display.getSize().getHeight() - (int16_t) PIANO_KEY_WHITE_HEIGHT;
+	uint8_t keyIndex = 0;
 
 	// 0 octave
 
@@ -152,21 +152,30 @@ void renderMidiEventOnDisplay() {
 	if (millis() < displayRenderDeadline)
 		return;
 
-	display.clearDisplay();
+	adafruitDisplay.clearDisplay();
 
 	displayDrawOctaves();
 
-	display.setCursor(0, 5);
-	display.print("MIDI ");
-	display.print(String((int) lastMidiEvent.data1));
-	display.print(" ");
-	display.print(String((int) lastMidiEvent.channel));
-	display.print(" ");
-	display.print(String((int) lastMidiEvent.data1));
-	display.print(" ");
-	display.print(String((int) lastMidiEvent.data2));
+	adafruitDisplay.setCursor(0, 5);
+	adafruitDisplay.print("MIDI ");
+	adafruitDisplay.print(String((int) lastMidiEvent.data1));
+	adafruitDisplay.print(" ");
+	adafruitDisplay.print(String((int) lastMidiEvent.channel));
+	adafruitDisplay.print(" ");
+	adafruitDisplay.print(String((int) lastMidiEvent.data1));
+	adafruitDisplay.print(" ");
+	adafruitDisplay.print(String((int) lastMidiEvent.data2));
 
-	display.display();
+	adafruitDisplay.display();
+
+	displayRenderDeadline = millis() + 10;
+}
+
+void renderDisplay() {
+	if (millis() < displayRenderDeadline)
+		return;
+
+	display.render();
 
 	displayRenderDeadline = millis() + 10;
 }
@@ -201,12 +210,10 @@ void setup() {
 	digitalWrite(LED_ONBOARD_PIN2, HIGH);
 
 	// Display
-	if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS))
-		return;
-
-	display.clearDisplay();
-	display.setFont(&Org_01);
-	display.setTextColor(WHITE);
+	display.begin();
+	display.clear();
+	display.drawText(Point(5, 5), Color::white, "PEnis");
+	display.show();
 
 	// Piano
 	piano.begin(115200);
@@ -272,12 +279,33 @@ void setup() {
 
 		lastMidiEvent = event;
 	});
+
+	// Screen
+	auto stack = new Stack();
+//	stack->setMargin(Margin(5, 5, 0, 0));
+
+	for (int i = 0; i < 10; i++) {
+		auto text = new Text();
+		text->setColor(Color::white);
+		text->setText(String("Hehe penis ") + i);
+
+		stack->getChildren().push_back(text);
+	}
+
+	display.getWorkspace().getChildren().push_back(stack);
+
+	// Rect
+	auto rectangle = new Rectangle();
+	rectangle->setMargin(Margin(0, 0, 0, 0));
+//	rectangle->setHorizontalAlignment(Alignment::End);
+	rectangle->setSize(Size(5, 5));
+	display.getWorkspace().getChildren().push_back(rectangle);
 }
 
 void loop() {
 	piano.readMidiEvents();
 
 	renderPianoStrip();
-	renderMidiEventOnDisplay();
+	renderDisplay();
 	updateOnboardLED();
 }

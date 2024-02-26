@@ -3,12 +3,11 @@
 #include <cstdint>
 
 namespace ui {
-	struct Thickness {
+	struct Margin {
 		public:
-			Thickness() = default;
+			Margin() = default;
 
-			Thickness(int32_t left, int32_t top, int32_t right, int32_t bottom) : left(left), top(top), right(right),
-																				  bottom(bottom) {
+			Margin(int32_t left, int32_t top, int32_t right, int32_t bottom) : left(left), top(top), right(right), bottom(bottom) {
 
 			}
 

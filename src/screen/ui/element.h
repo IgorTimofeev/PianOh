@@ -1,9 +1,9 @@
 #pragma once
 
 #include <cstdint>
-#include "ui/geometry/thickness.h"
-#include "ui/geometry/rectangle.h"
-#include "ui/geometry/size.h"
+#include "screen/ui/geometry/margin.h"
+#include "screen/ui/geometry/bounds.h"
+#include "screen/ui/geometry/size.h"
 #include <limits>
 
 namespace ui {
@@ -19,13 +19,28 @@ namespace ui {
 		Vertical,
 	};
 
+	class Display;
+
 	class Element {
 		public:
 			Element() = default;
 
 			virtual ~Element() = default;
 
-			void arrange(const Rectangle& bounds) {
+			Size measure(const Bounds& bounds) {
+//				if (!isMeasured()) {
+					setCalculatedSize(onMeasure(bounds));
+
+//					setMeasured(true);
+//				}
+
+				return getCalculatedSize();
+			}
+
+			void arrange(const Bounds& bounds) {
+//				if (isArranged())
+//					return;
+
 				auto margin = getMargin();
 
 				int32_t x = bounds.point.getX();
@@ -79,16 +94,13 @@ namespace ui {
 				}
 
 				setCalculatedPosition(Point(x, y));
-				setCalculatedSize(Size(width, height));
 
-				onArrange(Rectangle(x, y, width, height));
+				onArrange(Bounds(x, y, width, height));
+
+//				setArranged(true);
 			}
 
-			const Size& measure(const Rectangle& bounds)  {
-				return onMeasure(bounds);
-			}
-
-			virtual void render()  {
+			virtual void render(Display& display) {
 
 			}
 
@@ -110,11 +122,11 @@ namespace ui {
 				_verticalAlignment = value;
 			}
 
-			const Thickness& getMargin() {
+			const Margin& getMargin() {
 				return _margin;
 			}
 
-			void setMargin(const Thickness& value) {
+			void setMargin(const Margin& value) {
 				_margin = value;
 			}
 
@@ -130,34 +142,64 @@ namespace ui {
 				return _calculatedPosition;
 			}
 
-			void setCalculatedPosition(const Point& value) {
-				_calculatedPosition = value;
-			}
-
 			const Size& getCalculatedSize() const {
 				return _calculatedSize;
 			}
 
-			void setCalculatedSize(const Size& value) {
-				_calculatedSize = value;
+			void debugPrintBounds() const {
+				Serial.print("bounds: ");
+				getCalculatedPosition().debugPrint();
+				Serial.print(", size: ");
+				getCalculatedSize().debugPrint();
 			}
 
 		protected:
-			virtual const Size& onMeasure(const Rectangle& bounds) {
+			virtual Size onMeasure(const Bounds& bounds) {
 				return getSize();
 			}
 
-			virtual void onArrange(const Rectangle& bounds) {
+			virtual void onArrange(const Bounds& bounds) {
 
+			}
+
+			bool isMeasured() const {
+				return _isMeasured;
+			}
+
+			void setMeasured(bool value) {
+				_isMeasured = value;
+			}
+
+			bool isArranged() const {
+				return _isArranged;
+			}
+
+			void setArranged(bool value) {
+				_isArranged = value;
+			}
+
+			void setNotMeasuredAndArranged() {
+				setMeasured(false);
+				setArranged(false);
 			}
 
 		private:
 			Size _size = Size();
 			Alignment _horizontalAlignment = Alignment::Stretch;
 			Alignment _verticalAlignment = Alignment::Stretch;
-			Thickness _margin = Thickness();
+			Margin _margin = Margin();
 
+			bool _isMeasured = false;
+			bool _isArranged = false;
 			Point _calculatedPosition = Point();
 			Size _calculatedSize = Size();
+
+			void setCalculatedPosition(Point value) {
+				_calculatedPosition = value;
+			}
+
+			void setCalculatedSize(Size value) {
+				_calculatedSize = value;
+			}
 	};
 }

@@ -5,16 +5,12 @@
 namespace ui {
 	class Workspace : public Container {
 		public:
-			explicit Workspace(Size& size) {
-				setSize(size);
-			}
-
 			void measure() {
-				Element::measure(Rectangle(getSize()));
+				Element::measure(Bounds(getSize()));
 			}
 
 			void arrange() {
-				Element::arrange(Rectangle(getSize()));
+				Element::arrange(Bounds(getSize()));
 			}
 	};
 }
