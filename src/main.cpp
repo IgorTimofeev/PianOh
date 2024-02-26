@@ -16,6 +16,9 @@
 #include "piano/effects/test_effect.h"
 #include "piano/effects/gradient_effect.h"
 #include "piano/effects/strobe_effect.h"
+#include "ui/text.h"
+#include "ui/stack.h"
+#include "ui/workspace.h"
 
 // -------------------------------------------------------------------------------
 
