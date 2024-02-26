@@ -1,16 +1,17 @@
 #pragma once
 
 #include "element.h"
-#include "color.h"
-#include "display.h"
-#include "geometry/bounds.h"
+#include "ui/color.h"
+#include "ui/display.h"
+#include "ui/geometry/bounds.h"
 #include "Fonts/Org_01.h"
 
 namespace ui {
 	class Rectangle : public Element {
 		public:
 			void render(Display& display) override {
-				display.drawRectangle(getBounds(), getColor());
+				auto bounds = getBounds();
+				display.drawRectangle(bounds, getColor());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------

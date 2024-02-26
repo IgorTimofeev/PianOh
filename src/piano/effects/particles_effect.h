@@ -3,7 +3,7 @@
 #include "piano/effects/effect.h"
 #include "piano/particles/particle.h"
 #include "piano/piano.h"
-#include "color.h"
+#include "ui/color.h"
 
 class ParticlesEffect : public Effect {
 	protected:

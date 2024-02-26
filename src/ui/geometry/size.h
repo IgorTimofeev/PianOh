@@ -19,7 +19,6 @@ namespace ui {
 
 			}
 
-
 			uint16_t getWidth() const {
 				return width;
 			}

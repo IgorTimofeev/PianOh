@@ -80,7 +80,7 @@ namespace ui {
 								position,
 								bounds.point.getY(),
 								child->getDesiredSize().getWidth(),
-								bounds.size.getHeight()
+								bounds._size.getHeight()
 							));
 
 							position += child->getDesiredSize().getWidth() + getSpacing();
@@ -95,7 +95,7 @@ namespace ui {
 							child->arrange(Bounds(
 								bounds.point.getX(),
 								position,
-								bounds.size.getWidth(),
+								bounds._size.getWidth(),
 								child->getDesiredSize().getHeight()
 							));
 

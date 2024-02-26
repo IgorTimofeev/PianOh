@@ -3,7 +3,7 @@
 #include "Adafruit_NeoPixel.h"
 #include <vector>
 #include <map>
-#include "color.h"
+#include "ui/color.h"
 #include "piano/effects/effect.h"
 #include "midi_event.h"
 

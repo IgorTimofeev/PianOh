@@ -2,7 +2,7 @@
 
 #include <unordered_set>
 #include "effect.h"
-#include "color.h"
+#include "ui/color.h"
 #include "piano/piano.h"
 #include "particles_effect.h"
 #include "number.h"

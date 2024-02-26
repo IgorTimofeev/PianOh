@@ -2,7 +2,7 @@
 
 #include "wave_particle.h"
 #include "piano/piano.h"
-#include "color.h"
+#include "ui/color.h"
 #include "random.h"
 
 using Random = effolkronium::random_static;

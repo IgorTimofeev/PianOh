@@ -3,7 +3,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <string>
-#include "color.h"
+#include "ui/color.h"
 #include "piano/piano.h"
 #include "map"
 #include "piano/particles/flame_particle.h"
@@ -15,10 +15,10 @@
 #include "piano/effects/test_effect.h"
 #include "piano/effects/gradient_effect.h"
 #include "piano/effects/strobe_effect.h"
-#include "../lib/ui/workspace.h"
-#include "../lib/ui/stack_layout.h"
-#include "../lib/ui/text.h"
-#include "../lib/ui/rectangle.h"
+#include "ui/elements/workspace.h"
+#include "ui/elements/stack_layout.h"
+#include "ui/elements/text.h"
+#include "ui/elements/rectangle.h"
 
 using namespace ui;
 
@@ -210,9 +210,6 @@ void setup() {
 
 	// Display
 	display.begin();
-	display.clear();
-	display.drawText(Point(5, 5), Color::white, "PEnis");
-	display.show();
 
 	// Piano
 	piano.begin(115200);

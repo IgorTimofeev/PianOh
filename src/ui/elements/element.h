@@ -1,9 +1,9 @@
 #pragma once
 
 #include <cstdint>
-#include "geometry/margin.h"
-#include "geometry/bounds.h"
-#include "geometry/size.h"
+#include "ui/geometry/margin.h"
+#include "ui/geometry/bounds.h"
+#include "ui/geometry/size.h"
 #include <limits>
 
 namespace ui {
@@ -104,7 +104,7 @@ namespace ui {
 				}
 			}
 
-			void arrange(const Bounds& bounds) {
+			void arrange(Bounds& bounds) {
 //				if (isArranged())
 //					return;
 
@@ -118,33 +118,33 @@ namespace ui {
 
 				calculateShit(
 					getHorizontalAlignment(),
-					bounds.point.getX(),
+					bounds.getX(),
 					size.getWidth(),
 					desiredSize.getWidth(),
 					margin.getLeft(),
 					margin.getRight(),
-					bounds.size.getWidth(),
+					bounds.getWidth(),
 					newPosition,
 					newSize
 				);
 
-				newBounds.point.setX(newPosition);
-				newBounds.size.setWidth(newSize);
+				newBounds.setX(newPosition);
+				newBounds.setWidth(newSize);
 
 				calculateShit(
 					getVerticalAlignment(),
-					bounds.point.getY(),
+					bounds.getY(),
 					size.getHeight(),
 					desiredSize.getHeight(),
 					margin.getTop(),
 					margin.getBottom(),
-					bounds.size.getHeight(),
+					bounds.getHeight(),
 					newPosition,
 					newSize
 				);
 
-				newBounds.point.setY(newPosition);
-				newBounds.size.setHeight(newSize);
+				newBounds.setY(newPosition);
+				newBounds.setHeight(newSize);
 
 				setBounds(newBounds);
 				onArrange(newBounds);
@@ -191,11 +191,11 @@ namespace ui {
 			}
 
 
-			const Size& getDesiredSize() const {
+			const Size& getDesiredSize() {
 				return _desiredSize;
 			}
 
-			const Bounds& getBounds() const {
+			const Bounds& getBounds() {
 				return _bounds;
 			}
 

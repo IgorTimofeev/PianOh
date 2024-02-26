@@ -1,9 +1,9 @@
 #pragma once
 
 #include "element.h"
-#include "color.h"
-#include "display.h"
-#include "geometry/bounds.h"
+#include "ui/color.h"
+#include "ui/display.h"
+#include "ui/geometry/bounds.h"
 #include "Fonts/Org_01.h"
 
 namespace ui {
@@ -17,10 +17,9 @@ namespace ui {
 			}
 
 			void render(Display& display) override {
-//				display.drawText(getBounds().point, getColor(), getText());
+				auto bounds = getBounds();
 
-//				display.drawRectangle(getBounds(), Color::white);
-				display.drawText(getBounds().point, Color::white, getText());
+				display.drawText(bounds.getPosition(), getColor(), getText());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------
