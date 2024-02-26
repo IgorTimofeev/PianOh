@@ -5,8 +5,8 @@
 namespace ui {
 	class Workspace : public Layout {
 		public:
-			void measure() {
-				Element::measure(getSize());
+			void measure(Display& display) {
+				Element::measure(display, getSize());
 			}
 
 			void arrange() {

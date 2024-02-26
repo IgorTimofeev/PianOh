@@ -9,15 +9,20 @@
 namespace ui {
 	class Text : public Element {
 		public:
-			Size onMeasure(const Size& size) override {
+			Size onMeasure(Display& display, const Size& size) override {
+				auto textBounds = display.measureText(getText());
+
 				return {
-					(uint16_t) (16 * getText().length()),
-					16
+					textBounds.getWidth(),
+					textBounds.getHeight()
 				};
 			}
 
 			void render(Display& display) override {
-				display.drawText(Point(getBounds().getX(), getBounds().getY()), getColor(), getText());
+//				display.drawText(getBounds().getPosition(), getColor(), getText());
+
+				display.drawRectangle(getBounds(), Color::white);
+				display.drawText(getBounds().getPosition(), Color::black, getText());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------

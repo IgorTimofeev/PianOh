@@ -28,7 +28,7 @@ namespace ui {
 
 			}
 
-			Bounds(Bounds &bounds) = default;
+			Bounds(const Bounds &bounds) = default;
 
 			int32_t getX() const {
 				return _x;
@@ -60,6 +60,21 @@ namespace ui {
 
 			void setHeight(uint16_t value) {
 				_height = value;
+			}
+
+			Point getPosition() const {
+				return {getX(), getY()};
+			}
+
+			Point getSize() const {
+				return {getWidth(), getHeight()};
+			}
+
+			void debugPrint() const {
+				Serial.print("position: ");
+				getPosition().debugPrint();
+				Serial.print(", size: ");
+				getSize().debugPrint();
 			}
 
 		private:

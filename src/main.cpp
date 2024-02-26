@@ -19,6 +19,7 @@
 #include "ui/elements/stack_layout.h"
 #include "ui/elements/text.h"
 #include "ui/elements/rectangle.h"
+#include "ui/elements/circle.h"
 
 using namespace ui;
 
@@ -278,13 +279,14 @@ void setup() {
 
 	// Screen
 	auto stackLayout = new StackLayout();
-	stackLayout->setSpacing(0);
-	stackLayout->setMargin(Margin(10, 10, 0, 0));
+	stackLayout->setSpacing(1);
+	stackLayout->setMargin(Margin(0, 0, 15, 0));
 
 	for (int i = 0; i < 5; i++) {
 		auto text = new Text();
 		text->setColor(Color::white);
 		text->setText(String("Hehe penis ") + i);
+		text->setHorizontalAlignment(Alignment::Start);
 
 		stackLayout->getChildren().push_back(text);
 	}
@@ -296,9 +298,20 @@ void setup() {
 	rectangle->setSize(Size(5, 5));
 	rectangle->setMargin(Margin(0, 0, 0, 0));
 	rectangle->setHorizontalAlignment(Alignment::End);
-	rectangle->setColor(Color::white);
+	rectangle->setVerticalAlignment(Alignment::Start);
+	rectangle->setFillColor(Color::white);
 
 	display.getWorkspace().getChildren().push_back(rectangle);
+
+	// Rectangle
+	auto circle = new Circle();
+	circle->setSize(Size(15, 15));
+	circle->setMargin(Margin(0, 0, 0, 0));
+	circle->setHorizontalAlignment(Alignment::End);
+	circle->setVerticalAlignment(Alignment::End);
+	circle->setFillColor(Color::white);
+
+	display.getWorkspace().getChildren().push_back(circle);
 }
 
 void loop() {

@@ -22,7 +22,7 @@ namespace ui {
 			}
 
 		protected:
-			Size onMeasure(const Size& constraint) override {
+			Size onMeasure(Display& display, const Size& constraint) override {
 				auto result = Size();
 
 				Size childSize;
@@ -30,10 +30,13 @@ namespace ui {
 				switch (getOrientation()) {
 					case Horizontal:
 						for (auto child : getChildren()) {
-							childSize = child->measure(Size(
-								Size::infinity,
-								constraint.getHeight()
-							));
+							childSize = child->measure(
+								display,
+								Size(
+									Size::infinity,
+									constraint.getHeight()
+								)
+							);
 
 							result.setWidth(result.getWidth() + childSize.getWidth() + getSpacing());
 
@@ -48,10 +51,13 @@ namespace ui {
 
 					case Vertical:
 						for (auto child : getChildren()) {
-							childSize = child->measure(Size(
-								constraint.getWidth(),
-								Size::infinity
-							));
+							childSize = child->measure(
+								display,
+								Size(
+									constraint.getWidth(),
+									Size::infinity
+								)
+							);
 
 							if (childSize.getWidth() > result.getWidth())
 								result.setWidth(childSize.getWidth());

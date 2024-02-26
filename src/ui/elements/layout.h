@@ -18,13 +18,13 @@ namespace ui {
 			}
 
 		protected:
-			Size onMeasure(const Size& constraint) override {
+			Size onMeasure(Display& display, const Size& constraint) override {
 				auto result = Size();
 
 				Size childSize;
 
 				for (auto child : getChildren()) {
-					childSize = child->measure(constraint);
+					childSize = child->measure(display, constraint);
 
 					if (childSize.getWidth() > result.getWidth())
 						result.setWidth(childSize.getWidth());

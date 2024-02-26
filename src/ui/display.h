@@ -17,7 +17,7 @@ namespace ui {
 			virtual void render() {
 				clear();
 
-				workspace.measure();
+				workspace.measure(*this);
 				workspace.arrange();
 				workspace.render(*this);
 
@@ -26,7 +26,9 @@ namespace ui {
 
 			virtual void begin() = 0;
 			virtual void drawText(const Point& position, const Color& color, const String& text) = 0;
+			virtual void drawCircle(const Point& position, int32_t radius, const Color& color) = 0;
 			virtual void drawRectangle(const Bounds& bounds, const Color& color) = 0;
+			virtual Bounds measureText(const String& text) = 0;
 
 			// -------------------------------- Getters & setters --------------------------------
 
@@ -70,10 +72,28 @@ namespace ui {
 				);
 			}
 
+			void drawCircle(const Point& position, int32_t radius, const Color& color) override {
+				_adafruit.fillCircle(
+					(int16_t) position.getX(),
+					(int16_t) position.getY(),
+					(int16_t) radius,
+					color.toUint32() > 0 ? WHITE : BLACK
+				);
+			}
+
 			void drawText(const Point& position, const Color& color, const String& text) override {
 				_adafruit.setTextColor(color.toUint32() > 0 ? WHITE : BLACK);
 				_adafruit.setCursor((int16_t) position.getX(), (int16_t) position.getY());
 				_adafruit.print(text);
+			}
+
+			Bounds measureText(const String &text) override {
+				int16_t x, y;
+				uint16_t w, h;
+
+				_adafruit.getTextBounds(text, 0, 0, &x, &y, &w, &h);
+
+				return {x, y, w, h};
 			}
 
 		private:

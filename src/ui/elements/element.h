@@ -27,9 +27,9 @@ namespace ui {
 
 			virtual ~Element() = default;
 
-			const Size& measure(const Size& constraint) {
+			const Size& measure(Display& display, const Size& constraint) {
 //				if (!isMeasured()) {
-				setDesiredSize(onMeasure(constraint));
+				setDesiredSize(onMeasure(display, constraint));
 
 //					setMeasured(true);
 //				}
@@ -108,12 +108,11 @@ namespace ui {
 //				if (isArranged())
 //					return;
 
-				Bounds newBounds;
-
 				auto margin = getMargin();
 				auto desiredSize = getDesiredSize();
 				auto size = getSize();
 
+				Bounds newBounds;
 				int32_t newPosition = 0;
 				int32_t newSize = 0;
 
@@ -201,7 +200,7 @@ namespace ui {
 			}
 
 		protected:
-			virtual Size onMeasure(const Size& constraint) {
+			virtual Size onMeasure(Display& display, const Size& constraint) {
 				return getSize();
 			}
 
@@ -231,7 +230,7 @@ namespace ui {
 			}
 
 		private:
-			Size _size = Size();
+			Size _size = Size(Size::calculated, Size::calculated);
 			Alignment _horizontalAlignment = Alignment::Stretch;
 			Alignment _verticalAlignment = Alignment::Stretch;
 			Margin _margin = Margin();
