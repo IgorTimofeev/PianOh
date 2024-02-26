@@ -5,6 +5,8 @@
 namespace ui {
 	struct Margin {
 		public:
+			static Margin zero;
+
 			Margin() = default;
 
 			explicit Margin(int32_t uniformValue) : left(uniformValue), top(uniformValue), right(uniformValue), bottom(uniformValue) {
@@ -57,4 +59,6 @@ namespace ui {
 			int32_t right = 0;
 			int32_t bottom = 0;
 	};
+
+	Margin Margin::zero = Margin(0);
 }

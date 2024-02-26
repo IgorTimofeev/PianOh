@@ -9,7 +9,7 @@
 namespace ui {
 	class Text : public Element {
 		public:
-			Size onMeasure(Display& display, const Size& size) override {
+			Size onMeasure(Display& display, const Size& constraint) override {
 				auto textBounds = display.measureText(getText());
 
 				return {

@@ -281,8 +281,9 @@ void setup() {
 
 	// Screen
 	auto stackLayout = new StackLayout();
+	stackLayout->setHorizontalAlignment(Alignment::start);
 	stackLayout->setSpacing(1);
-	stackLayout->setMargin(Margin(0, 0, 15, 0));
+	stackLayout->setMargin(Margin(0, 0, 0, 0));
 
 	// Govno
 	firstText = new Text();
@@ -293,7 +294,7 @@ void setup() {
 
 	for (int i = 0; i < 5; i++) {
 		auto holder = new Layout();
-//		holder->setHorizontalAlignment(Alignment::start);
+		holder->setHorizontalAlignment(Alignment::start);
 
 		auto background = new Rectangle();
 		background->setFillColor(Color::white);
@@ -301,8 +302,8 @@ void setup() {
 		*holder += background;
 
 		auto text = new Text();
-		text->setMargin(Margin(5));
-		text->setColor(Color::white);
+		text->setMargin(Margin(1));
+		text->setColor(Color::black);
 		text->setText(String("Penis ") + i);
 
 		*holder += text;
@@ -322,7 +323,7 @@ void setup() {
 
 	display.getWorkspace() += rectangle;
 
-	// Rectangle
+	// Circle
 	auto circle = new Circle();
 	circle->setSize(Size(15, 15));
 	circle->setMargin(Margin(0, 0, 0, 0));

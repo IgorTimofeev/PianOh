@@ -28,8 +28,17 @@ namespace ui {
 
 			virtual ~Element() = default;
 
-			const Size& measure(Display& display, const Size& constraint) {
+			virtual void invalidateLayout() {
+				if (_firstParent)
+					_firstParent->invalidateLayout();
+			}
+
+			Size measure(Display& display, const Size& constraint) {
 				auto desiredSize = onMeasure(display, constraint);
+				auto margin = getMargin();
+
+				desiredSize.setWidth(desiredSize.getWidth() + margin.getLeft() + margin.getRight());
+				desiredSize.setHeight(desiredSize.getHeight() + margin.getTop() + margin.getBottom());
 
 				setDesiredSize(desiredSize);
 
@@ -86,12 +95,7 @@ namespace ui {
 
 					case stretch:
 						if (size == Size::calculated) {
-							auto marginValue = marginStart + marginEnd;
-
-							newSize =
-								marginValue > limit
-								? 0
-								: limit - marginValue;
+							newSize = max(limit - marginStart - marginEnd, 0);
 						}
 						else {
 							newSize = size;
@@ -139,6 +143,10 @@ namespace ui {
 					newSize
 				);
 
+				Serial.print(newPosition);
+				Serial.print(" x ");
+				Serial.println(newSize);
+
 				newBounds.setY(newPosition);
 				newBounds.setHeight(newSize);
 
@@ -158,6 +166,8 @@ namespace ui {
 
 			void setHorizontalAlignment(Alignment value) {
 				_horizontalAlignment = value;
+
+				invalidateLayout();
 			}
 
 			Alignment getVerticalAlignment() const {
@@ -166,6 +176,9 @@ namespace ui {
 
 			void setVerticalAlignment(Alignment value) {
 				_verticalAlignment = value;
+
+				invalidateLayout();
+
 			}
 
 			const Margin& getMargin() {
@@ -174,6 +187,8 @@ namespace ui {
 
 			void setMargin(const Margin& value) {
 				_margin = value;
+
+				invalidateLayout();
 			}
 
 			const Size& getSize() {
@@ -182,6 +197,8 @@ namespace ui {
 
 			void setSize(const Size& value) {
 				_size = value;
+
+				invalidateLayout();
 			}
 
 			const Size& getDesiredSize() {
@@ -190,11 +207,6 @@ namespace ui {
 
 			const Bounds& getBounds() {
 				return _bounds;
-			}
-
-			virtual void invalidateLayout() {
-				if (_firstParent)
-					_firstParent->invalidateLayout();
 			}
 
 			Element* getFirstParent() {
@@ -216,8 +228,8 @@ namespace ui {
 		protected:
 			virtual Size onMeasure(Display& display, const Size& constraint) {
 				return {
-					constraint.getWidth(),
-					constraint.getHeight()
+					constraint.getWidth() == Size::infinity ? (uint16_t) 0 : constraint.getWidth(),
+					constraint.getHeight() == Size::infinity ? (uint16_t) 0 : constraint.getHeight()
 				};
 			}
 
