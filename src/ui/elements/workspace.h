@@ -5,12 +5,33 @@
 namespace ui {
 	class Workspace : public Layout {
 		public:
+			Workspace() {
+				setFirstParent(this);
+			}
+
 			void measure(Display& display) {
-				Element::measure(display, getSize());
+				if (isMeasured)
+					return;
+
+				Layout::measure(display, getSize());
+				isMeasured = true;
 			}
 
 			void arrange() {
-				Element::arrange(Bounds(getSize()));
+				if (isArranged)
+					return;
+
+				Layout::arrange(Bounds(getSize()));
+				isArranged = true;
 			}
+
+			void invalidateLayout() override {
+				isMeasured = false;
+				isArranged = false;
+			}
+
+		private:
+			bool isMeasured = false;
+			bool isArranged = false;
 	};
 }

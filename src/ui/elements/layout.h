@@ -24,6 +24,8 @@ namespace ui {
 				Size childSize;
 
 				for (auto child : getChildren()) {
+					child->setFirstParent(getFirstParent());
+
 					childSize = child->measure(display, constraint);
 
 					if (childSize.getWidth() > result.getWidth())

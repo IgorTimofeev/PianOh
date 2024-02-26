@@ -5,6 +5,7 @@
 #include "ui/geometry/bounds.h"
 #include "ui/geometry/size.h"
 #include <limits>
+#include "ui/elements/workspace.h"
 
 namespace ui {
 	enum Alignment: uint8_t {
@@ -28,11 +29,7 @@ namespace ui {
 			virtual ~Element() = default;
 
 			const Size& measure(Display& display, const Size& constraint) {
-//				if (!isMeasured()) {
 				setDesiredSize(onMeasure(display, constraint));
-
-//					setMeasured(true);
-//				}
 
 				return getDesiredSize();
 			}
@@ -199,6 +196,19 @@ namespace ui {
 				return _bounds;
 			}
 
+			virtual void invalidateLayout() {
+				if (_firstParent)
+					_firstParent->invalidateLayout();
+			}
+
+			Element* getFirstParent() {
+				return _firstParent;
+			}
+
+			void setFirstParent(Element* value) {
+				_firstParent = value;
+			}
+
 		protected:
 			virtual Size onMeasure(Display& display, const Size& constraint) {
 				return getSize();
@@ -208,35 +218,13 @@ namespace ui {
 
 			}
 
-			bool isMeasured() const {
-				return _isMeasured;
-			}
-
-			void setMeasured(bool value) {
-				_isMeasured = value;
-			}
-
-			bool isArranged() const {
-				return _isArranged;
-			}
-
-			void setArranged(bool value) {
-				_isArranged = value;
-			}
-
-			void setNotMeasuredAndArranged() {
-				setMeasured(false);
-				setArranged(false);
-			}
-
 		private:
 			Size _size = Size(Size::calculated, Size::calculated);
 			Alignment _horizontalAlignment = Alignment::Stretch;
 			Alignment _verticalAlignment = Alignment::Stretch;
 			Margin _margin = Margin();
+			Element* _firstParent = nullptr;
 
-			bool _isMeasured = false;
-			bool _isArranged = false;
 			Bounds _bounds;
 			Size _desiredSize = Size();
 

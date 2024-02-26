@@ -28,7 +28,7 @@ namespace ui {
 
 			}
 
-			Bounds(const Bounds &bounds) = default;
+//			Bounds(const Bounds &bounds) = default;
 
 			int32_t getX() const {
 				return _x;

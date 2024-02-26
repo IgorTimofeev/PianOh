@@ -33,6 +33,8 @@ namespace ui {
 
 			void setText(const String& value) {
 				_text = value;
+
+				invalidateLayout();
 			}
 
 			const Color &getColor() const {
