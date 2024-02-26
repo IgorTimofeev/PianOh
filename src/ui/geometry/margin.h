@@ -7,6 +7,14 @@ namespace ui {
 		public:
 			Margin() = default;
 
+			explicit Margin(int32_t uniformValue) : left(uniformValue), top(uniformValue), right(uniformValue), bottom(uniformValue) {
+
+			}
+
+			Margin(int32_t horizontal, int32_t vertical) : left(horizontal), top(vertical), right(horizontal), bottom(vertical) {
+
+			}
+
 			Margin(int32_t left, int32_t top, int32_t right, int32_t bottom) : left(left), top(top), right(right), bottom(bottom) {
 
 			}

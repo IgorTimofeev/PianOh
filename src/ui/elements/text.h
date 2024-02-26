@@ -19,10 +19,7 @@ namespace ui {
 			}
 
 			void render(Display& display) override {
-//				display.drawText(getBounds().getPosition(), getColor(), getText());
-
-				display.drawRectangle(getBounds(), Color::white);
-				display.drawText(getBounds().getPosition(), Color::black, getText());
+				display.drawText(getBounds().getPosition(), getColor(), getText());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------

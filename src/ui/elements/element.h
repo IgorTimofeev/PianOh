@@ -9,15 +9,15 @@
 
 namespace ui {
 	enum Alignment: uint8_t {
-		Start,
-		Center,
-		End,
-		Stretch,
+		start,
+		center,
+		end,
+		stretch,
 	};
 
 	enum Orientation: uint8_t {
-		Horizontal,
-		Vertical,
+		horizontal,
+		vertical,
 	};
 
 	class Display;
@@ -29,9 +29,11 @@ namespace ui {
 			virtual ~Element() = default;
 
 			const Size& measure(Display& display, const Size& constraint) {
-				setDesiredSize(onMeasure(display, constraint));
+				auto desiredSize = onMeasure(display, constraint);
 
-				return getDesiredSize();
+				setDesiredSize(desiredSize);
+
+				return desiredSize;
 			}
 
 			static void calculateShit(
@@ -46,7 +48,7 @@ namespace ui {
 				int32_t& newSize
 			) {
 				switch (alignment) {
-					case Start:
+					case start:
 						if (size == Size::calculated) {
 							newSize = desiredSize;
 						}
@@ -58,7 +60,7 @@ namespace ui {
 
 						break;
 
-					case Center:
+					case center:
 						if (size == Size::calculated) {
 							newSize = desiredSize;
 						}
@@ -70,7 +72,7 @@ namespace ui {
 
 						break;
 
-					case End:
+					case end:
 						if (size == Size::calculated) {
 							newSize = desiredSize;
 						}
@@ -82,7 +84,7 @@ namespace ui {
 
 						break;
 
-					case Stretch:
+					case stretch:
 						if (size == Size::calculated) {
 							auto marginValue = marginStart + marginEnd;
 
@@ -102,9 +104,6 @@ namespace ui {
 			}
 
 			void arrange(const Bounds& bounds) {
-//				if (isArranged())
-//					return;
-
 				auto margin = getMargin();
 				auto desiredSize = getDesiredSize();
 				auto size = getSize();
@@ -145,8 +144,6 @@ namespace ui {
 
 				setBounds(newBounds);
 				onArrange(newBounds);
-
-//				setArranged(true);
 			}
 
 			virtual void render(Display& display) {
@@ -218,7 +215,10 @@ namespace ui {
 
 		protected:
 			virtual Size onMeasure(Display& display, const Size& constraint) {
-				return getSize();
+				return {
+					constraint.getWidth(),
+					constraint.getHeight()
+				};
 			}
 
 			virtual void onArrange(const Bounds& bounds) {
@@ -227,8 +227,8 @@ namespace ui {
 
 		private:
 			Size _size = Size(Size::calculated, Size::calculated);
-			Alignment _horizontalAlignment = Alignment::Stretch;
-			Alignment _verticalAlignment = Alignment::Stretch;
+			Alignment _horizontalAlignment = Alignment::stretch;
+			Alignment _verticalAlignment = Alignment::stretch;
 			Margin _margin = Margin();
 			Element* _firstParent = nullptr;
 			Element* _parent = nullptr;

@@ -288,16 +288,26 @@ void setup() {
 	firstText = new Text();
 	firstText->setColor(Color::white);
 	firstText->setText("FIRST");
-	firstText->setHorizontalAlignment(Alignment::Start);
+	firstText->setHorizontalAlignment(Alignment::start);
 	*stackLayout += firstText;
 
 	for (int i = 0; i < 5; i++) {
-		auto text = new Text();
-		text->setColor(Color::white);
-		text->setText(String("Hehe penis ") + i);
-		text->setHorizontalAlignment(Alignment::Start);
+		auto holder = new Layout();
+//		holder->setHorizontalAlignment(Alignment::start);
 
-		*stackLayout += text;
+		auto background = new Rectangle();
+		background->setFillColor(Color::white);
+
+		*holder += background;
+
+		auto text = new Text();
+		text->setMargin(Margin(5));
+		text->setColor(Color::white);
+		text->setText(String("Penis ") + i);
+
+		*holder += text;
+
+		*stackLayout += holder;
 	}
 
 	display.getWorkspace() += stackLayout;
@@ -306,8 +316,8 @@ void setup() {
 	auto rectangle = new Rectangle();
 	rectangle->setSize(Size(5, 5));
 	rectangle->setMargin(Margin(0, 0, 0, 0));
-	rectangle->setHorizontalAlignment(Alignment::End);
-	rectangle->setVerticalAlignment(Alignment::Start);
+	rectangle->setHorizontalAlignment(Alignment::end);
+	rectangle->setVerticalAlignment(Alignment::start);
 	rectangle->setFillColor(Color::white);
 
 	display.getWorkspace() += rectangle;
@@ -316,8 +326,8 @@ void setup() {
 	auto circle = new Circle();
 	circle->setSize(Size(15, 15));
 	circle->setMargin(Margin(0, 0, 0, 0));
-	circle->setHorizontalAlignment(Alignment::End);
-	circle->setVerticalAlignment(Alignment::End);
+	circle->setHorizontalAlignment(Alignment::end);
+	circle->setVerticalAlignment(Alignment::end);
 	circle->setFillColor(Color::white);
 
 	display.getWorkspace() += circle;
@@ -326,7 +336,7 @@ void setup() {
 void loop() {
 	piano.readMidiEvents();
 
-	firstText->setText(String("MI ") + millis());
+	firstText->setText(String("Time ") + (millis() / 1000));
 	renderPianoStrip();
 	renderDisplay();
 	updateOnboardLED();

@@ -28,7 +28,7 @@ namespace ui {
 				Size childSize;
 
 				switch (getOrientation()) {
-					case Horizontal:
+					case horizontal:
 						for (auto child : *this) {
 							childSize = child->measure(
 								display,
@@ -49,7 +49,7 @@ namespace ui {
 
 						break;
 
-					case Vertical:
+					case vertical:
 						for (auto child : *this) {
 							childSize = child->measure(
 								display,
@@ -78,7 +78,7 @@ namespace ui {
 				int32_t position;
 
 				switch (getOrientation()) {
-					case Horizontal:
+					case horizontal:
 						position = bounds.getX();
 
 						for (auto child : *this) {
@@ -94,7 +94,7 @@ namespace ui {
 
 						break;
 
-					case Vertical:
+					case vertical:
 						position = bounds.getY();
 
 						for (auto child : *this) {
@@ -114,6 +114,6 @@ namespace ui {
 
 		private:
 			int32_t _spacing = 10;
-			Orientation _orientation = Orientation::Vertical;
+			Orientation _orientation = Orientation::vertical;
 	};
 }
