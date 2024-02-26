@@ -5,76 +5,67 @@
 #include "size.h"
 
 namespace ui {
-	struct Bounds {
+	class Bounds {
 		public:
-			Bounds() = default;
-
-			Bounds(const Point &point, const Size &size) : _position(point), _size(size) {
-
-			}
-
-			Bounds(int32_t x, int32_t y, int32_t width, int32_t height) : Bounds(Point(x, y), Size(width, height)) {
-
-			}
-
-			Bounds(Size &size) : Bounds(Point(), size) {
+			Bounds(int32_t x, int32_t y, int32_t width, int32_t height) :
+				_x(x),
+				_y(y),
+				_width(width),
+				_height(height)
+			{
 
 			}
 
-			Bounds(Bounds &bounds) : Bounds(Point(bounds.getPosition()), Size(bounds.getSize())) {
+			Bounds() : Bounds(0, 0, 0, 0) {
 
 			}
 
-			Point& getPosition() {
-				return _position;
+			Bounds(const Point &position, const Size &size) : Bounds(position.getX(), position.getY(), size.getWidth(), size.getHeight()) {
+
 			}
 
-			void setPosition(const Point& value) {
-				_position = value;
+			explicit Bounds(const Size &size) : Bounds(Point(), size) {
+
 			}
 
-			Size& getSize() {
-				return _size;
-			}
+			Bounds(Bounds &bounds) = default;
 
-			void setSize(const Size& size) {
-				_size = size;
-			}
-
-			int32_t getX() {
-				return getPosition().getX();
+			int32_t getX() const {
+				return _x;
 			}
 
 			void setX(int32_t value) {
-				getPosition().setX(value);
+				_x = value;
 			}
 
-			int32_t getY() {
-				return getPosition().getY();
+			int32_t getY() const {
+				return _y;
 			}
 
 			void setY(int32_t value) {
-				getPosition().setY(value);
+				_y = value;
 			}
 
-			uint16_t getWidth() {
-				return getSize().getWidth();
+			uint16_t getWidth() const {
+				return _width;
 			}
 
 			void setWidth(uint16_t value) {
-				getSize().setWidth(value);
+				_width = value;
 			}
 
-			uint16_t getHeight() {
-				return getSize().getHeight();
+			uint16_t getHeight() const {
+				return _height;
 			}
 
 			void setHeight(uint16_t value) {
-				getSize().setHeight(value);
+				_height = value;
 			}
 
 		private:
-			Point _position;
-			Size _size;
+			int32_t _x = 0;
+			int32_t _y = 0;
+			uint16_t _width = 0;
+			uint16_t _height = 0;
 	};
 }

@@ -10,9 +10,7 @@ namespace ui {
 			}
 
 			void arrange() {
-				auto size = getSize();
-				auto bounds = Bounds(size);
-				Element::arrange(bounds);
+				Element::arrange(Bounds(getSize()));
 			}
 	};
 }

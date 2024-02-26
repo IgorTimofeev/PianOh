@@ -17,9 +17,7 @@ namespace ui {
 			}
 
 			void render(Display& display) override {
-				auto bounds = getBounds();
-
-				display.drawText(bounds.getPosition(), getColor(), getText());
+				display.drawText(Point(getBounds().getX(), getBounds().getY()), getColor(), getText());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------

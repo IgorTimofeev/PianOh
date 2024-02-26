@@ -10,8 +10,7 @@ namespace ui {
 	class Rectangle : public Element {
 		public:
 			void render(Display& display) override {
-				auto bounds = getBounds();
-				display.drawRectangle(bounds, getColor());
+				display.drawRectangle(getBounds(), getColor());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------

@@ -104,11 +104,12 @@ namespace ui {
 				}
 			}
 
-			void arrange(Bounds& bounds) {
+			void arrange(const Bounds& bounds) {
 //				if (isArranged())
 //					return;
 
-				auto newBounds = Bounds();
+				Bounds newBounds;
+
 				auto margin = getMargin();
 				auto desiredSize = getDesiredSize();
 				auto size = getSize();
@@ -237,7 +238,7 @@ namespace ui {
 
 			bool _isMeasured = false;
 			bool _isArranged = false;
-			Bounds _bounds = Bounds();
+			Bounds _bounds;
 			Size _desiredSize = Size();
 
 			void setDesiredSize(const Size& value) {

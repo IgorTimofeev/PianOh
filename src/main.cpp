@@ -77,7 +77,7 @@ void setGradientEffect() {
 uint32_t displayRenderDeadline = 0;
 
 Adafruit_SSD1306 adafruitDisplay(128, 32, &Wire);
-SSD1306Display display = SSD1306Display(adafruitDisplay);
+SSD1306Display display(adafruitDisplay);
 
 void displayDrawWhiteKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
 	adafruitDisplay.fillRect(

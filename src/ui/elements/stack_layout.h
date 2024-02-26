@@ -73,14 +73,14 @@ namespace ui {
 
 				switch (getOrientation()) {
 					case Horizontal:
-						position = bounds.point.getX();
+						position = bounds.getX();
 
 						for (auto child : getChildren()) {
 							child->arrange(Bounds(
 								position,
-								bounds.point.getY(),
+								bounds.getY(),
 								child->getDesiredSize().getWidth(),
-								bounds._size.getHeight()
+								bounds.getHeight()
 							));
 
 							position += child->getDesiredSize().getWidth() + getSpacing();
@@ -89,13 +89,13 @@ namespace ui {
 						break;
 
 					case Vertical:
-						position = bounds.point.getY();
+						position = bounds.getY();
 
 						for (auto child : getChildren()) {
 							child->arrange(Bounds(
-								bounds.point.getX(),
+								bounds.getX(),
 								position,
-								bounds._size.getWidth(),
+								bounds.getWidth(),
 								child->getDesiredSize().getHeight()
 							));
 

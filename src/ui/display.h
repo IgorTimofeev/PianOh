@@ -25,8 +25,8 @@ namespace ui {
 			}
 
 			virtual void begin() = 0;
-			virtual void drawText(Point& position, const Color& color, const String& text) = 0;
-			virtual void drawRectangle(Bounds& bounds, const Color& color) = 0;
+			virtual void drawText(const Point& position, const Color& color, const String& text) = 0;
+			virtual void drawRectangle(const Bounds& bounds, const Color& color) = 0;
 
 			// -------------------------------- Getters & setters --------------------------------
 
@@ -39,7 +39,7 @@ namespace ui {
 			}
 
 		private:
-			Workspace workspace = Workspace();
+			Workspace workspace;
 	};
 
 	class SSD1306Display : public Display {
@@ -60,7 +60,7 @@ namespace ui {
 				_adafruit.display();
 			}
 
-			void drawRectangle(Bounds& bounds, const Color& color) override {
+			void drawRectangle(const Bounds& bounds, const Color& color) override {
 				_adafruit.fillRect(
 					(int16_t) bounds.getX(),
 					(int16_t) bounds.getY(),
@@ -70,7 +70,7 @@ namespace ui {
 				);
 			}
 
-			void drawText(Point& position, const Color& color, const String& text) override {
+			void drawText(const Point& position, const Color& color, const String& text) override {
 				_adafruit.setTextColor(color.toUint32() > 0 ? WHITE : BLACK);
 				_adafruit.setCursor((int16_t) position.getX(), (int16_t) position.getY());
 				_adafruit.print(text);
