@@ -6,11 +6,9 @@ namespace ui {
 	struct Point {
 		public:
 			Point() = default;
+			Point(const Point& point) = default;
 
-			Point(int32_t x, int32_t y) :
-				x(x),
-				y(y)
-			{
+			Point(int32_t x, int32_t y) : x(x), y(y) {
 
 			}
 

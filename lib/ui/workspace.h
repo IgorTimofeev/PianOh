@@ -1,12 +1,12 @@
 #pragma once
 
-#include "container.h"
+#include "layout.h"
 
 namespace ui {
-	class Workspace : public Container {
+	class Workspace : public Layout {
 		public:
 			void measure() {
-				Element::measure(Bounds(getSize()));
+				Element::measure(getSize());
 			}
 
 			void arrange() {

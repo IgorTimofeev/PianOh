@@ -2,14 +2,14 @@
 
 #include "element.h"
 #include "color.h"
-#include "screen/display.h"
-#include "screen/ui/geometry/bounds.h"
-#include "fonts/Org_01.h"
+#include "display.h"
+#include "geometry/bounds.h"
+#include "Fonts/Org_01.h"
 
 namespace ui {
 	class Text : public Element {
 		public:
-			Size onMeasure(const Bounds& bounds) override {
+			Size onMeasure(const Size& size) override {
 				return {
 					(uint16_t) (16 * getText().length()),
 					16
@@ -17,7 +17,10 @@ namespace ui {
 			}
 
 			void render(Display& display) override {
-				display.drawText(getCalculatedPosition(), getColor(), getText());
+//				display.drawText(getBounds().point, getColor(), getText());
+
+//				display.drawRectangle(getBounds(), Color::white);
+				display.drawText(getBounds().point, Color::white, getText());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------

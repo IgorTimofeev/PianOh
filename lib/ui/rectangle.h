@@ -2,22 +2,20 @@
 
 #include "element.h"
 #include "color.h"
-#include "screen/display.h"
-#include "screen/ui/geometry/bounds.h"
-#include "fonts/Org_01.h"
+#include "display.h"
+#include "geometry/bounds.h"
+#include "Fonts/Org_01.h"
 
 namespace ui {
 	class Rectangle : public Element {
 		public:
 			void render(Display& display) override {
-				debugPrintBounds("[rect]");
-
-				display.drawRectangle(Bounds(getCalculatedPosition(), getCalculatedSize()), getColor());
+				display.drawRectangle(getBounds(), getColor());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------
 
-			const Color &getColor() const {
+			const Color& getColor() const {
 				return _color;
 			}
 

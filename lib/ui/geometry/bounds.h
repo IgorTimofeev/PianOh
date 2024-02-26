@@ -13,11 +13,15 @@ namespace ui {
 
 			}
 
+			Bounds(int32_t x, int32_t y, int32_t width, int32_t height) : Bounds(Point(x, y), Size(width, height)) {
+
+			}
+
 			explicit Bounds(const Size &size) : Bounds(Point(), size) {
 
 			}
 
-			Bounds(int32_t x, int32_t y, int32_t width, int32_t height) : Bounds(Point(x, y), Size(width, height)) {
+			Bounds(const Bounds &bounds) : Bounds(Point(bounds.point), Size(bounds.size)) {
 
 			}
 

@@ -15,11 +15,10 @@
 #include "piano/effects/test_effect.h"
 #include "piano/effects/gradient_effect.h"
 #include "piano/effects/strobe_effect.h"
-#include "screen/ui/workspace.h"
-#include "screen/ui/text.h"
-#include "screen/ui/stack.h"
-#include "screen/display.h"
-#include "screen/ui/rectangle.h"
+#include "../lib/ui/workspace.h"
+#include "../lib/ui/stack_layout.h"
+#include "../lib/ui/text.h"
+#include "../lib/ui/rectangle.h"
 
 using namespace ui;
 
@@ -281,24 +280,27 @@ void setup() {
 	});
 
 	// Screen
-	auto stack = new Stack();
-//	stack->setMargin(Margin(5, 5, 0, 0));
+	auto stackLayout = new StackLayout();
+	stackLayout->setSpacing(0);
+	stackLayout->setMargin(Margin(10, 10, 0, 0));
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 5; i++) {
 		auto text = new Text();
 		text->setColor(Color::white);
 		text->setText(String("Hehe penis ") + i);
 
-		stack->getChildren().push_back(text);
+		stackLayout->getChildren().push_back(text);
 	}
 
-	display.getWorkspace().getChildren().push_back(stack);
+	display.getWorkspace().getChildren().push_back(stackLayout);
 
-	// Rect
+	// Rectangle
 	auto rectangle = new Rectangle();
-	rectangle->setMargin(Margin(0, 0, 0, 0));
-//	rectangle->setHorizontalAlignment(Alignment::End);
 	rectangle->setSize(Size(5, 5));
+	rectangle->setMargin(Margin(0, 0, 0, 0));
+	rectangle->setHorizontalAlignment(Alignment::End);
+	rectangle->setColor(Color::white);
+
 	display.getWorkspace().getChildren().push_back(rectangle);
 }
 

@@ -1,14 +1,16 @@
 #pragma once
 
 #include <cstdint>
-#include "limits.h"
+#include <climits>
 
 namespace ui {
 	struct Size {
 		public:
 			static const uint16_t calculated = std::numeric_limits<uint16_t>::max();
+			static const uint16_t infinity = std::numeric_limits<uint16_t>::max() - 1;
 
 			Size() = default;
+			Size(const Size& size) = default;
 
 			Size(uint16_t width, uint16_t height) :
 				width(width),
@@ -16,6 +18,7 @@ namespace ui {
 			{
 
 			}
+
 
 			uint16_t getWidth() const {
 				return width;
