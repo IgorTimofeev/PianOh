@@ -29,7 +29,7 @@ namespace ui {
 
 				switch (getOrientation()) {
 					case Horizontal:
-						for (auto child : getChildren()) {
+						for (auto child : *this) {
 							childSize = child->measure(
 								display,
 								Size(
@@ -44,13 +44,13 @@ namespace ui {
 								result.setHeight(childSize.getHeight());
 						}
 
-						if (!getChildren().empty())
+						if (getChildrenCount() > 0)
 							result.setWidth(result.getWidth() - getSpacing());
 
 						break;
 
 					case Vertical:
-						for (auto child : getChildren()) {
+						for (auto child : *this) {
 							childSize = child->measure(
 								display,
 								Size(
@@ -65,7 +65,7 @@ namespace ui {
 							result.setHeight(result.getHeight() + childSize.getHeight() + getSpacing());
 						}
 
-						if (getChildren().empty())
+						if (getChildrenCount() > 0)
 							result.setHeight(result.getHeight() - getSpacing());
 
 						break;
@@ -81,7 +81,7 @@ namespace ui {
 					case Horizontal:
 						position = bounds.getX();
 
-						for (auto child : getChildren()) {
+						for (auto child : *this) {
 							child->arrange(Bounds(
 								position,
 								bounds.getY(),
@@ -97,7 +97,7 @@ namespace ui {
 					case Vertical:
 						position = bounds.getY();
 
-						for (auto child : getChildren()) {
+						for (auto child : *this) {
 							child->arrange(Bounds(
 								bounds.getX(),
 								position,

@@ -73,7 +73,7 @@ namespace ui {
 			void debugPrint() const {
 				Serial.print("position: ");
 				getPosition().debugPrint();
-				Serial.print(", size: ");
+				Serial.print(", getChildrenCount: ");
 				getSize().debugPrint();
 			}
 

@@ -8,13 +8,70 @@ namespace ui {
 	class Layout : public Element {
 		public:
 			void render(Display& display) override {
-				for (auto child : getChildren()) {
+				for (auto child : *this) {
+					child->setParent(this);
+					child->setFirstParent(getFirstParent());
 					child->render(display);
 				}
 			}
 
-			std::vector<Element*>& getChildren() {
-				return children;
+			std::vector<Element*>::iterator begin() {
+				return _children.begin();
+			}
+
+			std::vector<Element*>::iterator end() {
+				return _children.end();
+			}
+
+			size_t getChildrenCount() {
+				return _children.size();
+			}
+
+			int getIndexOfChild(Element* element) {
+				auto iterator = find(_children.begin(), _children.end(), element);
+
+				if (iterator == _children.end()) {
+					return -1;
+				}
+				else {
+					return iterator - _children.begin();
+				}
+			}
+
+			void removeChildAt(int index) {
+				auto element = _children[index];
+
+				_children.erase(_children.begin() + index);
+
+				invalidateLayout();
+			}
+
+			void removeChild(Element* child) {
+				auto iterator = std::find(_children.begin(), _children.end(), child);
+
+				if (iterator == _children.end())
+					return;
+
+				_children.erase(iterator);
+
+				invalidateLayout();
+			}
+
+			void addChild(Element* child) {
+				child->setParent(this);
+				child->setFirstParent(getFirstParent());
+
+				_children.push_back(child);
+
+				invalidateLayout();
+			}
+
+			virtual void operator+=(Element* child) {
+				addChild(child);
+			}
+
+			virtual void operator-=(Element* child) {
+				removeChild(child);
 			}
 
 		protected:
@@ -23,7 +80,7 @@ namespace ui {
 
 				Size childSize;
 
-				for (auto child : getChildren()) {
+				for (auto child : *this) {
 					child->setFirstParent(getFirstParent());
 
 					childSize = child->measure(display, constraint);
@@ -39,12 +96,12 @@ namespace ui {
 			}
 
 			void onArrange(const Bounds& bounds) override {
-				for (auto child : getChildren()) {
+				for (auto child : *this) {
 					child->arrange(bounds);
 				}
 			}
 
 		private:
-			std::vector<Element*> children {};
+			std::vector<Element*> _children {};
 	};
 }

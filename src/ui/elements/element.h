@@ -187,7 +187,6 @@ namespace ui {
 				_size = value;
 			}
 
-
 			const Size& getDesiredSize() {
 				return _desiredSize;
 			}
@@ -209,6 +208,14 @@ namespace ui {
 				_firstParent = value;
 			}
 
+			Element* getParent() {
+				return _parent;
+			}
+
+			void setParent(Element* value) {
+				_parent = value;
+			}
+
 		protected:
 			virtual Size onMeasure(Display& display, const Size& constraint) {
 				return getSize();
@@ -224,6 +231,7 @@ namespace ui {
 			Alignment _verticalAlignment = Alignment::Stretch;
 			Margin _margin = Margin();
 			Element* _firstParent = nullptr;
+			Element* _parent = nullptr;
 
 			Bounds _bounds;
 			Size _desiredSize = Size();

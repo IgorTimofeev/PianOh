@@ -202,6 +202,8 @@ void updateOnboardLED() {
 
 // ---------------------------------- Penis ----------------------------------
 
+Text* firstText;
+
 void setup() {
 	// Onboard LED
 	pinMode(LED_ONBOARD_PIN1, OUTPUT);
@@ -282,16 +284,23 @@ void setup() {
 	stackLayout->setSpacing(1);
 	stackLayout->setMargin(Margin(0, 0, 15, 0));
 
+	// Govno
+	firstText = new Text();
+	firstText->setColor(Color::white);
+	firstText->setText("FIRST");
+	firstText->setHorizontalAlignment(Alignment::Start);
+	*stackLayout += firstText;
+
 	for (int i = 0; i < 5; i++) {
 		auto text = new Text();
 		text->setColor(Color::white);
 		text->setText(String("Hehe penis ") + i);
 		text->setHorizontalAlignment(Alignment::Start);
 
-		stackLayout->getChildren().push_back(text);
+		*stackLayout += text;
 	}
 
-	display.getWorkspace().getChildren().push_back(stackLayout);
+	display.getWorkspace() += stackLayout;
 
 	// Rectangle
 	auto rectangle = new Rectangle();
@@ -301,7 +310,7 @@ void setup() {
 	rectangle->setVerticalAlignment(Alignment::Start);
 	rectangle->setFillColor(Color::white);
 
-	display.getWorkspace().getChildren().push_back(rectangle);
+	display.getWorkspace() += rectangle;
 
 	// Rectangle
 	auto circle = new Circle();
@@ -311,12 +320,13 @@ void setup() {
 	circle->setVerticalAlignment(Alignment::End);
 	circle->setFillColor(Color::white);
 
-	display.getWorkspace().getChildren().push_back(circle);
+	display.getWorkspace() += circle;
 }
 
 void loop() {
 	piano.readMidiEvents();
 
+	firstText->setText(String("MI ") + millis());
 	renderPianoStrip();
 	renderDisplay();
 	updateOnboardLED();

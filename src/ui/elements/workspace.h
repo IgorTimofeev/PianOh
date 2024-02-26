@@ -9,7 +9,7 @@ namespace ui {
 				setFirstParent(this);
 			}
 
-			void measure(Display& display) {
+			void measure(Display& display)  {
 				if (isMeasured)
 					return;
 
