@@ -306,11 +306,12 @@ void setup() {
 
 	// SevenSegment
 	sevenSegment = new SevenSegment();
-	sevenSegment->setSegmentThickness(1);
-	sevenSegment->setSegmentLength(3);
-	sevenSegment->setSpacing(2);
-	sevenSegment->setDigitCount(10);
+	sevenSegment->setSegmentThickness(3);
+	sevenSegment->setSegmentLength(9);
+	sevenSegment->setSpacing(3);
+	sevenSegment->setDigitCount(6);
 
+	sevenSegment->setHorizontalAlignment(Alignment::center);
 	sevenSegment->setVerticalAlignment(Alignment::center);
 
 	display.getWorkspace() += sevenSegment;

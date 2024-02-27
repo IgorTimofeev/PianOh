@@ -9,7 +9,7 @@
 namespace ui {
 	class SevenSegment : public Element {
 		public:
-			Size onMeasure(ui::Display &display, const ui::Size &availableSize) override {
+			Size measureOverride(Display &display, const Size &availableSize) override {
 				return {
 					(uint16_t) (((getDigitWidth() + getSpacing()) * getDigitCount()) - getSpacing()),
 					getDigitHeight()
@@ -18,22 +18,23 @@ namespace ui {
 
 			void render(Display& display) override {
 				auto bounds = getBounds();
-				auto position = Point(bounds.getX() + ((getDigitWidth() + getSpacing()) * getDigitCount()) - getSpacing(), bounds.getY());
+				bounds.setX(bounds.getX() + (getDigitWidth() + getSpacing()) * (getDigitCount() - 1));
+
 				auto value = getValue();
 				float govno;
 
 				for (uint8_t i = 0; i < getDigitCount(); i++) {
 					if (value > 0) {
 						govno = (float) value / 10.0f;
-						drawDigit(display, position, (uint8_t) ((govno - floor(govno)) * 10));
+						drawDigit(display, bounds.getPosition(), (uint8_t) ((govno - floor(govno)) * 10));
 
 						value /= 10;
 					}
 					else {
-						drawDigit(display, position, 0);
+						drawDigit(display, bounds.getPosition(), 0);
 					}
 
-					position.setX(position.getX() - getDigitWidth() - getSpacing());
+					bounds.setX(bounds.getX() - getDigitWidth() - getSpacing());
 				}
 			}
 

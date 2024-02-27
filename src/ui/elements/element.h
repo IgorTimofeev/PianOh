@@ -34,7 +34,7 @@ namespace ui {
 			}
 
 			Size measure(Display& display, const Size& availableSize) {
-				auto desiredSize = onMeasure(display, availableSize);
+				auto desiredSize = measureOverride(display, availableSize);
 				auto margin = getMargin();
 
 				desiredSize.setWidth(desiredSize.getWidth() + margin.getLeft() + margin.getRight());
@@ -155,7 +155,7 @@ namespace ui {
 				newBounds.setHeight(newSize);
 
 				setBounds(newBounds);
-				onArrange(newBounds);
+				arrangeOverride(newBounds);
 			}
 
 			virtual void render(Display& display) {
@@ -230,14 +230,14 @@ namespace ui {
 			}
 
 		protected:
-			virtual Size onMeasure(Display& display, const Size& availableSize) {
+			virtual Size measureOverride(Display& display, const Size& availableSize) {
 				return {
 					0,
 					0
 				};
 			}
 
-			virtual void onArrange(const Bounds& bounds) {
+			virtual void arrangeOverride(const Bounds& bounds) {
 
 			}
 

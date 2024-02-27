@@ -22,7 +22,7 @@ namespace ui {
 			}
 
 		protected:
-			Size onMeasure(Display& display, const Size& availableSize) override {
+			Size measureOverride(Display& display, const Size& availableSize) override {
 				auto result = Size();
 
 				Size childSize;
@@ -74,7 +74,7 @@ namespace ui {
 				return result;
 			}
 
-			void onArrange(const Bounds& bounds) override {
+			void arrangeOverride(const Bounds& bounds) override {
 				int32_t position;
 
 				switch (getOrientation()) {
