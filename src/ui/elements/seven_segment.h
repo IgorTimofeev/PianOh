@@ -5,9 +5,11 @@
 #include "ui/color.h"
 #include "ui/display.h"
 #include "cmath"
+#include "ui/traits/background_aware.h"
+#include "ui/traits/foreground_aware.h"
 
 namespace ui {
-	class SevenSegment : public Element {
+	class SevenSegment : public BackgroundAware, public ForegroundAware {
 		public:
 			Size measureOverride(Display &display, const Size &availableSize) override {
 				return {
@@ -60,21 +62,6 @@ namespace ui {
 				invalidateLayout();
 			}
 
-			const Color &getColorOff() const {
-				return _colorOff;
-			}
-
-			void setColorOff(const Color &value) {
-				_colorOff = value;
-			}
-
-			const Color &getColorOn() const {
-				return _colorOn;
-			}
-
-			void setColorOn(const Color &value) {
-				_colorOn = value;
-			}
 
 			uint32_t getValue() const {
 				return _value;
@@ -115,8 +102,6 @@ namespace ui {
 			}
 
 		private:
-			Color _colorOff = Color::black;
-			Color _colorOn = Color::white;
 			uint32_t _value = 0;
 			uint8_t _digitCount = 1;
 			uint8_t _spacing = 3;
@@ -137,13 +122,13 @@ namespace ui {
 				uint8_t t = getSegmentThickness();
 				uint8_t l = getSegmentLength();
 
-				display.drawRectangle(Bounds(position.getX() + t, position.getY(), l, t), s0 ? getColorOn() : getColorOff());
-				display.drawRectangle(Bounds(position.getX() + t + l, position.getY() + t, t, l), s1 ? getColorOn() : getColorOff());
-				display.drawRectangle(Bounds(position.getX() + t + l, position.getY() + t + l + t, t, l), s2 ? getColorOn() : getColorOff());
-				display.drawRectangle(Bounds(position.getX() + t, position.getY() + (t + l) * 2, l, t), s3 ? getColorOn() : getColorOff());
-				display.drawRectangle(Bounds(position.getX(), position.getY() + t + l + t, t, l), s4 ? getColorOn() : getColorOff());
-				display.drawRectangle(Bounds(position.getX(), position.getY() + t, t, l), s5 ? getColorOn() : getColorOff());
-				display.drawRectangle(Bounds(position.getX() + t, position.getY() + t + l, l, t), s6 ? getColorOn() : getColorOff());
+				display.drawRectangle(Bounds(position.getX() + t, position.getY(), l, t), s0 ? getForeground() : getBackground());
+				display.drawRectangle(Bounds(position.getX() + t + l, position.getY() + t, t, l), s1 ? getForeground() : getBackground());
+				display.drawRectangle(Bounds(position.getX() + t + l, position.getY() + t + l + t, t, l), s2 ? getForeground() : getBackground());
+				display.drawRectangle(Bounds(position.getX() + t, position.getY() + (t + l) * 2, l, t), s3 ? getForeground() : getBackground());
+				display.drawRectangle(Bounds(position.getX(), position.getY() + t + l + t, t, l), s4 ? getForeground() : getBackground());
+				display.drawRectangle(Bounds(position.getX(), position.getY() + t, t, l), s5 ? getForeground() : getBackground());
+				display.drawRectangle(Bounds(position.getX() + t, position.getY() + t + l, l, t), s6 ? getForeground() : getBackground());
 			}
 
 			void drawDigit(Display& display, const Point& position, uint8_t digit) {

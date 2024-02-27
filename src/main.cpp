@@ -179,7 +179,7 @@ void renderDisplay() {
 
 	display.render();
 
-	displayRenderDeadline = micros() + (1000000 / 60);
+	displayRenderDeadline = micros() + (1000000 / 30);
 }
 
 // ---------------------------------- Onboard LED ----------------------------------
@@ -310,7 +310,6 @@ void setup() {
 	sevenSegment->setSegmentLength(9);
 	sevenSegment->setSpacing(3);
 	sevenSegment->setDigitCount(6);
-
 	sevenSegment->setHorizontalAlignment(Alignment::center);
 	sevenSegment->setVerticalAlignment(Alignment::center);
 
@@ -359,7 +358,7 @@ void setup() {
 void loop() {
 	piano.readMidiEvents();
 
-	sevenSegment->setValue(millis());
+	sevenSegment->setValue(millis() / 1000);
 	renderPianoStrip();
 	renderDisplay();
 	updateOnboardLED();
