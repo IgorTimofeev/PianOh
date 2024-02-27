@@ -75,13 +75,13 @@ namespace ui {
 			}
 
 		protected:
-			Size onMeasure(Display& display, const Size& constraint) override {
+			Size onMeasure(Display& display, const Size& availableSize) override {
 				auto result = Size();
 
 				Size childSize;
 
 				for (auto child : *this) {
-					childSize = child->measure(display, constraint);
+					childSize = child->measure(display, availableSize);
 
 					if (childSize.getWidth() > result.getWidth())
 						result.setWidth(childSize.getWidth());

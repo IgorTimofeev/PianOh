@@ -28,6 +28,8 @@ namespace ui {
 			virtual void drawText(const Point& position, const Color& color, const String& text) = 0;
 			virtual void drawCircle(const Point& position, int32_t radius, const Color& color) = 0;
 			virtual void drawRectangle(const Bounds& bounds, const Color& color) = 0;
+			virtual void drawRectangle(const Bounds& bounds, uint16_t radius, const Color& color) = 0;
+
 			virtual Bounds measureText(const String& text) = 0;
 
 			// -------------------------------- Getters & setters --------------------------------
@@ -68,6 +70,17 @@ namespace ui {
 					(int16_t) bounds.getY(),
 					(int16_t) bounds.getWidth(),
 					(int16_t) bounds.getHeight(),
+					color.toUint32() > 0 ? WHITE : BLACK
+				);
+			}
+
+			void drawRectangle(const Bounds& bounds, uint16_t radius, const Color& color) override {
+				_adafruit.fillRoundRect(
+					(int16_t) bounds.getX(),
+					(int16_t) bounds.getY(),
+					(int16_t) bounds.getWidth(),
+					(int16_t) bounds.getHeight(),
+					(int16_t) radius,
 					color.toUint32() > 0 ? WHITE : BLACK
 				);
 			}

@@ -33,8 +33,8 @@ namespace ui {
 					_firstParent->invalidateLayout();
 			}
 
-			Size measure(Display& display, const Size& constraint) {
-				auto desiredSize = onMeasure(display, constraint);
+			Size measure(Display& display, const Size& availableSize) {
+				auto desiredSize = onMeasure(display, availableSize);
 				auto margin = getMargin();
 
 				desiredSize.setWidth(desiredSize.getWidth() + margin.getLeft() + margin.getRight());
@@ -226,10 +226,10 @@ namespace ui {
 			}
 
 		protected:
-			virtual Size onMeasure(Display& display, const Size& constraint) {
+			virtual Size onMeasure(Display& display, const Size& availableSize) {
 				return {
-					constraint.getWidth() == Size::infinity ? (uint16_t) 0 : constraint.getWidth(),
-					constraint.getHeight() == Size::infinity ? (uint16_t) 0 : constraint.getHeight()
+					0,
+					0
 				};
 			}
 

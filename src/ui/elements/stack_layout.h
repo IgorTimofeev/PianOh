@@ -22,7 +22,7 @@ namespace ui {
 			}
 
 		protected:
-			Size onMeasure(Display& display, const Size& constraint) override {
+			Size onMeasure(Display& display, const Size& availableSize) override {
 				auto result = Size();
 
 				Size childSize;
@@ -34,7 +34,7 @@ namespace ui {
 								display,
 								Size(
 									Size::infinity,
-									constraint.getHeight()
+									availableSize.getHeight()
 								)
 							);
 
@@ -54,7 +54,7 @@ namespace ui {
 							childSize = child->measure(
 								display,
 								Size(
-									constraint.getWidth(),
+									availableSize.getWidth(),
 									Size::infinity
 								)
 							);

@@ -20,6 +20,7 @@
 #include "ui/elements/text.h"
 #include "ui/elements/rectangle.h"
 #include "ui/elements/circle.h"
+#include "ui/elements/slider.h"
 
 using namespace ui;
 
@@ -204,6 +205,27 @@ void updateOnboardLED() {
 
 Text* firstText;
 
+Text* addPaddedText(StackLayout* stackLayout, const String& initialText) {
+	auto holder = new Layout();
+	holder->setHorizontalAlignment(Alignment::start);
+
+	auto background = new Rectangle();
+	background->setFillColor(Color::white);
+
+	*holder += background;
+
+	auto text = new Text();
+	text->setMargin(Margin(1));
+	text->setColor(Color::black);
+	text->setText(initialText);
+
+	*holder += text;
+
+	*stackLayout += holder;
+
+	return text;
+}
+
 void setup() {
 	// Onboard LED
 	pinMode(LED_ONBOARD_PIN1, OUTPUT);
@@ -286,29 +308,10 @@ void setup() {
 	stackLayout->setMargin(Margin(0, 0, 0, 0));
 
 	// Govno
-	firstText = new Text();
-	firstText->setColor(Color::white);
-	firstText->setText("FIRST");
-	firstText->setHorizontalAlignment(Alignment::start);
-	*stackLayout += firstText;
+	firstText = addPaddedText(stackLayout, "Ready");
 
 	for (int i = 0; i < 5; i++) {
-		auto holder = new Layout();
-		holder->setHorizontalAlignment(Alignment::start);
-
-		auto background = new Rectangle();
-		background->setFillColor(Color::white);
-
-		*holder += background;
-
-		auto text = new Text();
-		text->setMargin(Margin(1));
-		text->setColor(Color::black);
-		text->setText(String("Penis ") + i);
-
-		*holder += text;
-
-		*stackLayout += holder;
+		addPaddedText(stackLayout, String("Penis ") + i);
 	}
 
 	display.getWorkspace() += stackLayout;
@@ -320,7 +323,6 @@ void setup() {
 	rectangle->setHorizontalAlignment(Alignment::end);
 	rectangle->setVerticalAlignment(Alignment::start);
 	rectangle->setFillColor(Color::white);
-
 	display.getWorkspace() += rectangle;
 
 	// Circle
@@ -330,8 +332,16 @@ void setup() {
 	circle->setHorizontalAlignment(Alignment::end);
 	circle->setVerticalAlignment(Alignment::end);
 	circle->setFillColor(Color::white);
-
 	display.getWorkspace() += circle;
+
+	// Slider
+	auto slider = new Slider();
+	slider->setCornerRadius(5);
+	slider->setValue(1);
+	slider->setSize(Size(50, 10));
+	slider->setHorizontalAlignment(Alignment::end);
+	slider->setVerticalAlignment(Alignment::center);
+	display.getWorkspace() += slider;
 }
 
 void loop() {
