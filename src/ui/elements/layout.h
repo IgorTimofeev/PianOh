@@ -57,6 +57,16 @@ namespace ui {
 				invalidateLayout();
 			}
 
+			void removeChildren() {
+				_children.clear();
+
+				invalidateLayout();
+			}
+
+			Element* getChildAt(int index) {
+				return _children[index];
+			}
+
 			void addChild(Element* child) {
 				child->setParent(this);
 				child->setFirstParent(getFirstParent());
@@ -64,6 +74,10 @@ namespace ui {
 				_children.push_back(child);
 
 				invalidateLayout();
+			}
+
+			virtual Element* operator[](int index) {
+				return getChildAt(index);
 			}
 
 			virtual void operator+=(Element* child) {

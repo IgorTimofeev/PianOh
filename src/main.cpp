@@ -21,6 +21,7 @@
 #include "ui/elements/rectangle.h"
 #include "ui/elements/circle.h"
 #include "ui/elements/slider.h"
+#include "ui/elements/seven_segment.h"
 
 using namespace ui;
 
@@ -203,7 +204,7 @@ void updateOnboardLED() {
 
 // ---------------------------------- Penis ----------------------------------
 
-Text* firstText;
+SevenSegmentLayout* sevenSegmentLayout;
 
 Text* addPaddedText(StackLayout* stackLayout, const String& initialText) {
 	auto holder = new Layout();
@@ -302,52 +303,56 @@ void setup() {
 	});
 
 	// Screen
-	auto stackLayout = new StackLayout();
-	stackLayout->setHorizontalAlignment(Alignment::start);
-	stackLayout->setSpacing(1);
-	stackLayout->setMargin(Margin(0, 0, 0, 0));
 
-	// Govno
-	firstText = addPaddedText(stackLayout, "Ready");
+	// SevenSegment
+	sevenSegmentLayout = new SevenSegmentLayout(4);
 
-	for (int i = 0; i < 5; i++) {
-		addPaddedText(stackLayout, String("Penis ") + i);
-	}
+	display.getWorkspace() += sevenSegmentLayout;
 
-	display.getWorkspace() += stackLayout;
+//	// StackLayout
+//	auto stackLayout = new StackLayout();
+//	stackLayout->setHorizontalAlignment(Alignment::start);
+//	stackLayout->setSpacing(1);
+//	stackLayout->setMargin(Margin(0, 0, 0, 0));
+//
+//	for (int i = 0; i < 5; i++) {
+//		addPaddedText(stackLayout, String("Penis ") + i);
+//	}
+//
+//	display.getWorkspace() += stackLayout;
 
-	// Rectangle
-	auto rectangle = new Rectangle();
-	rectangle->setSize(Size(5, 5));
-	rectangle->setMargin(Margin(0, 0, 0, 0));
-	rectangle->setHorizontalAlignment(Alignment::end);
-	rectangle->setVerticalAlignment(Alignment::start);
-	rectangle->setFillColor(Color::white);
-	display.getWorkspace() += rectangle;
-
-	// Circle
-	auto circle = new Circle();
-	circle->setSize(Size(15, 15));
-	circle->setMargin(Margin(0, 0, 0, 0));
-	circle->setHorizontalAlignment(Alignment::end);
-	circle->setVerticalAlignment(Alignment::end);
-	circle->setFillColor(Color::white);
-	display.getWorkspace() += circle;
-
-	// Slider
-	auto slider = new Slider();
-	slider->setCornerRadius(5);
-	slider->setValue(1);
-	slider->setSize(Size(50, 10));
-	slider->setHorizontalAlignment(Alignment::end);
-	slider->setVerticalAlignment(Alignment::center);
-	display.getWorkspace() += slider;
+//	// Rectangle
+//	auto rectangle = new Rectangle();
+//	rectangle->setSize(Size(5, 5));
+//	rectangle->setMargin(Margin(0, 0, 0, 0));
+//	rectangle->setHorizontalAlignment(Alignment::end);
+//	rectangle->setVerticalAlignment(Alignment::start);
+//	rectangle->setFillColor(Color::white);
+//	display.getWorkspace() += rectangle;
+//
+//	// Circle
+//	auto circle = new Circle();
+//	circle->setSize(Size(15, 15));
+//	circle->setMargin(Margin(0, 0, 0, 0));
+//	circle->setHorizontalAlignment(Alignment::end);
+//	circle->setVerticalAlignment(Alignment::end);
+//	circle->setFillColor(Color::white);
+//	display.getWorkspace() += circle;
+//
+//	// Slider
+//	auto slider = new Slider();
+//	slider->setCornerRadius(5);
+//	slider->setValue(1);
+//	slider->setSize(Size(50, 10));
+//	slider->setHorizontalAlignment(Alignment::end);
+//	slider->setVerticalAlignment(Alignment::center);
+//	display.getWorkspace() += slider;
 }
 
 void loop() {
 	piano.readMidiEvents();
 
-	firstText->setText(String("Time ") + (millis() / 1000));
+	sevenSegmentLayout->setValue(millis());
 	renderPianoStrip();
 	renderDisplay();
 	updateOnboardLED();
