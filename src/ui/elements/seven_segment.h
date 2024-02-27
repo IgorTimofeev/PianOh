@@ -9,30 +9,32 @@
 namespace ui {
 	class SevenSegment : public Element {
 		public:
-			SevenSegment() {
-				setValue(0);
-			}
-
 			Size onMeasure(ui::Display &display, const ui::Size &availableSize) override {
 				return {
-					(uint16_t) (getSegmentThickness() * 5),
-					(uint16_t) (getSegmentThickness() * 9)
+					(uint16_t) (((getDigitWidth() + getSpacing()) * getDigitCount()) - getSpacing()),
+					getDigitHeight()
 				};
 			}
 
 			void render(Display& display) override {
 				auto bounds = getBounds();
+				auto position = Point(bounds.getX() + ((getDigitWidth() + getSpacing()) * getDigitCount()) - getSpacing(), bounds.getY());
+				auto value = getValue();
+				float govno;
 
-				uint8_t sml = getSegmentThickness();
-				uint8_t big = sml * 3;
+				for (uint8_t i = 0; i < getDigitCount(); i++) {
+					if (value > 0) {
+						govno = (float) value / 10.0f;
+						drawDigit(display, position, (uint8_t) ((govno - floor(govno)) * 10));
 
-				drawSegment(display, 0, Bounds(bounds.getX() + sml, bounds.getY(), big, sml));
-				drawSegment(display, 1, Bounds(bounds.getX() + sml + big, bounds.getY() + sml, sml, big));
-				drawSegment(display, 2, Bounds(bounds.getX() + sml + big, bounds.getY() + sml + big + sml, sml, big));
-				drawSegment(display, 3, Bounds(bounds.getX() + sml, bounds.getY() + (sml + big) * 2, big, sml));
-				drawSegment(display, 4, Bounds(bounds.getX(), bounds.getY() + sml + big + sml, sml, big));
-				drawSegment(display, 5, Bounds(bounds.getX(), bounds.getY() + sml, sml, big));
-				drawSegment(display, 6, Bounds(bounds.getX() + sml, bounds.getY() + sml + big, big, sml));
+						value /= 10;
+					}
+					else {
+						drawDigit(display, position, 0);
+					}
+
+					position.setX(position.getX() - getDigitWidth() - getSpacing());
+				}
 			}
 
 			// -------------------------------- Getters & setters --------------------------------
@@ -43,6 +45,16 @@ namespace ui {
 
 			void setSegmentThickness(uint8_t value) {
 				_segmentThickness = value;
+
+				invalidateLayout();
+			}
+
+			uint8_t getSegmentLength() const {
+				return _segmentLength;
+			}
+
+			void setSegmentLength(uint8_t value) {
+				_segmentLength = value;
 
 				invalidateLayout();
 			}
@@ -63,199 +75,228 @@ namespace ui {
 				_colorOn = value;
 			}
 
-			uint8_t getValue() const {
+			uint32_t getValue() const {
 				return _value;
 			}
 
-			void setValue(uint8_t value) {
+			void setValue(uint32_t value) {
 				_value = value;
 
-				switch (_value) {
-					case 0:
-						_segments[0] = true;
-						_segments[1] = true;
-						_segments[2] = true;
-						_segments[3] = true;
-						_segments[4] = true;
-						_segments[5] = true;
-						_segments[6] = false;
-						break;
+				invalidateLayout();
+			}
 
-					case 1:
-						_segments[0] = false;
-						_segments[1] = true;
-						_segments[2] = true;
-						_segments[3] = false;
-						_segments[4] = false;
-						_segments[5] = false;
-						_segments[6] = false;
-						break;
+			uint8_t getDigitCount() const {
+				return _digitCount;
+			}
 
-					case 2:
-						_segments[0] = true;
-						_segments[1] = true;
-						_segments[2] = false;
-						_segments[3] = true;
-						_segments[4] = true;
-						_segments[5] = false;
-						_segments[6] = true;
-						break;
+			void setDigitCount(uint8_t value) {
+				_digitCount = value;
 
-					case 3:
-						_segments[0] = true;
-						_segments[1] = true;
-						_segments[2] = true;
-						_segments[3] = true;
-						_segments[4] = false;
-						_segments[5] = false;
-						_segments[6] = true;
-						break;
+				invalidateLayout();
+			}
 
-					case 4:
-						_segments[0] = true;
-						_segments[1] = true;
-						_segments[2] = false;
-						_segments[3] = false;
-						_segments[4] = false;
-						_segments[5] = true;
-						_segments[6] = true;
-						break;
+			uint8_t getSpacing() const {
+				return _spacing;
+			}
 
-					case 5:
-						_segments[0] = true;
-						_segments[1] = false;
-						_segments[2] = true;
-						_segments[3] = true;
-						_segments[4] = false;
-						_segments[5] = true;
-						_segments[6] = true;
-						break;
+			void setSpacing(uint8_t value) {
+				_spacing = value;
 
-					case 6:
-						_segments[0] = true;
-						_segments[1] = false;
-						_segments[2] = true;
-						_segments[3] = true;
-						_segments[4] = true;
-						_segments[5] = true;
-						_segments[6] = true;
-						break;
+				invalidateLayout();
+			}
 
-					case 7:
-						_segments[0] = true;
-						_segments[1] = true;
-						_segments[2] = true;
-						_segments[3] = false;
-						_segments[4] = false;
-						_segments[5] = false;
-						_segments[6] = false;
-						break;
+			uint16_t getDigitWidth() const {
+				return (uint16_t) (getSegmentThickness() * 2 + getSegmentLength());
+			}
 
-					case 8:
-						_segments[0] = true;
-						_segments[1] = true;
-						_segments[2] = true;
-						_segments[3] = true;
-						_segments[4] = true;
-						_segments[5] = true;
-						_segments[6] = true;
-						break;
-
-					default:
-						_segments[0] = true;
-						_segments[1] = true;
-						_segments[2] = true;
-						_segments[3] = true;
-						_segments[4] = false;
-						_segments[5] = true;
-						_segments[6] = true;
-						break;
-				}
+			uint16_t getDigitHeight() const {
+				return (uint16_t) (getSegmentThickness() * 3 + getSegmentLength() * 2);
 			}
 
 		private:
 			Color _colorOff = Color::black;
 			Color _colorOn = Color::white;
-			uint8_t _value = 0;
+			uint32_t _value = 0;
+			uint8_t _digitCount = 1;
+			uint8_t _spacing = 3;
 			uint8_t _segmentThickness = 3;
+			uint8_t _segmentLength = 9;
 
-			bool _segments[7] {
-				false,
-				false,
-				false,
-				false,
-				false,
-				false,
-				false,
-			};
+			void drawSegments(
+				Display& display,
+				const Point& position,
+				bool s0,
+				bool s1,
+				bool s2,
+				bool s3,
+				bool s4,
+				bool s5,
+				bool s6
+			) const {
+				uint8_t t = getSegmentThickness();
+				uint8_t l = getSegmentLength();
 
-			void drawSegment(Display& display, uint8_t index, const Bounds& bounds) {
-				display.drawRectangle(bounds, _segments[index] ? getColorOn() : getColorOff());
+				display.drawRectangle(Bounds(position.getX() + t, position.getY(), l, t), s0 ? getColorOn() : getColorOff());
+				display.drawRectangle(Bounds(position.getX() + t + l, position.getY() + t, t, l), s1 ? getColorOn() : getColorOff());
+				display.drawRectangle(Bounds(position.getX() + t + l, position.getY() + t + l + t, t, l), s2 ? getColorOn() : getColorOff());
+				display.drawRectangle(Bounds(position.getX() + t, position.getY() + (t + l) * 2, l, t), s3 ? getColorOn() : getColorOff());
+				display.drawRectangle(Bounds(position.getX(), position.getY() + t + l + t, t, l), s4 ? getColorOn() : getColorOff());
+				display.drawRectangle(Bounds(position.getX(), position.getY() + t, t, l), s5 ? getColorOn() : getColorOff());
+				display.drawRectangle(Bounds(position.getX() + t, position.getY() + t + l, l, t), s6 ? getColorOn() : getColorOff());
 			}
 
-			void drawDigit(Display& display, const Bounds& bounds, uint8_t digit) {
-				uint8_t sml = getSegmentThickness();
-				uint8_t big = sml * 3;
+			void drawDigit(Display& display, const Point& position, uint8_t digit) {
+				switch (digit) {
+					case 0:
+						drawSegments(
+							display,
+							position,
+							true,
+							true,
+							true,
+							true,
+							true,
+							true,
+							false
+						);
 
-				drawSegment(display, 0, Bounds(bounds.getX() + sml, bounds.getY(), big, sml));
-				drawSegment(display, 1, Bounds(bounds.getX() + sml + big, bounds.getY() + sml, sml, big));
-				drawSegment(display, 2, Bounds(bounds.getX() + sml + big, bounds.getY() + sml + big + sml, sml, big));
-				drawSegment(display, 3, Bounds(bounds.getX() + sml, bounds.getY() + (sml + big) * 2, big, sml));
-				drawSegment(display, 4, Bounds(bounds.getX(), bounds.getY() + sml + big + sml, sml, big));
-				drawSegment(display, 5, Bounds(bounds.getX(), bounds.getY() + sml, sml, big));
-				drawSegment(display, 6, Bounds(bounds.getX() + sml, bounds.getY() + sml + big, big, sml));
-			}
-	};
+						break;
 
-	class SevenSegmentLayout : public StackLayout {
-		public:
-			explicit SevenSegmentLayout(uint8_t segmentCount) {
-				setOrientation(Orientation::horizontal);
+					case 1:
+						drawSegments(
+							display,
+							position,
+							false,
+							true,
+							true,
+							false,
+							false,
+							false,
+							false
+						);
 
-				for (uint8_t i = 0; i < segmentCount; i++) {
-					*this += new SevenSegment();
+						break;
+
+					case 2:
+						drawSegments(
+							display,
+							position,
+							true,
+							true,
+							false,
+							true,
+							true,
+							false,
+							true
+						);
+
+						break;
+
+					case 3:
+						drawSegments(
+							display,
+							position,
+							true,
+							true,
+							true,
+							true,
+							false,
+							false,
+							true
+						);
+
+						break;
+
+					case 4:
+						drawSegments(
+							display,
+							position,
+							false,
+							true,
+							true,
+							false,
+							false,
+							true,
+							true
+						);
+
+						break;
+
+					case 5:
+						drawSegments(
+							display,
+							position,
+							true,
+							false,
+							true,
+							true,
+							false,
+							true,
+							true
+						);
+
+						break;
+
+					case 6:
+						drawSegments(
+							display,
+							position,
+							true,
+							false,
+							true,
+							true,
+							true,
+							true,
+							true
+						);
+
+						break;
+
+					case 7:
+						drawSegments(
+							display,
+							position,
+							true,
+							true,
+							true,
+							false,
+							false,
+							false,
+							false
+						);
+
+						break;
+
+					case 8:
+						drawSegments(
+							display,
+							position,
+							true,
+							true,
+							true,
+							true,
+							true,
+							true,
+							true
+						);
+
+						break;
+
+					default:
+						drawSegments(
+							display,
+							position,
+							true,
+							true,
+							true,
+							true,
+							false,
+							true,
+							true
+						);
+
+						break;
 				}
 			}
-
-			~SevenSegmentLayout() override {
-				for (auto segment : *this) {
-					delete segment;
-				}
-
-				removeChildren();
-			}
-
-			void setColor(int index, const Color& value) {
-				reinterpret_cast<SevenSegment *>((*this)[index])->setColorOn(value);
-			}
-
-			void setValue(int index, uint8_t value) {
-				reinterpret_cast<SevenSegment*>((*this)[index])->setValue(value);
-			}
-
-			void setValue(uint32_t value) {
-				float govno;
-
-				for (uint8_t i = getChildrenCount() - 1; i > 0; i--) {
-					if (value > 0) {
-						govno = (float) value / 10.0f;
-						setValue(i, (uint8_t) ((govno - floor(govno)) * 10));
-
-						value /= 10;
-					}
-					else {
-						setValue(i, 0);
-					}
-				}
-			}
-
-			void setSegmentSize(uint8_t value) {
-				for (auto element : *this) {
-					reinterpret_cast<SevenSegment *>(element)->setSegmentThickness(value);
-				}
-			}
-
-		private:
-
 	};
 }

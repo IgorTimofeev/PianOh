@@ -174,12 +174,12 @@ void renderMidiEventOnDisplay() {
 }
 
 void renderDisplay() {
-	if (millis() < displayRenderDeadline)
+	if (micros() < displayRenderDeadline)
 		return;
 
 	display.render();
 
-	displayRenderDeadline = millis() + 10;
+	displayRenderDeadline = micros() + (1000000 / 60);
 }
 
 // ---------------------------------- Onboard LED ----------------------------------
@@ -204,7 +204,7 @@ void updateOnboardLED() {
 
 // ---------------------------------- Penis ----------------------------------
 
-SevenSegmentLayout* sevenSegmentLayout;
+SevenSegment* sevenSegment;
 
 Text* addPaddedText(StackLayout* stackLayout, const String& initialText) {
 	auto holder = new Layout();
@@ -305,9 +305,15 @@ void setup() {
 	// Screen
 
 	// SevenSegment
-	sevenSegmentLayout = new SevenSegmentLayout(4);
+	sevenSegment = new SevenSegment();
+	sevenSegment->setSegmentThickness(1);
+	sevenSegment->setSegmentLength(3);
+	sevenSegment->setSpacing(2);
+	sevenSegment->setDigitCount(10);
 
-	display.getWorkspace() += sevenSegmentLayout;
+	sevenSegment->setVerticalAlignment(Alignment::center);
+
+	display.getWorkspace() += sevenSegment;
 
 //	// StackLayout
 //	auto stackLayout = new StackLayout();
@@ -352,7 +358,7 @@ void setup() {
 void loop() {
 	piano.readMidiEvents();
 
-	sevenSegmentLayout->setValue(millis());
+	sevenSegment->setValue(millis());
 	renderPianoStrip();
 	renderDisplay();
 	updateOnboardLED();

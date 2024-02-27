@@ -143,9 +143,13 @@ namespace ui {
 					newSize
 				);
 
-				Serial.print(newPosition);
-				Serial.print(" x ");
-				Serial.println(newSize);
+//				Serial.print(desiredSize.getHeight());
+//				Serial.print(" x ");
+//				Serial.print(bounds.getHeight());
+//				Serial.print(" x ");
+//				Serial.print(newPosition);
+//				Serial.print(" x ");
+//				Serial.println(newSize);
 
 				newBounds.setY(newPosition);
 				newBounds.setHeight(newSize);
