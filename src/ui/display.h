@@ -18,8 +18,8 @@ namespace ui {
 			virtual void clear() = 0;
 
 			virtual void render() {
-				if (micros() <= _renderDeadline)
-					return;
+//				if (micros() <= _renderDeadline)
+//					return;
 
 				clear();
 
@@ -27,7 +27,7 @@ namespace ui {
 				_workspace.arrange();
 				_workspace.render(*this);
 
-				_renderDeadline = micros() + _renderInterval;
+//				_renderDeadline = micros() + _renderInterval;
 			}
 
 			virtual void update() = 0;
@@ -161,12 +161,8 @@ namespace ui {
 
 					auto event = TouchEvent(
 						point.status == TouchStatusEnum::touch
-						? TouchEventType::Touch
-						: (
-							point.status == TouchStatusEnum::stream
-							? TouchEventType::Drag
-							: TouchEventType::Drop
-						),
+							? TouchEventType::Touch
+							: TouchEventType::Drag,
 						x,
 						y
 					);

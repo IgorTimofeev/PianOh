@@ -3,8 +3,7 @@
 namespace ui {
 	enum TouchEventType: uint8_t {
 		Touch,
-		Drag,
-		Drop
+		Drag
 	};
 
 	class TouchEvent {

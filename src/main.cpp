@@ -298,11 +298,7 @@ void setup() {
 
 	sevenSegment->addEventHandler([](TouchEvent& event) {
 		if (event.getType() == TouchEventType::Touch) {
-			sevenSegment->setForeground(Color::gold);
 			sevenSegment->setValue(sevenSegment->getValue() + 1);
-		}
-		else if (event.getType() == TouchEventType::Drop) {
-			sevenSegment->setForeground(Color::white);
 		}
 	});
 
@@ -354,9 +350,9 @@ void loop() {
 //	sevenSegment->setValue(millis() / 1000);
 	renderPianoStrip();
 
+	display.readTouch();
 	display.render();
 	display.update();
-	display.readTouch();
 
 	updateOnboardLED();
 }
