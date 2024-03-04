@@ -4,7 +4,6 @@
 #include "ui/color.h"
 #include "ui/display.h"
 #include "ui/geometry/bounds.h"
-#include "Fonts/Org_01.h"
 
 namespace ui {
 	class Text : public Element {

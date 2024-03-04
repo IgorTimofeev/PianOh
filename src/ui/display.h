@@ -1,10 +1,9 @@
 #pragma once
 
-#include "color.h"
+#include "TFT_eSPI.h"
+#include "FT6336U.h"
 
-#define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
-#define SSD1306_EXTERNALVCC 0x01  ///< External display voltage source
-#define SSD1306_SWITCHCAPVCC 0x02 ///< Gen. display voltage from 3.3V
+#include "color.h"
 
 namespace ui {
 	class Workspace;
@@ -12,7 +11,6 @@ namespace ui {
 	class Display {
 		public:
 			virtual void clear() = 0;
-			virtual void show() = 0;
 
 			virtual void render() {
 				clear();
@@ -20,10 +18,9 @@ namespace ui {
 				workspace.measure(*this);
 				workspace.arrange();
 				workspace.render(*this);
-
-				show();
 			}
 
+			virtual void update() = 0;
 			virtual void begin() = 0;
 			virtual void drawText(const Point& position, const Color& color, const String& text) = 0;
 			virtual void drawCircle(const Point& position, int32_t radius, const Color& color) = 0;
@@ -46,71 +43,86 @@ namespace ui {
 			Workspace workspace;
 	};
 
-	class SSD1306Display : public Display {
+	class TFTDisplay : public Display {
 		public:
-			explicit SSD1306Display(const Adafruit_SSD1306& adafruit) : _adafruit(adafruit) {
-				getWorkspace().setSize(Size(_adafruit.width(), _adafruit.height()));
+			FT6336U touch = FT6336U(
+				4,
+				5,
+				9,
+				8
+			);
+
+			TFT_eSPI display = TFT_eSPI();
+			TFT_eSprite sprite = TFT_eSprite(&display);
+
+			TFTDisplay() {
+				getWorkspace().setSize(Size(TFT_HEIGHT, TFT_WIDTH));
 			}
 
 			void begin() override {
-				_adafruit.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS);
+				// Display
+				display.init();
+				display.setRotation(1);
+
+				sprite.setColorDepth(8);
+				sprite.createSprite(TFT_HEIGHT, TFT_WIDTH);
+				sprite.setTextColor(TFT_WHITE);
+				sprite.setTextSize(2);
+
+				// Touch
+				touch.begin();
+			}
+
+			void update() override {
+				sprite.pushSprite(0, 0);
 			}
 
 			void clear() override {
-				_adafruit.clearDisplay();
-			}
-
-			void show() override {
-				_adafruit.display();
+				sprite.fillSprite(TFT_BLACK);
 			}
 
 			void drawRectangle(const Bounds& bounds, const Color& color) override {
-				_adafruit.fillRect(
+				sprite.fillRect(
 					(int16_t) bounds.getX(),
 					(int16_t) bounds.getY(),
 					(int16_t) bounds.getWidth(),
 					(int16_t) bounds.getHeight(),
-					color.toUint32() > 0 ? WHITE : BLACK
+					color.toUint32()
 				);
 			}
 
 			void drawRectangle(const Bounds& bounds, uint16_t radius, const Color& color) override {
-				_adafruit.fillRoundRect(
+				sprite.fillRoundRect(
 					(int16_t) bounds.getX(),
 					(int16_t) bounds.getY(),
 					(int16_t) bounds.getWidth(),
 					(int16_t) bounds.getHeight(),
 					(int16_t) radius,
-					color.toUint32() > 0 ? WHITE : BLACK
+					sprite.color24to16(color.toUint32())
 				);
 			}
 
 			void drawCircle(const Point& position, int32_t radius, const Color& color) override {
-				_adafruit.fillCircle(
+				sprite.fillCircle(
 					(int16_t) position.getX(),
 					(int16_t) position.getY(),
 					(int16_t) radius,
-					color.toUint32() > 0 ? WHITE : BLACK
+					sprite.color24to16(color.toUint32())
 				);
 			}
 
 			void drawText(const Point& position, const Color& color, const String& text) override {
-				_adafruit.setTextColor(color.toUint32() > 0 ? WHITE : BLACK);
-				_adafruit.setCursor((int16_t) position.getX(), (int16_t) position.getY());
-				_adafruit.print(text);
+				sprite.setTextColor(sprite.color24to16(color.toUint32()));
+				sprite.setCursor((int16_t) position.getX(), (int16_t) position.getY());
+				sprite.print(text);
 			}
 
 			Bounds measureText(const String &text) override {
-				int16_t x, y;
-				uint16_t w, h;
-
-				_adafruit.getTextBounds(text, 0, 0, &x, &y, &w, &h);
-
-				return {x, y, w, h};
+				return {0, 0, sprite.textWidth(text), sprite.fontHeight() };
 			}
 
 		private:
-			Adafruit_SSD1306 _adafruit;
+
 
 	};
 }

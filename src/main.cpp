@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+
+
 #include <string>
 #include "ui/color.h"
 #include "piano/piano.h"
@@ -79,74 +79,73 @@ void setGradientEffect() {
 
 uint32_t displayRenderDeadline = 0;
 
-Adafruit_SSD1306 adafruitDisplay(128, 32, &Wire);
-SSD1306Display display(adafruitDisplay);
+TFTDisplay display = TFTDisplay();
 
-void displayDrawWhiteKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
-	adafruitDisplay.fillRect(
-		x,
-		y,
-		PIANO_KEY_WIDTH,
-		PIANO_KEY_WHITE_HEIGHT,
-		getKeyVelocity(keyIndex) > 0 ? BLACK : WHITE
-	);
-
-	x += PIANO_KEY_WIDTH + 1;
-}
-
-void displayDrawBlackKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
-	adafruitDisplay.fillRect(
-		x,
-		y,
-		PIANO_KEY_WIDTH,
-		PIANO_KEY_BLACK_HEIGHT,
-		getKeyVelocity(keyIndex) > 0 ? WHITE : BLACK
-	);
-
-	x += PIANO_KEY_WIDTH + 1;
-}
-
-void displayDrawOctave(int16_t &x, int16_t &y, uint8_t &keyIndex) {
-	// White
-	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 1;
-	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-	displayDrawWhiteKey(x, y, keyIndex); keyIndex -= 10;
-	x -= (PIANO_KEY_WIDTH + 1) * 6 + 2;
-
-	// Black
-	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
-	displayDrawBlackKey(x, y, keyIndex); keyIndex += 3;
-	x += PIANO_KEY_WIDTH + 1;
-
-	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
-	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
-	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
-	x += 2;
-}
-
-void displayDrawOctaves() {
-	int16_t x = 0;
-	int16_t y = display.getSize().getHeight() - (int16_t) PIANO_KEY_WHITE_HEIGHT;
-	uint8_t keyIndex = 0;
-
-	// 0 octave
-
-	// White
-	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-	displayDrawWhiteKey(x, y, keyIndex); keyIndex -= 1;
-	x -= (PIANO_KEY_WIDTH + 1) + 2;
-
-	// Black
-	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
-
-	// 7 octaves
-	for (int i = 0; i < 7; i++)
-		displayDrawOctave(x, y, keyIndex);
-}
+//void displayDrawWhiteKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
+//	adafruitDisplay.fillRect(
+//		x,
+//		y,
+//		PIANO_KEY_WIDTH,
+//		PIANO_KEY_WHITE_HEIGHT,
+//		getKeyVelocity(keyIndex) > 0 ? BLACK : WHITE
+//	);
+//
+//	x += PIANO_KEY_WIDTH + 1;
+//}
+//
+//void displayDrawBlackKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
+//	adafruitDisplay.fillRect(
+//		x,
+//		y,
+//		PIANO_KEY_WIDTH,
+//		PIANO_KEY_BLACK_HEIGHT,
+//		getKeyVelocity(keyIndex) > 0 ? WHITE : BLACK
+//	);
+//
+//	x += PIANO_KEY_WIDTH + 1;
+//}
+//
+//void displayDrawOctave(int16_t &x, int16_t &y, uint8_t &keyIndex) {
+//	// White
+//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
+//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
+//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 1;
+//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
+//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
+//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
+//	displayDrawWhiteKey(x, y, keyIndex); keyIndex -= 10;
+//	x -= (PIANO_KEY_WIDTH + 1) * 6 + 2;
+//
+//	// Black
+//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
+//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 3;
+//	x += PIANO_KEY_WIDTH + 1;
+//
+//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
+//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
+//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
+//	x += 2;
+//}
+//
+//void displayDrawOctaves() {
+//	int16_t x = 0;
+//	int16_t y = display.getSize().getHeight() - (int16_t) PIANO_KEY_WHITE_HEIGHT;
+//	uint8_t keyIndex = 0;
+//
+//	// 0 octave
+//
+//	// White
+//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
+//	displayDrawWhiteKey(x, y, keyIndex); keyIndex -= 1;
+//	x -= (PIANO_KEY_WIDTH + 1) + 2;
+//
+//	// Black
+//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
+//
+//	// 7 octaves
+//	for (int i = 0; i < 7; i++)
+//		displayDrawOctave(x, y, keyIndex);
+//}
 
 MidiEvent lastMidiEvent;
 
@@ -154,21 +153,21 @@ void renderMidiEventOnDisplay() {
 	if (millis() < displayRenderDeadline)
 		return;
 
-	adafruitDisplay.clearDisplay();
-
-	displayDrawOctaves();
-
-	adafruitDisplay.setCursor(0, 5);
-	adafruitDisplay.print("MIDI ");
-	adafruitDisplay.print(String((int) lastMidiEvent.data1));
-	adafruitDisplay.print(" ");
-	adafruitDisplay.print(String((int) lastMidiEvent.channel));
-	adafruitDisplay.print(" ");
-	adafruitDisplay.print(String((int) lastMidiEvent.data1));
-	adafruitDisplay.print(" ");
-	adafruitDisplay.print(String((int) lastMidiEvent.data2));
-
-	adafruitDisplay.display();
+//	adafruitDisplay.clearDisplay();
+//
+//	displayDrawOctaves();
+//
+//	adafruitDisplay.setCursor(0, 5);
+//	adafruitDisplay.print("MIDI ");
+//	adafruitDisplay.print(String((int) lastMidiEvent.data1));
+//	adafruitDisplay.print(" ");
+//	adafruitDisplay.print(String((int) lastMidiEvent.channel));
+//	adafruitDisplay.print(" ");
+//	adafruitDisplay.print(String((int) lastMidiEvent.data1));
+//	adafruitDisplay.print(" ");
+//	adafruitDisplay.print(String((int) lastMidiEvent.data2));
+//
+//	adafruitDisplay.display();
 
 	displayRenderDeadline = millis() + 10;
 }
@@ -178,6 +177,7 @@ void renderDisplay() {
 		return;
 
 	display.render();
+	display.update();
 
 	displayRenderDeadline = micros() + (1000000 / 30);
 }
