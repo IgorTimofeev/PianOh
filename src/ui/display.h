@@ -143,7 +143,9 @@ namespace ui {
 			void readTouch() {
 				auto points = touch.scan();
 
-				for (auto point : points.tp) {
+				for (size_t i = 0; i < points.touch_count; i++) {
+					auto point = points.tp[i];
+
 					auto x = point.x;
 					auto y = point.y;
 
@@ -165,8 +167,8 @@ namespace ui {
 							? TouchEventType::Drag
 							: TouchEventType::Drop
 						),
-						point.x,
-						point.y
+						x,
+						y
 					);
 
 					getWorkspace().handleEvent(event);

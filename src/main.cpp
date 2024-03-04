@@ -297,9 +297,13 @@ void setup() {
 	sevenSegment->setVerticalAlignment(Alignment::center);
 
 	sevenSegment->addEventHandler([](TouchEvent& event) {
-		sevenSegment->setForeground(event.getType() == TouchEventType::Touch ? Color::gold : Color::white);
-
-		sevenSegment->setValue(sevenSegment->getValue() + 1);
+		if (event.getType() == TouchEventType::Touch) {
+			sevenSegment->setForeground(Color::gold);
+			sevenSegment->setValue(sevenSegment->getValue() + 1);
+		}
+		else if (event.getType() == TouchEventType::Drop) {
+			sevenSegment->setForeground(Color::white);
+		}
 	});
 
 	display.getWorkspace() += sevenSegment;
