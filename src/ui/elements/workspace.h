@@ -1,6 +1,7 @@
 #pragma once
 
 #include "layout.h"
+#include "ui/event.h"
 
 namespace ui {
 	class Workspace : public Layout {

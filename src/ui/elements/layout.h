@@ -15,6 +15,21 @@ namespace ui {
 				}
 			}
 
+			bool handleEvent(TouchEvent& event) override {
+				for (int32_t i = (int32_t) getChildrenCount() - 1; i >= 0; i--) {
+					auto child = getChildAt(i);
+
+					if (!child->getBounds().intersectsWith(event))
+						continue;
+
+					if (child->handleEvent(event)) {
+						return true;
+					}
+				}
+
+				return false;
+			}
+
 			std::vector<Element*>::iterator begin() {
 				return _children.begin();
 			}

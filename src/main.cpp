@@ -77,8 +77,6 @@ void setGradientEffect() {
 
 // ---------------------------------- Display ----------------------------------
 
-uint32_t displayRenderDeadline = 0;
-
 TFTDisplay display = TFTDisplay();
 
 //void displayDrawWhiteKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
@@ -150,9 +148,6 @@ TFTDisplay display = TFTDisplay();
 MidiEvent lastMidiEvent;
 
 void renderMidiEventOnDisplay() {
-	if (millis() < displayRenderDeadline)
-		return;
-
 //	adafruitDisplay.clearDisplay();
 //
 //	displayDrawOctaves();
@@ -168,18 +163,6 @@ void renderMidiEventOnDisplay() {
 //	adafruitDisplay.print(String((int) lastMidiEvent.data2));
 //
 //	adafruitDisplay.display();
-
-	displayRenderDeadline = millis() + 10;
-}
-
-void renderDisplay() {
-	if (micros() < displayRenderDeadline)
-		return;
-
-	display.render();
-	display.update();
-
-	displayRenderDeadline = micros() + (1000000 / 30);
 }
 
 // ---------------------------------- Onboard LED ----------------------------------
@@ -313,6 +296,12 @@ void setup() {
 	sevenSegment->setHorizontalAlignment(Alignment::center);
 	sevenSegment->setVerticalAlignment(Alignment::center);
 
+	sevenSegment->addEventHandler([](TouchEvent& event) {
+		sevenSegment->setForeground(event.getType() == TouchEventType::Touch ? Color::gold : Color::white);
+
+		sevenSegment->setValue(sevenSegment->getValue() + 1);
+	});
+
 	display.getWorkspace() += sevenSegment;
 
 //	// StackLayout
@@ -358,8 +347,12 @@ void setup() {
 void loop() {
 	piano.readMidiEvents();
 
-	sevenSegment->setValue(millis() / 1000);
+//	sevenSegment->setValue(millis() / 1000);
 	renderPianoStrip();
-	renderDisplay();
+
+	display.render();
+	display.update();
+	display.readTouch();
+
 	updateOnboardLED();
 }

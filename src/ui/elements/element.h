@@ -5,7 +5,7 @@
 #include "ui/geometry/bounds.h"
 #include "ui/geometry/size.h"
 #include <limits>
-#include "ui/elements/workspace.h"
+#include "ui/event.h"
 
 namespace ui {
 	enum Alignment: uint8_t {
@@ -229,6 +229,18 @@ namespace ui {
 				_parent = value;
 			}
 
+			virtual void addEventHandler(const std::function<void(TouchEvent&)>& handler) {
+				_eventHandlers.push_back(handler);
+			}
+
+			virtual bool handleEvent(TouchEvent& event) {
+				for (const auto& handler : _eventHandlers) {
+					handler(event);
+				}
+
+				return false;
+			}
+
 		protected:
 			virtual Size measureOverride(Display& display, const Size& availableSize) {
 				return {
@@ -251,6 +263,8 @@ namespace ui {
 
 			Bounds _bounds;
 			Size _desiredSize = Size();
+
+			std::vector<std::function<void(TouchEvent&)>> _eventHandlers {};
 
 			void setDesiredSize(const Size& value) {
 				_desiredSize = value;

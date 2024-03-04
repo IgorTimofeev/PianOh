@@ -13,7 +13,7 @@ class Piano {
 	public:
 		static const uint8_t midiKeyMinimum = 21;
 
-		std::vector<std::function<void(MidiEvent&)>> onMidiRead;
+		std::vector<std::function<void(MidiEvent&)>> onMidiRead {};
 
 		Piano(uint8_t keyCount, uint16_t stripLEDCount, int16_t stripPin);
 

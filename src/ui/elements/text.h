@@ -9,12 +9,7 @@ namespace ui {
 	class Text : public Element {
 		public:
 			Size measureOverride(Display& display, const Size& availableSize) override {
-				auto textBounds = display.measureText(getText());
-
-				return {
-					textBounds.getWidth(),
-					textBounds.getHeight()
-				};
+				return display.measureText(getText());
 			}
 
 			void render(Display& display) override {

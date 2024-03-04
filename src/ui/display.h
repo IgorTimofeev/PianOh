@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Arduino.h"
 #include "TFT_eSPI.h"
 #include "FT6336U.h"
 
@@ -10,14 +11,23 @@ namespace ui {
 
 	class Display {
 		public:
+			Display() {
+				setFramerate(30);
+			}
+
 			virtual void clear() = 0;
 
 			virtual void render() {
+				if (micros() <= _renderDeadline)
+					return;
+
 				clear();
 
-				workspace.measure(*this);
-				workspace.arrange();
-				workspace.render(*this);
+				_workspace.measure(*this);
+				_workspace.arrange();
+				_workspace.render(*this);
+
+				_renderDeadline = micros() + _renderInterval;
 			}
 
 			virtual void update() = 0;
@@ -27,20 +37,26 @@ namespace ui {
 			virtual void drawRectangle(const Bounds& bounds, const Color& color) = 0;
 			virtual void drawRectangle(const Bounds& bounds, uint16_t radius, const Color& color) = 0;
 
-			virtual Bounds measureText(const String& text) = 0;
+			virtual Size measureText(const String& text) = 0;
 
 			// -------------------------------- Getters & setters --------------------------------
 
-			const Size& getSize() {
-				return workspace.getSize();
+			void setFramerate(uint8_t value) {
+				_renderInterval = 1000000 / value;
+			}
+
+			uint8_t getFramerate(uint8_t value) const {
+				return 1000000 / _renderInterval;
 			}
 
 			Workspace& getWorkspace() {
-				return workspace;
+				return _workspace;
 			}
 
 		private:
-			Workspace workspace;
+			uint32_t _renderDeadline = 0;
+			uint32_t _renderInterval = 0;
+			Workspace _workspace;
 	};
 
 	class TFTDisplay : public Display {
@@ -117,8 +133,44 @@ namespace ui {
 				sprite.print(text);
 			}
 
-			Bounds measureText(const String &text) override {
-				return {0, 0, sprite.textWidth(text), sprite.fontHeight() };
+			Size measureText(const String &text) override {
+				return {
+					(uint16_t) sprite.textWidth(text),
+					(uint16_t) sprite.fontHeight()
+				};
+			}
+
+			void readTouch() {
+				auto points = touch.scan();
+
+				for (auto point : points.tp) {
+					auto x = point.x;
+					auto y = point.y;
+
+					switch (display.getRotation()) {
+						// 270
+						case 1:
+							auto tmp = x;
+							x = y;
+							y = TFT_WIDTH - tmp;
+
+							break;
+					}
+
+					auto event = TouchEvent(
+						point.status == TouchStatusEnum::touch
+						? TouchEventType::Touch
+						: (
+							point.status == TouchStatusEnum::stream
+							? TouchEventType::Drag
+							: TouchEventType::Drop
+						),
+						point.x,
+						point.y
+					);
+
+					getWorkspace().handleEvent(event);
+				}
 			}
 
 		private:

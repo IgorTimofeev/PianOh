@@ -3,6 +3,7 @@
 #include <cstdint>
 #include "point.h"
 #include "size.h"
+#include "ui/event.h"
 
 namespace ui {
 	class Bounds {
@@ -68,6 +69,14 @@ namespace ui {
 
 			Point getSize() const {
 				return {getWidth(), getHeight()};
+			}
+
+			bool intersectsWith(TouchEvent& event) const {
+				return
+					event.getX() >= _x
+					&& event.getY() >= _y
+					&& event.getX() <= _x + _width
+					&& event.getY() <= _y + _height;
 			}
 
 			void debugPrint() const {
