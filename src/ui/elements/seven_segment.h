@@ -23,12 +23,10 @@ namespace ui {
 				bounds.setX(bounds.getX() + (getDigitWidth() + getSpacing()) * (getDigitCount() - 1));
 
 				auto value = getValue();
-				float govno;
 
 				for (uint8_t i = 0; i < getDigitCount(); i++) {
 					if (value > 0) {
-						govno = (float) value / 10.0f;
-						drawDigit(display, bounds.getPosition(), (uint8_t) ((govno - floor(govno)) * 10));
+						drawDigit(display, bounds.getPosition(), value % 10);
 
 						value /= 10;
 					}

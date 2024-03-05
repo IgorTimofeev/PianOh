@@ -344,10 +344,16 @@ void setup() {
 //	display.getWorkspace() += slider;
 }
 
+uint32_t pizda = 0;
+
 void loop() {
 	piano.readMidiEvents();
 
-//	sevenSegment->setValue(millis() / 1000);
+//	if (millis() > pizda) {
+//		sevenSegment->setValue(sevenSegment->getValue() + 1);
+//		pizda = millis() + 3000;
+//	}
+
 	renderPianoStrip();
 
 	display.readTouch();
