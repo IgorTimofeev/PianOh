@@ -1,5 +1,7 @@
 #pragma once
 
+#include "elements/element.h"
+
 namespace ui {
 	enum TouchEventType: uint8_t {
 		Touch,

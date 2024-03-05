@@ -100,7 +100,7 @@ void Piano::readMidiEvents() {
 		while (index < bytesRead) {
 			event = MidiEvent::fromByteBuffer(buffer, index);
 
-			for (const auto& callback : onMidiRead) {
+			for (const auto& callback : _onMidiRead) {
 				callback(event);
 			}
 
@@ -111,7 +111,7 @@ void Piano::readMidiEvents() {
 }
 
 void Piano::addOnMidiRead(const std::function<void(MidiEvent&)> &callback) {
-	onMidiRead.push_back(callback);
+	_onMidiRead.push_back(callback);
 }
 
 uint16_t Piano::noteToKey(uint8_t note) {

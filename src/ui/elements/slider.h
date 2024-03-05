@@ -4,35 +4,36 @@
 #include "ui/color.h"
 #include "ui/display.h"
 #include "cmath"
+#include "ui/action.h"
 
 namespace ui {
 	class Slider : public Element {
 		public:
+			bool handleEvent(ui::TouchEvent &event) override {
+				auto bounds = getBounds();
+				auto part = (float) (event.getX() - bounds.getX()) / (float) bounds.getWidth();
+
+				if (part >= 0 && part <= 1)
+					setValue(part);
+
+				return Element::handleEvent(event);
+			}
+
 			void render(Display& display) override {
 				auto bounds = getBounds();
-
-				auto position = (uint16_t) roundf(_value / (_maximum - _minimum));
+				auto part = (uint16_t) round(_value * (float) bounds.getWidth());
 
 				display.drawRectangle(
-					Bounds(
-						bounds.getPosition(),
-						Size(
-							position,
-							bounds.getHeight()
-						)
-					),
+					bounds,
 					_cornerRadius,
 					getBackground()
 				);
 
 				display.drawRectangle(
 					Bounds(
-						Point(
-							bounds.getX() + position,
-							bounds.getY()
-						),
+						bounds.getPosition(),
 						Size(
-							bounds.getWidth() - position,
+							part,
 							bounds.getHeight()
 						)
 					),
@@ -67,32 +68,6 @@ namespace ui {
 				_foreground = value;
 			}
 
-			float getMinimum() const {
-				return _minimum;
-			}
-
-			void setMinimum(float value) {
-				_minimum = value;
-
-				if (_minimum > _maximum)
-					_minimum = _maximum;
-
-				clampValue();
-			}
-
-			float getMaximum() const {
-				return _maximum;
-			}
-
-			void setMaximum(float value) {
-				_maximum = value;
-
-				if (_maximum < _minimum)
-					_maximum = _minimum;
-
-				clampValue();
-			}
-
 			float getValue() const {
 				return _value;
 			}
@@ -101,17 +76,25 @@ namespace ui {
 				_value = value;
 
 				clampValue();
+				invalidateLayout();
+
+				_onValueChanged.invoke();
 			}
+
+			virtual void addOnValueChanged(const std::function<void()>& handler) {
+				_onValueChanged.add(handler);
+			}
+
 		private:
-			Color _background = Color::black;
+			Color _background = Color::gray;
 			Color _foreground = Color::white;
-			float _minimum = 0;
-			float _maximum = 1;
 			float _value = 1;
 			uint16_t _cornerRadius = 0;
 
+			Action _onValueChanged {};
+
 			void clampValue() {
-				_value = Number::clampFloat(_value, _minimum, _maximum);
+				_value = Number::clampFloat(_value, 0, 1);
 			}
 	};
 }

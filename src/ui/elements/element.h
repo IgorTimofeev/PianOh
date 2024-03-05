@@ -5,7 +5,6 @@
 #include "ui/geometry/bounds.h"
 #include "ui/geometry/size.h"
 #include <limits>
-#include "ui/event.h"
 
 namespace ui {
 	enum Alignment: uint8_t {
@@ -21,6 +20,7 @@ namespace ui {
 	};
 
 	class Display;
+	class TouchEvent;
 
 	class Element {
 		public:
@@ -35,7 +35,17 @@ namespace ui {
 
 			Size measure(Display& display, const Size& availableSize) {
 				auto desiredSize = measureOverride(display, availableSize);
+
+				auto size = getSize();
 				auto margin = getMargin();
+
+				if (size.getWidth() != Size::calculated) {
+					desiredSize.setWidth(size.getWidth());
+				}
+
+				if (size.getHeight() != Size::calculated) {
+					desiredSize.setHeight(size.getHeight());
+				}
 
 				desiredSize.setWidth(desiredSize.getWidth() + margin.getLeft() + margin.getRight());
 				desiredSize.setHeight(desiredSize.getHeight() + margin.getTop() + margin.getBottom());
@@ -143,13 +153,15 @@ namespace ui {
 					newSize
 				);
 
-//				Serial.print(desiredSize.getHeight());
-//				Serial.print(" x ");
-//				Serial.print(bounds.getHeight());
-//				Serial.print(" x ");
-//				Serial.print(newPosition);
-//				Serial.print(" x ");
-//				Serial.println(newSize);
+				if (tag == 1) {
+					Serial.print(desiredSize.getHeight());
+					Serial.print(" x ");
+					Serial.print(bounds.getHeight());
+					Serial.print(" x ");
+					Serial.print(newPosition);
+					Serial.print(" x ");
+					Serial.println(newSize);
+				}
 
 				newBounds.setY(newPosition);
 				newBounds.setHeight(newSize);
@@ -157,6 +169,8 @@ namespace ui {
 				setBounds(newBounds);
 				arrangeOverride(newBounds);
 			}
+
+			int32_t tag = 0;
 
 			virtual void render(Display& display) {
 
@@ -245,7 +259,7 @@ namespace ui {
 			virtual Size measureOverride(Display& display, const Size& availableSize) {
 				return {
 					0,
-					0
+					0,
 				};
 			}
 

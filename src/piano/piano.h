@@ -13,8 +13,6 @@ class Piano {
 	public:
 		static const uint8_t midiKeyMinimum = 21;
 
-		std::vector<std::function<void(MidiEvent&)>> onMidiRead {};
-
 		Piano(uint8_t keyCount, uint16_t stripLEDCount, int16_t stripPin);
 
 		~Piano();
@@ -22,6 +20,7 @@ class Piano {
 		static uint16_t noteToKey(uint8_t note);
 
 		uint16_t keyToStripIndex(uint16_t key);
+
 		uint16_t noteToStripIndex(uint8_t note);
 
 		uint16_t getStripLength();
@@ -64,6 +63,8 @@ class Piano {
 		Effect* _effect = nullptr;
 		uint8_t _keyCount;
 		bool _isStripInverted = true;
+
+		std::vector<std::function<void(MidiEvent&)>> _onMidiRead {};
 
 		void invertStripIndexIfRequired(uint16_t& index);
 };

@@ -17,6 +17,7 @@ class HsbColor {
 class Color {
 	public:
 		static const Color black;
+		static const Color gray;
 		static const Color gold;
 		static const Color white;
 		static const Color water;

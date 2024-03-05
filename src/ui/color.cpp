@@ -2,6 +2,7 @@
 #include "number.h"
 
 const Color Color::black = Color(0, 0, 0);
+const Color Color::gray = Color(0x44, 0x44, 0x44);
 const Color Color::gold = Color(0xF2, 0xB3, 0x3A);
 const Color Color::white = Color(0xFF, 0xFF, 0xFF);
 const Color Color::water = Color(0x00, 0x73, 0xB5);

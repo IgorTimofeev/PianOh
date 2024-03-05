@@ -189,27 +189,6 @@ void updateOnboardLED() {
 
 SevenSegment* sevenSegment;
 
-Text* addPaddedText(StackLayout* stackLayout, const String& initialText) {
-	auto holder = new Layout();
-	holder->setHorizontalAlignment(Alignment::start);
-
-	auto background = new Rectangle();
-	background->setFillColor(Color::white);
-
-	*holder += background;
-
-	auto text = new Text();
-	text->setMargin(Margin(1));
-	text->setColor(Color::black);
-	text->setText(initialText);
-
-	*holder += text;
-
-	*stackLayout += holder;
-
-	return text;
-}
-
 void setup() {
 	// Onboard LED
 	pinMode(LED_ONBOARD_PIN1, OUTPUT);
@@ -287,6 +266,15 @@ void setup() {
 
 	// Screen
 
+	// StackLayout
+	auto stackLayout = new StackLayout();
+	stackLayout->setSpacing(10);
+	stackLayout->setHorizontalAlignment(Alignment::center);
+	stackLayout->setVerticalAlignment(Alignment::center);
+//	stackLayout->tag = 1;
+
+	display.getWorkspace() += stackLayout;
+
 	// SevenSegment
 	sevenSegment = new SevenSegment();
 	sevenSegment->setSegmentThickness(3);
@@ -294,7 +282,6 @@ void setup() {
 	sevenSegment->setSpacing(3);
 	sevenSegment->setDigitCount(6);
 	sevenSegment->setHorizontalAlignment(Alignment::center);
-	sevenSegment->setVerticalAlignment(Alignment::center);
 
 	sevenSegment->addEventHandler([](TouchEvent& event) {
 		if (event.getType() == TouchEventType::Touch) {
@@ -302,57 +289,28 @@ void setup() {
 		}
 	});
 
-	display.getWorkspace() += sevenSegment;
+	*stackLayout += sevenSegment;
 
-//	// StackLayout
-//	auto stackLayout = new StackLayout();
-//	stackLayout->setHorizontalAlignment(Alignment::start);
-//	stackLayout->setSpacing(1);
-//	stackLayout->setMargin(Margin(0, 0, 0, 0));
-//
-//	for (int i = 0; i < 5; i++) {
-//		addPaddedText(stackLayout, String("Penis ") + i);
-//	}
-//
-//	display.getWorkspace() += stackLayout;
+	// Slider
+	auto slider = new Slider();
+	slider->setCornerRadius(5);
+	slider->setValue(0.7);
+	slider->setSize(Size(150, 40));
 
-//	// Rectangle
-//	auto rectangle = new Rectangle();
-//	rectangle->setSize(Size(5, 5));
-//	rectangle->setMargin(Margin(0, 0, 0, 0));
-//	rectangle->setHorizontalAlignment(Alignment::end);
-//	rectangle->setVerticalAlignment(Alignment::start);
-//	rectangle->setFillColor(Color::white);
-//	display.getWorkspace() += rectangle;
-//
-//	// Circle
-//	auto circle = new Circle();
-//	circle->setSize(Size(15, 15));
-//	circle->setMargin(Margin(0, 0, 0, 0));
-//	circle->setHorizontalAlignment(Alignment::end);
-//	circle->setVerticalAlignment(Alignment::end);
-//	circle->setFillColor(Color::white);
-//	display.getWorkspace() += circle;
-//
-//	// Slider
-//	auto slider = new Slider();
-//	slider->setCornerRadius(5);
-//	slider->setValue(1);
-//	slider->setSize(Size(50, 10));
-//	slider->setHorizontalAlignment(Alignment::end);
-//	slider->setVerticalAlignment(Alignment::center);
-//	display.getWorkspace() += slider;
+	*stackLayout += slider;
+
+	// Text
+	auto text = new Text();
+	text->setText("Initial text");
+	*stackLayout += text;
+
+	slider->addOnValueChanged([slider, text]() {
+		text->setText(String("Value: ") + slider->getValue());
+	});
 }
-
-uint32_t pizda = 0;
 
 void loop() {
 	piano.readMidiEvents();
-
-//	if (millis() > pizda) {
-//		sevenSegment->setValue(sevenSegment->getValue() + 1);
-//		pizda = millis() + 3000;
-//	}
 
 	renderPianoStrip();
 
