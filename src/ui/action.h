@@ -3,29 +3,16 @@
 #include "functional"
 #include "vector"
 
-class Action : std::vector<std::function<void()>> {
+template <typename ...T>
+class Action : std::vector<std::function<void(T...)>> {
 	public:
-		void add(const std::function<void()>& f) {
+		void add(const std::function<void(T...)>& f) {
 			this->push_back(f);
 		}
 
-		void invoke() {
-			for (auto f : *this) {
-				f();
-			}
-		}
-};
-
-template <typename T>
-class Action1 : std::vector<std::function<void(T)>> {
-	public:
-		void add(const std::function<void(T)>& f) {
-			this->push_back(f);
-		}
-
-		void invoke() {
-			for (auto f : *this) {
-				f();
+		void invoke(const T&... args) {
+			for (const auto& f: *this) {
+				f(args...);
 			}
 		}
 };

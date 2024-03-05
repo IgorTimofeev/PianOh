@@ -244,13 +244,11 @@ namespace ui {
 			}
 
 			virtual void addEventHandler(const std::function<void(TouchEvent&)>& handler) {
-				_eventHandlers.push_back(handler);
+				_eventHandlers.add(handler);
 			}
 
 			virtual bool handleEvent(TouchEvent& event) {
-				for (const auto& handler : _eventHandlers) {
-					handler(event);
-				}
+				_eventHandlers.invoke(event);
 
 				return false;
 			}
@@ -278,7 +276,7 @@ namespace ui {
 			Bounds _bounds;
 			Size _desiredSize = Size();
 
-			std::vector<std::function<void(TouchEvent&)>> _eventHandlers {};
+			Action<TouchEvent&> _eventHandlers {};
 
 			void setDesiredSize(const Size& value) {
 				_desiredSize = value;

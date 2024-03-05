@@ -91,7 +91,7 @@ namespace ui {
 			float _value = 1;
 			uint16_t _cornerRadius = 0;
 
-			Action _onValueChanged {};
+			Action<> _onValueChanged {};
 
 			void clampValue() {
 				_value = Number::clampFloat(_value, 0, 1);

@@ -6,6 +6,7 @@
 #include "ui/color.h"
 #include "piano/effects/effect.h"
 #include "midi_event.h"
+#include "ui/action.h"
 
 class Particle;
 
@@ -64,7 +65,7 @@ class Piano {
 		uint8_t _keyCount;
 		bool _isStripInverted = true;
 
-		std::vector<std::function<void(MidiEvent&)>> _onMidiRead {};
+		Action<MidiEvent&> _onMidiRead {};
 
 		void invertStripIndexIfRequired(uint16_t& index);
 };
