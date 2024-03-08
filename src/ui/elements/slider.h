@@ -9,14 +9,14 @@
 namespace ui {
 	class Slider : public Element {
 		public:
-			bool handleEvent(ui::TouchEvent &event) override {
+			bool onEvent(ui::TouchEvent &event) override {
 				auto bounds = getBounds();
 				auto part = (float) (event.getX() - bounds.getX()) / (float) bounds.getWidth();
 
 				if (part >= 0 && part <= 1)
 					setValue(part);
 
-				return Element::handleEvent(event);
+				return true;
 			}
 
 			void render(Display& display) override {

@@ -247,9 +247,18 @@ namespace ui {
 				_eventHandlers.add(handler);
 			}
 
-			virtual bool handleEvent(TouchEvent& event) {
+			bool handleEvent(TouchEvent& event) {
+				if (!(getBounds().intersectsWith(event)))
+					return false;
+
+				auto result = onEvent(event);
+
 				_eventHandlers.invoke(event);
 
+				return result;
+			}
+
+			virtual bool onEvent(TouchEvent& event) {
 				return false;
 			}
 

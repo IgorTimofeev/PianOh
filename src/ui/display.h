@@ -103,7 +103,7 @@ namespace ui {
 					(int16_t) bounds.getY(),
 					(int16_t) bounds.getWidth(),
 					(int16_t) bounds.getHeight(),
-					color.toUint32()
+					sprite.color24to16(color.toUint32())
 				);
 			}
 

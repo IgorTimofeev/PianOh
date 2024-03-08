@@ -15,7 +15,7 @@ namespace ui {
 				}
 			}
 
-			bool handleEvent(TouchEvent& event) override {
+			bool onEvent(TouchEvent& event) override {
 				for (int32_t i = (int32_t) getChildrenCount() - 1; i >= 0; i--) {
 					auto child = getChildAt(i);
 
@@ -78,7 +78,7 @@ namespace ui {
 				invalidateLayout();
 			}
 
-			Element* getChildAt(int index) {
+			Element* getChildAt(size_t index) {
 				return _children[index];
 			}
 

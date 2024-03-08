@@ -22,6 +22,8 @@
 #include "ui/elements/circle.h"
 #include "ui/elements/slider.h"
 #include "ui/elements/seven_segment.h"
+#include "ui/elements/tab_bar.h"
+#include "tabs.h"
 
 using namespace ui;
 
@@ -266,47 +268,8 @@ void setup() {
 
 	// Screen
 
-	// StackLayout
-	auto stackLayout = new StackLayout();
-	stackLayout->setSpacing(10);
-	stackLayout->setHorizontalAlignment(Alignment::center);
-	stackLayout->setVerticalAlignment(Alignment::center);
-//	stackLayout->tag = 1;
-
-	display.getWorkspace() += stackLayout;
-
-	// SevenSegment
-	sevenSegment = new SevenSegment();
-	sevenSegment->setSegmentThickness(3);
-	sevenSegment->setSegmentLength(9);
-	sevenSegment->setSpacing(3);
-	sevenSegment->setDigitCount(6);
-	sevenSegment->setHorizontalAlignment(Alignment::center);
-
-	sevenSegment->addEventHandler([](TouchEvent& event) {
-		if (event.getType() == TouchEventType::Touch) {
-			sevenSegment->setValue(sevenSegment->getValue() + 1);
-		}
-	});
-
-	*stackLayout += sevenSegment;
-
-	// Slider
-	auto slider = new Slider();
-	slider->setCornerRadius(5);
-	slider->setValue(0.7);
-	slider->setSize(Size(150, 40));
-
-	*stackLayout += slider;
-
-	// Text
-	auto text = new Text();
-	text->setText("Initial text");
-	*stackLayout += text;
-
-	slider->addOnValueChanged([slider, text]() {
-		text->setText(String("Value: ") + slider->getValue());
-	});
+	auto tabBar = new PianoTabBar();
+	display.getWorkspace() += tabBar;
 }
 
 void loop() {

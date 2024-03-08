@@ -1,24 +1,22 @@
 #pragma once
 
-#include "layout.h"
+#include "stack_layout.h"
+#include "set"
 
 namespace ui {
-	class StackLayout : public Layout {
+	class EqualLayout : public StackLayout {
 		public:
-			Orientation getOrientation() const {
-				return _orientation;
+			void setChildAutoSize(Element* element, bool value) {
+				if (value) {
+					_childrenAutoSizes.insert(element);
+				}
+				else {
+					_childrenAutoSizes.erase(element);
+				}
 			}
 
-			void setOrientation(Orientation orientation) {
-				_orientation = orientation;
-			}
-
-			uint16_t getSpacing() const {
-				return _spacing;
-			}
-
-			void setSpacing(uint16_t value) {
-				_spacing = value;
+			bool getChildAutoSize(Element* element) {
+				return _childrenAutoSizes.find(element) != _childrenAutoSizes.end();
 			}
 
 		protected:
@@ -26,6 +24,14 @@ namespace ui {
 				auto result = Size();
 
 				Size childSize;
+
+				uint16_t spacingSubstraction =
+					getChildrenCount() > 1
+					? (getChildrenCount() - 1) * getSpacing()
+					: 0;
+
+				uint16_t availableWithoutSpacing;
+				uint16_t equalSize;
 
 				switch (getOrientation()) {
 					case horizontal:
@@ -50,12 +56,28 @@ namespace ui {
 						break;
 
 					case vertical:
+						availableWithoutSpacing = availableSize.getHeight() - spacingSubstraction;
+
+						equalSize =
+							getChildrenCount() == 0
+							? 0
+							: availableWithoutSpacing / getChildrenCount();
+
+						for (auto child : *this) {
+							if (getChildAutoSize(child)) {
+
+							}
+							else {
+
+							}
+						}
+
 						for (auto child : *this) {
 							childSize = child->measure(
 								display,
 								Size(
 									availableSize.getWidth(),
-									Size::infinity
+									getChildAutoSize(child) ? Size::infinity : equalSize
 								)
 							);
 
@@ -113,7 +135,8 @@ namespace ui {
 			}
 
 		private:
-			uint16_t _spacing = 10;
+			std::set<Element*> _childrenAutoSizes {};
+			int32_t _spacing = 10;
 			Orientation _orientation = Orientation::vertical;
 	};
 }
