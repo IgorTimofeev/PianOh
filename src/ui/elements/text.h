@@ -13,7 +13,7 @@ namespace ui {
 			}
 
 			void render(Display& display) override {
-				display.drawText(getBounds().getPosition(), getColor(), getText());
+				display.drawText(getBounds().getPosition(), getColor(), getText(), getFontSize());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------
@@ -36,8 +36,17 @@ namespace ui {
 				_color = value;
 			}
 
+			uint8_t getFontSize() const {
+				return _fontSize;
+			}
+
+			void setFontSize(uint8_t value) {
+				_fontSize = value;
+			}
+
 		private:
 			String _text;
+			uint8_t _fontSize = 2;
 			Color _color = Color::white;
 	};
 }

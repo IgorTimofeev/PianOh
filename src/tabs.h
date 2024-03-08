@@ -75,5 +75,7 @@ class PianoTabBar : public TabBar<PianoTab> {
 		PianoTabBar() {
 			addTabAndView(PianoTab("Tab 1"), &tab1);
 			addTabAndView(PianoTab("Tab 2"), &tab2);
+
+			this->setSelectedIndex(1);
 		}
 };

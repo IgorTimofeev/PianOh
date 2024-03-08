@@ -21,8 +21,6 @@ namespace ui {
 //				if (micros() <= _renderDeadline)
 //					return;
 
-				clear();
-
 				_workspace.measure(*this);
 				_workspace.arrange();
 				_workspace.render(*this);
@@ -32,7 +30,7 @@ namespace ui {
 
 			virtual void update() = 0;
 			virtual void begin() = 0;
-			virtual void drawText(const Point& position, const Color& color, const String& text) = 0;
+			virtual void drawText(const Point& position, const Color& color, const String& text, const uint8_t& size) = 0;
 			virtual void drawCircle(const Point& position, int32_t radius, const Color& color) = 0;
 			virtual void drawRectangle(const Bounds& bounds, const Color& color) = 0;
 			virtual void drawRectangle(const Bounds& bounds, uint16_t radius, const Color& color) = 0;
@@ -82,8 +80,6 @@ namespace ui {
 
 				sprite.setColorDepth(8);
 				sprite.createSprite(TFT_HEIGHT, TFT_WIDTH);
-				sprite.setTextColor(TFT_WHITE);
-				sprite.setTextSize(2);
 
 				// Touch
 				touch.begin();
@@ -127,9 +123,10 @@ namespace ui {
 				);
 			}
 
-			void drawText(const Point& position, const Color& color, const String& text) override {
+			void drawText(const Point& position, const Color& color, const String& text, const uint8_t& size) override {
 				sprite.setTextColor(sprite.color24to16(color.toUint32()));
 				sprite.setCursor((int16_t) position.getX(), (int16_t) position.getY());
+				sprite.setTextSize(size);
 				sprite.print(text);
 			}
 

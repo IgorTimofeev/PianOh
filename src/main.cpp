@@ -267,9 +267,8 @@ void setup() {
 	});
 
 	// Screen
-
-	auto tabBar = new PianoTabBar();
-	display.getWorkspace() += tabBar;
+	display.getWorkspace().addChild(new Rectangle(Color::black));
+	display.getWorkspace().addChild(new PianoTabBar());
 }
 
 void loop() {

@@ -33,8 +33,6 @@ namespace ui {
 			void addTabAndView(T tab, Element* view) {
 				_tabsAndViews.push_back(std::pair<T, Element*>(tab, view));
 				this->addItem(tab);
-
-				this->setSelectedIndex(0);
 			}
 
 		protected:

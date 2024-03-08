@@ -26,12 +26,22 @@ namespace ui {
 				isArranged = true;
 			}
 
+			void render(Display& display) override {
+				if (isRendered)
+					return;
+
+				Layout::render(display);
+				isRendered = true;
+			}
+
 			void invalidateLayout() override {
 				isMeasured = false;
 				isArranged = false;
+				isRendered = false;
 			}
 
 		private:
+			bool isRendered = false;
 			bool isMeasured = false;
 			bool isArranged = false;
 	};
