@@ -3,27 +3,32 @@
 #include "Arduino.h"
 #include "ui/elements/layout.h"
 #include "ui/elements/tab_bar.h"
+#include "ui/elements/image.h"
+
+#include "resources/images/rainbow.h"
+#include "resources/images/flame.h"
+#include "resources/images/water.h"
 
 using namespace ui;
 
 class TabItemView : public SelectorItem {
 	public:
-		explicit TabItemView(const String& name) {
+		explicit TabItemView(uint16_t* pixels) {
+			// Background rect
 			rectangle.setCornerRadius(5);
 			addChild(&rectangle);
 
-			text.setAlignment(Alignment::center);
-			text.setMargin(Margin(10));
-			text.setText(name);
-			addChild(&text);
+			// Image
+			image.setSize(Size(64, 64));
+			image.setPixels(pixels);
+			addChild(&image);
 		}
 
 		Rectangle rectangle = Rectangle(Color::black);
-		Text text = Text();
+		Image image = Image();
 
 		void setSelected(const bool &value) override {
 			rectangle.setFillColor(value ? Color::white : Color::black);
-			text.setColor(value ? Color::black : Color::white);
 		}
 };
 
@@ -96,13 +101,13 @@ class TabView3 : public Layout {
 
 class PianoTabBar : public TabBar {
 	public:
-		TabItemView tabItemView1 = TabItemView("7 segments");
+		TabItemView tabItemView1 = TabItemView(const_cast<uint16_t *>(RAINBOW));
 		TabView1 tabView1 = TabView1();
 
-		TabItemView tabItemView2 = TabItemView("Slider");
+		TabItemView tabItemView2 = TabItemView(const_cast<uint16_t *>(FLAME));
 		TabView2 tabView2 = TabView2();
 
-		TabItemView tabItemView3 = TabItemView("Test");
+		TabItemView tabItemView3 = TabItemView(const_cast<uint16_t *>(WATER));
 		TabView3 tabView3 = TabView3();
 
 		PianoTabBar() {

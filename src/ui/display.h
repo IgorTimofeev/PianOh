@@ -24,6 +24,7 @@ namespace ui {
 			virtual void drawCircle(const Point& position, int32_t radius, const Color& color) = 0;
 			virtual void drawRectangle(const Bounds& bounds, const Color& color) = 0;
 			virtual void drawRectangle(const Bounds& bounds, uint16_t radius, const Color& color) = 0;
+			virtual void drawImage(const Bounds& bounds, const uint16_t* data) = 0;
 
 			virtual Size measureText(const String& text) = 0;
 
@@ -110,6 +111,16 @@ namespace ui {
 				sprite.setCursor((int16_t) position.getX(), (int16_t) position.getY());
 				sprite.setTextSize(size);
 				sprite.print(text);
+			}
+
+			void drawImage(const Bounds& bounds, const uint16_t* data) override {
+				sprite.pushImage(
+					bounds.getX(),
+					bounds.getY(),
+					bounds.getWidth(),
+					bounds.getHeight(),
+					data
+				);
 			}
 
 			Size measureText(const String &text) override {
