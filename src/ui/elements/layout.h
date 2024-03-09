@@ -7,7 +7,7 @@
 namespace ui {
 	class Layout : public Element {
 		public:
-			virtual void render(Display& display) override {
+			void render(Display& display) override {
 				for (auto child : *this) {
 					child->setParent(this);
 					child->setFirstParent(getFirstParent());

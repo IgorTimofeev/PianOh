@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include "ui/action.h"
 #include "ui/geometry/margin.h"
 #include "ui/geometry/bounds.h"
 #include "ui/geometry/size.h"

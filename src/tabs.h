@@ -6,35 +6,32 @@
 
 using namespace ui;
 
-class TabItem {
+class TabItemView : public ItemsHostItem {
 	public:
-		explicit TabItem(const String& name) {
-			this->name = name;
-		}
-
-		String name;
-};
-
-class TabItemView : public Layout {
-	public:
-		TabItemView() {
+		explicit TabItemView(const String& name) {
 			rectangle.setCornerRadius(5);
 			addChild(&rectangle);
 
 			text.setAlignment(Alignment::center);
 			text.setMargin(Margin(10));
+			text.setText(name);
 			addChild(&text);
 		}
 
 		Rectangle rectangle = Rectangle(Color::black);
 		Text text = Text();
+
+		void setSelected(const bool &value) override {
+			rectangle.setFillColor(value ? Color::white : Color::black);
+			text.setColor(value ? Color::black : Color::white);
+		}
 };
 
-class Tab1 : public StackLayout {
+class TabView1 : public StackLayout {
 	public:
 		SevenSegment sevenSegment = SevenSegment();
 
-		Tab1() {
+		TabView1() {
 			setAlignment(Alignment::center);
 
 			// SevenSegment
@@ -54,12 +51,12 @@ class Tab1 : public StackLayout {
 		}
 };
 
-class Tab2 : public StackLayout {
+class TabView2 : public StackLayout {
 	public:
 		Slider slider = Slider();
 		Text text = Text();
 
-		Tab2() {
+		TabView2() {
 			setAlignment(Alignment::center);
 
 			// Slider
@@ -79,48 +76,40 @@ class Tab2 : public StackLayout {
 		}
 };
 
-class Tab3 : public Layout {
+class TabView3 : public Layout {
 	public:
-		Tab3() {
+		TabView3() {
 			setAlignment(Alignment::center);
 
 			addChild(&rectangle);
 
-			text.setText("Timer");
 			text.setAlignment(Alignment::center, Alignment::center);
 			text.setMargin(Margin(10));
+			text.setColor(Color::black);
+			text.setText("Timer");
 			addChild(&text);
 		}
 
-		Rectangle rectangle = Rectangle(Color::black);
+		Rectangle rectangle = Rectangle(Color::gold);
 		Text text = Text();
 };
 
-class PianoTabBar : public TabBar<TabItem, TabItemView> {
+class PianoTabBar : public TabBar {
 	public:
-		Tab1 tab1 = Tab1();
-		Tab2 tab2 = Tab2();
-		Tab3 tab3 = Tab3();
+		TabItemView tabItemView1 = TabItemView("1");
+		TabView1 tabView1 = TabView1();
+
+		TabItemView tabItemView2 = TabItemView("1");
+		TabView2 tabView2 = TabView2();
+
+		TabItemView tabItemView3 = TabItemView("1");
+		TabView3 tabView3 = TabView3();
 
 		PianoTabBar() {
-			this->addTabAndView(TabItem("1"), &tab1);
-			this->addTabAndView(TabItem("2"), &tab2);
-			this->addTabAndView(TabItem("Penis"), &tab3);
+			this->addTabAndView(&tabItemView1, &tabView1);
+			this->addTabAndView(&tabItemView2, &tabView2);
+			this->addTabAndView(&tabItemView3, &tabView3);
 
 			this->setSelectedIndex(1);
-		}
-
-	protected:
-		TabItemView* createItemView() override {
-			return new TabItemView();
-		}
-
-		void itemToView(const TabItem& item, TabItemView* view) override {
-			view->text.setText(item.name);
-		}
-
-		void setItemViewSelected(TabItemView* view, const bool &value) override {
-			view->rectangle.setFillColor(value ? Color::white : Color::black);
-			view->text.setColor(value ? Color::black : Color::white);
 		}
 };

@@ -1,20 +1,19 @@
 #pragma once
 
 #include "items_host.h"
+#include "items_host_item.h"
 
 namespace ui {
-	template<typename TItem, typename TTemplate>
-	class TabBar : public ItemsHost<TItem, TTemplate> {
+	class TabBar : public ItemsHost {
 		public:
 			TabBar() {
 				_itemsLayout->setSpacing(0);
 				_itemsLayout->setSize(Size(100, Size::calculated));
 				this->addChild(_itemsLayout);
+				this->setItemsLayout(_itemsLayout);
 
 				_viewLayout->setMargin(Margin(100, 0, 0, 0));
 				this->addChild(_viewLayout);
-
-				this->setItemViewsLayout(_itemsLayout);
 			}
 
 			~TabBar() override {
@@ -22,7 +21,7 @@ namespace ui {
 				delete _viewLayout;
 			}
 
-			void addTabAndView(const TItem& tab, Element* view) {
+			void addTabAndView(ItemsHostItem* tab, Element* view) {
 				_views.push_back(view);
 				this->addItem(tab);
 			}
