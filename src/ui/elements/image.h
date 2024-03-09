@@ -3,26 +3,37 @@
 #include "element.h"
 #include "ui/display.h"
 #include "ui/bounds.h"
+#include "ui/image_source.h"
 
 namespace ui {
 	class Image : public Element {
 		public:
 			void render(Display& display) override {
-				if (getPixels())
-					display.drawImage(getBounds(), getPixels());
+				if (!getSource() || !getSource()->getPixels())
+					return;
+
+				display.drawImage(
+					Bounds(
+						getBounds().getPosition(),
+						getSource()->getSize()
+					),
+					getSource()->getPixels()
+				);
 			}
 
 			// -------------------------------- Getters & setters --------------------------------
 
-			uint16_t *getPixels() const {
-				return pixels;
+			const ImageSource* getSource() const {
+				return _source;
 			}
 
-			void setPixels(uint16_t *value) {
-				Image::pixels = value;
+			void setSource(ImageSource* source) {
+				_source = source;
+
+				invalidateLayout();
 			}
 
 		private:
-			uint16_t* pixels = nullptr;
+			ImageSource* _source = nullptr;
 	};
 }

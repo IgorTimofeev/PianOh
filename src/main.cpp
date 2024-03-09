@@ -202,8 +202,6 @@ void updateOnboardLED() {
 
 // ---------------------------------- Penis ----------------------------------
 
-SevenSegment* sevenSegment;
-
 void setup() {
 	// Onboard LED
 	pinMode(LED_ONBOARD_PIN1, OUTPUT);
@@ -213,7 +211,6 @@ void setup() {
 
 	// Display
 	display.begin();
-	display.getWorkspace().addChild(new Rectangle(Color::black));
 	display.getWorkspace().addChild(new PianoTabBar());
 
 	// Piano

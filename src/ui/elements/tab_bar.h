@@ -7,6 +7,9 @@ namespace ui {
 	class TabBar : public Selector {
 		public:
 			TabBar() {
+				// Background
+				this->addChild(new Rectangle(Color::white));
+
 				auto pizda = 60;
 
 				// Left
@@ -42,7 +45,7 @@ namespace ui {
 
 		private:
 			Layout _itemsLayoutHolder = Layout();
-			Rectangle _itemsLayoutBackground = Rectangle(Color::white);
+			Rectangle _itemsLayoutBackground = Rectangle(Color::black);
 			StackLayout _itemsLayout = StackLayout();
 			Layout _viewLayout = Layout();
 

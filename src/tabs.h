@@ -14,25 +14,31 @@ using namespace ui;
 
 class TabItemView : public SelectorItem {
 	public:
-		TabItemView(uint16_t* pixelsOn, uint16_t* pixelsOff) : _pixelsOn(pixelsOn), _pixelsOff(pixelsOff) {
+		TabItemView(uint16_t* pixelsOn, uint16_t* pixelsOff) :
+			_pixelsOn(pixelsOn),
+			_pixelsOff(pixelsOff),
+			_imageSource(ImageSource(Size(40, 40), pixelsOn))
+		{
 			// Background rect
 			addChild(&_rectangle);
 
 			// Image
 			_image.setSize(Size(40, 40));
 			_image.setMargin(Margin(10));
-			_image.setPixels(pixelsOff);
+			_image.setSource(&_imageSource);
 			addChild(&_image);
 		}
 
 		void setSelected(const bool &value) override {
-			_rectangle.setFillColor(value ? Color::black : Color::white);
-			_image.setPixels(value ? _pixelsOn : _pixelsOff);
+			_rectangle.setFillColor(value ? Color::white : Color::black);
+			_imageSource.setPixels(value ? _pixelsOn : _pixelsOff);
+			_image.invalidateLayout();
 		}
 
 	private:
-		Rectangle _rectangle = Rectangle(Color::black);
+		Rectangle _rectangle = Rectangle(Color::white);
 		Image _image = Image();
+		ImageSource _imageSource;
 
 		uint16_t* _pixelsOn;
 		uint16_t* _pixelsOff;
@@ -125,16 +131,16 @@ class TabView4 : public Layout {
 
 class PianoTabBar : public TabBar {
 	public:
-		TabItemView tabItemView1 = TabItemView(const_cast<uint16_t *>(GRADIENT_ON), const_cast<uint16_t *>(GRADIENT_OFF));
+		TabItemView tabItemView1 = TabItemView((uint16_t*) GRADIENT_ON, (uint16_t*) GRADIENT_OFF);
 		TabView1 tabView1 = TabView1();
 
-		TabItemView tabItemView2 = TabItemView(const_cast<uint16_t *>(WAVE_ON), const_cast<uint16_t *>(WAVE_OFF));
+		TabItemView tabItemView2 = TabItemView((uint16_t*) WAVE_ON, (uint16_t*) WAVE_OFF);
 		TabView2 tabView2 = TabView2();
 
-		TabItemView tabItemView3 = TabItemView(const_cast<uint16_t *>(FLAME_ON), const_cast<uint16_t *>(FLAME_OFF));
+		TabItemView tabItemView3 = TabItemView((uint16_t*) FLAME_ON, (uint16_t*) FLAME_OFF);
 		TabView3 tabView3 = TabView3();
 
-		TabItemView tabItemView4 = TabItemView(const_cast<uint16_t *>(STROBE_ON), const_cast<uint16_t *>(STROBE_OFF));
+		TabItemView tabItemView4 = TabItemView((uint16_t*) STROBE_ON, (uint16_t*) STROBE_OFF);
 		TabView4 tabView4 = TabView4();
 
 		PianoTabBar() {
