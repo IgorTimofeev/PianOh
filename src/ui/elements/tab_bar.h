@@ -7,18 +7,24 @@ namespace ui {
 	class TabBar : public Selector {
 		public:
 			TabBar() {
-				_itemsLayout->setSpacing(0);
-				_itemsLayout->setSize(Size(100, Size::calculated));
-				this->addChild(_itemsLayout);
-				this->setItemsLayout(_itemsLayout);
+				auto pizda = 60;
 
-				_viewLayout->setMargin(Margin(100, 0, 0, 0));
-				this->addChild(_viewLayout);
-			}
+				// Left
 
-			~TabBar() override {
-				delete _itemsLayout;
-				delete _viewLayout;
+				// Background
+				_itemsLayoutHolder.setSize(Size(pizda, Size::calculated));
+				_itemsLayoutHolder.addChild(&_itemsLayoutBackground);
+
+				// Items
+				_itemsLayout.setSpacing(0);
+				_itemsLayoutHolder.addChild(&_itemsLayout);
+				this->setItemsLayout(&_itemsLayout);
+
+				this->addChild(&_itemsLayoutHolder);
+
+				// Right
+				_viewLayout.setMargin(Margin(pizda, 0, 0, 0));
+				this->addChild(&_viewLayout);
 			}
 
 			void addTabAndView(SelectorItem* tab, Element* view) {
@@ -28,15 +34,17 @@ namespace ui {
 
 		protected:
 			void onSelectionChanged() override {
-				_viewLayout->removeChildren();
+				_viewLayout.removeChildren();
 
 				if (this->getSelectedIndex() >= 0)
-					_viewLayout->addChild(_views[this->getSelectedIndex()]);
+					_viewLayout.addChild(_views[this->getSelectedIndex()]);
 			}
 
 		private:
-			StackLayout* _itemsLayout = new StackLayout();
-			Layout* _viewLayout = new Layout();
+			Layout _itemsLayoutHolder = Layout();
+			Rectangle _itemsLayoutBackground = Rectangle(Color::white);
+			StackLayout _itemsLayout = StackLayout();
+			Layout _viewLayout = Layout();
 
 			std::vector<Element*> _views {};
 	};

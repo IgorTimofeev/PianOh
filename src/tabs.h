@@ -5,31 +5,36 @@
 #include "ui/elements/tab_bar.h"
 #include "ui/elements/image.h"
 
-#include "resources/images/rainbow.h"
+#include "resources/images/gradient.h"
 #include "resources/images/flame.h"
-#include "resources/images/water.h"
+#include "resources/images/wave.h"
 
 using namespace ui;
 
 class TabItemView : public SelectorItem {
 	public:
-		explicit TabItemView(uint16_t* pixels) {
+		TabItemView(uint16_t* pixelsOn, uint16_t* pixelsOff) : _pixelsOn(pixelsOn), _pixelsOff(pixelsOff) {
 			// Background rect
-			rectangle.setCornerRadius(5);
-			addChild(&rectangle);
+			addChild(&_rectangle);
 
 			// Image
-			image.setSize(Size(64, 64));
-			image.setPixels(pixels);
-			addChild(&image);
+			_image.setSize(Size(40, 40));
+			_image.setMargin(Margin(10));
+			_image.setPixels(pixelsOff);
+			addChild(&_image);
 		}
-
-		Rectangle rectangle = Rectangle(Color::black);
-		Image image = Image();
 
 		void setSelected(const bool &value) override {
-			rectangle.setFillColor(value ? Color::white : Color::black);
+			_rectangle.setFillColor(value ? Color::black : Color::white);
+			_image.setPixels(value ? _pixelsOn : _pixelsOff);
 		}
+
+	private:
+		Rectangle _rectangle = Rectangle(Color::black);
+		Image _image = Image();
+
+		uint16_t* _pixelsOn;
+		uint16_t* _pixelsOff;
 };
 
 class TabView1 : public StackLayout {
@@ -101,13 +106,13 @@ class TabView3 : public Layout {
 
 class PianoTabBar : public TabBar {
 	public:
-		TabItemView tabItemView1 = TabItemView(const_cast<uint16_t *>(RAINBOW));
+		TabItemView tabItemView1 = TabItemView(const_cast<uint16_t *>(GRADIENT_ON), const_cast<uint16_t *>(GRADIENT_OFF));
 		TabView1 tabView1 = TabView1();
 
-		TabItemView tabItemView2 = TabItemView(const_cast<uint16_t *>(FLAME));
+		TabItemView tabItemView2 = TabItemView(const_cast<uint16_t *>(WAVE_ON), const_cast<uint16_t *>(WAVE_OFF));
 		TabView2 tabView2 = TabView2();
 
-		TabItemView tabItemView3 = TabItemView(const_cast<uint16_t *>(WATER));
+		TabItemView tabItemView3 = TabItemView(const_cast<uint16_t *>(FLAME_ON), const_cast<uint16_t *>(FLAME_OFF));
 		TabView3 tabView3 = TabView3();
 
 		PianoTabBar() {
