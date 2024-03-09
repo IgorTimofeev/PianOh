@@ -2,7 +2,7 @@
 
 namespace ui {
 	Size Element::measure(Display &display, const Size &availableSize) {
-		auto desiredSize = measureOverride(display, availableSize);
+		auto desiredSize = onMeasure(display, availableSize);
 
 		auto size = getSize();
 		auto margin = getMargin();
@@ -31,11 +31,11 @@ namespace ui {
 		_bounds = value;
 	}
 
-	void Element::arrangeOverride(const Bounds &bounds) {
+	void Element::onArrange(const Bounds &bounds) {
 
 	}
 
-	Size Element::measureOverride(Display &display, const Size &availableSize) {
+	Size Element::onMeasure(Display &display, const Size &availableSize) {
 		return {
 			0,
 			0,
@@ -149,7 +149,7 @@ namespace ui {
 		int32_t newPosition = 0;
 		int32_t newSize = 0;
 
-		calculateShit(
+		calculateArrangeShit(
 			getHorizontalAlignment(),
 			bounds.getX(),
 			size.getWidth(),
@@ -164,7 +164,7 @@ namespace ui {
 		newBounds.setX(newPosition);
 		newBounds.setWidth(newSize);
 
-		calculateShit(
+		calculateArrangeShit(
 			getVerticalAlignment(),
 			bounds.getY(),
 			size.getHeight(),
@@ -190,12 +190,12 @@ namespace ui {
 		newBounds.setHeight(newSize);
 
 		setBounds(newBounds);
-		arrangeOverride(newBounds);
+		onArrange(newBounds);
 	}
 
-	void Element::calculateShit(const Alignment &alignment, const int32_t &position, const uint16_t &size,
-								const uint16_t &desiredSize, const uint16_t &marginStart, const uint16_t &marginEnd,
-								const uint16_t &limit, int32_t &newPosition, int32_t &newSize) {
+	void Element::calculateArrangeShit(const Alignment &alignment, const int32_t &position, const uint16_t &size,
+									   const uint16_t &desiredSize, const uint16_t &marginStart, const uint16_t &marginEnd,
+									   const uint16_t &limit, int32_t &newPosition, int32_t &newSize) {
 		switch (alignment) {
 			case start:
 				if (size == Size::calculated) {

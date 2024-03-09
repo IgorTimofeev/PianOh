@@ -11,7 +11,7 @@
 namespace ui {
 	class SevenSegment : public BackgroundAware, public ForegroundAware {
 		public:
-			Size measureOverride(Display &display, const Size &availableSize) override {
+			Size onMeasure(Display &display, const Size &availableSize) override {
 				return {
 					(uint16_t) (((getDigitWidth() + getSpacing()) * getDigitCount()) - getSpacing()),
 					getDigitHeight()

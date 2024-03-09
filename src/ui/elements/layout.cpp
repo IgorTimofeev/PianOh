@@ -95,7 +95,7 @@ namespace ui {
 		removeChild(child);
 	}
 
-	Size Layout::measureOverride(Display &display, const Size &availableSize) {
+	Size Layout::onMeasure(Display &display, const Size &availableSize) {
 		auto result = Size();
 
 		Size childSize;
@@ -113,7 +113,7 @@ namespace ui {
 		return result;
 	}
 
-	void Layout::arrangeOverride(const Bounds &bounds) {
+	void Layout::onArrange(const Bounds &bounds) {
 		for (auto child : *this) {
 			child->arrange(bounds);
 		}

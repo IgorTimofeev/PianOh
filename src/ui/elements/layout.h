@@ -36,9 +36,9 @@ namespace ui {
 			virtual void operator-=(Element* child);
 
 		protected:
-			Size measureOverride(Display& display, const Size& availableSize) override;
+			Size onMeasure(Display& display, const Size& availableSize) override;
 
-			void arrangeOverride(const Bounds& bounds) override;
+			void onArrange(const Bounds& bounds) override;
 
 		private:
 			std::vector<Element*> _children {};

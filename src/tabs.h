@@ -8,6 +8,7 @@
 #include "resources/images/gradient.h"
 #include "resources/images/flame.h"
 #include "resources/images/wave.h"
+#include "resources/images/strobe.h"
 
 using namespace ui;
 
@@ -104,6 +105,24 @@ class TabView3 : public Layout {
 		Text text = Text();
 };
 
+class TabView4 : public Layout {
+	public:
+		TabView4() {
+			setAlignment(Alignment::center);
+
+			addChild(&rectangle);
+
+			text.setAlignment(Alignment::center, Alignment::center);
+			text.setMargin(Margin(10));
+			text.setColor(Color::black);
+			text.setText("Timer");
+			addChild(&text);
+		}
+
+		Rectangle rectangle = Rectangle(Color::gold);
+		Text text = Text();
+};
+
 class PianoTabBar : public TabBar {
 	public:
 		TabItemView tabItemView1 = TabItemView(const_cast<uint16_t *>(GRADIENT_ON), const_cast<uint16_t *>(GRADIENT_OFF));
@@ -115,10 +134,14 @@ class PianoTabBar : public TabBar {
 		TabItemView tabItemView3 = TabItemView(const_cast<uint16_t *>(FLAME_ON), const_cast<uint16_t *>(FLAME_OFF));
 		TabView3 tabView3 = TabView3();
 
+		TabItemView tabItemView4 = TabItemView(const_cast<uint16_t *>(STROBE_ON), const_cast<uint16_t *>(STROBE_OFF));
+		TabView4 tabView4 = TabView4();
+
 		PianoTabBar() {
 			this->addTabAndView(&tabItemView1, &tabView1);
 			this->addTabAndView(&tabItemView2, &tabView2);
 			this->addTabAndView(&tabItemView3, &tabView3);
+			this->addTabAndView(&tabItemView4, &tabView4);
 
 			this->setSelectedIndex(1);
 		}

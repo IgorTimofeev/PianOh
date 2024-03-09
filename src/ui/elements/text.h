@@ -8,7 +8,7 @@
 namespace ui {
 	class Text : public Element {
 		public:
-			Size measureOverride(Display& display, const Size& availableSize) override {
+			Size onMeasure(Display& display, const Size& availableSize) override {
 				return display.measureText(getText());
 			}
 
