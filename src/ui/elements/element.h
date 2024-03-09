@@ -69,7 +69,7 @@ namespace ui {
 				switch (alignment) {
 					case start:
 						if (size == Size::calculated) {
-							newSize = desiredSize;
+							newSize = max(desiredSize - marginStart - marginEnd, 0);
 						}
 						else {
 							newSize = size;
@@ -81,7 +81,7 @@ namespace ui {
 
 					case center:
 						if (size == Size::calculated) {
-							newSize = desiredSize;
+							newSize = max(desiredSize - marginStart - marginEnd, 0);
 						}
 						else {
 							newSize = size;
@@ -93,7 +93,7 @@ namespace ui {
 
 					case end:
 						if (size == Size::calculated) {
-							newSize = desiredSize;
+							newSize = max(desiredSize - marginStart - marginEnd, 0);
 						}
 						else {
 							newSize = size;
@@ -196,14 +196,17 @@ namespace ui {
 				_verticalAlignment = value;
 
 				invalidateLayout();
-
 			}
 
-			void setAlignment(Alignment vertical, Alignment horizontal) {
-				_horizontalAlignment = vertical;
-				_verticalAlignment = horizontal;
+			void setAlignment(Alignment horizontal, Alignment vertical) {
+				_horizontalAlignment = horizontal;
+				_verticalAlignment = vertical;
 
 				invalidateLayout();
+			}
+
+			void setAlignment(Alignment uniformValue) {
+				setAlignment(uniformValue, uniformValue);
 			}
 
 			const Margin& getMargin() {

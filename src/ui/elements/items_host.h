@@ -20,8 +20,9 @@ namespace ui {
 
 				if (_itemViewsLayout) {
 					auto view = createItemView();
+					auto viewElement = reinterpret_cast<Element*>(view);
 
-					view->addEventHandler([this, view](TouchEvent& event) {
+					viewElement->addEventHandler([this, view](TouchEvent& event) {
 						auto index = _itemViewsLayout->getIndexOfChild(view);
 						setSelectedIndex(index);
 					});

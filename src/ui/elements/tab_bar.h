@@ -11,7 +11,7 @@ namespace ui {
 				auto leftLayout = new Layout();
 
 				// Background
-				leftLayout->setSize(Size(100, Size::calculated));
+				leftLayout->setSize(Size(150, Size::calculated));
 				leftLayout->addChild(new Rectangle(Color::gray));
 
 				_itemsLayout->setMargin(Margin(10));
@@ -19,7 +19,7 @@ namespace ui {
 
 				this->addChild(leftLayout);
 
-				_viewLayout->setMargin(Margin(100, 0, 0, 0));
+				_viewLayout->setMargin(Margin(150, 0, 0, 0));
 				this->addChild(_viewLayout);
 
 				this->setItemViewsLayout(_itemsLayout);

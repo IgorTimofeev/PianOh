@@ -8,8 +8,8 @@ using namespace ui;
 
 class TabItem {
 	public:
-		explicit TabItem(const String& name) : name(name) {
-
+		explicit TabItem(const String& name) {
+			this->name = name;
 		}
 
 		String name;
@@ -20,7 +20,7 @@ class TabItemView : public Layout {
 		TabItemView() {
 			addChild(&rectangle);
 
-			text.setAlignment(Alignment::center, Alignment::center);
+			text.setAlignment(Alignment::center);
 			text.setMargin(Margin(10));
 			addChild(&text);
 		}
@@ -34,8 +34,7 @@ class Tab1 : public StackLayout {
 		SevenSegment sevenSegment = SevenSegment();
 
 		Tab1() {
-			setHorizontalAlignment(Alignment::center);
-			setVerticalAlignment(Alignment::center);
+			setAlignment(Alignment::center);
 
 			// SevenSegment
 			sevenSegment.setSegmentThickness(3);
@@ -60,8 +59,7 @@ class Tab2 : public StackLayout {
 		Text text = Text();
 
 		Tab2() {
-			setHorizontalAlignment(Alignment::center);
-			setVerticalAlignment(Alignment::center);
+			setAlignment(Alignment::center);
 
 			// Slider
 			slider.setCornerRadius(5);
@@ -80,14 +78,33 @@ class Tab2 : public StackLayout {
 		}
 };
 
+class Tab3 : public Layout {
+	public:
+		Tab3() {
+			setAlignment(Alignment::center);
+
+			addChild(&rectangle);
+
+			text.setText("3");
+			text.setAlignment(Alignment::center, Alignment::center);
+			text.setMargin(Margin(10));
+			addChild(&text);
+		}
+
+		Rectangle rectangle = Rectangle(Color::black);
+		Text text = Text();
+};
+
 class PianoTabBar : public TabBar<TabItem, TabItemView> {
 	public:
 		Tab1 tab1 = Tab1();
 		Tab2 tab2 = Tab2();
+		Tab3 tab3 = Tab3();
 
 		PianoTabBar() {
-			this->addTabAndView(TabItem("Tab 1"), &tab1);
-			this->addTabAndView(TabItem("Tab 2"), &tab2);
+			this->addTabAndView(TabItem("1"), &tab1);
+			this->addTabAndView(TabItem("2"), &tab2);
+			this->addTabAndView(TabItem("Penis"), &tab3);
 
 			this->setSelectedIndex(1);
 		}

@@ -13,6 +13,7 @@ namespace ui {
 			}
 
 			void render(Display& display) override {
+//				display.drawRectangle(getBounds(), Color::gold);
 				display.drawText(getBounds().getPosition(), getColor(), getText(), getFontSize());
 			}
 
