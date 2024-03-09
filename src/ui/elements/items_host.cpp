@@ -10,7 +10,7 @@ namespace ui {
 			: nullptr;
 	}
 
-	int ItemsHost::getIndexOfItem(ItemsHostItem* item) {
+	size_t ItemsHost::getIndexOfItem(ItemsHostItem* item) {
 		return
 			_itemsLayout
 			? _itemsLayout->getIndexOfChild(item)
@@ -18,17 +18,18 @@ namespace ui {
 	}
 
 	void ItemsHost::addItem(ItemsHostItem* item) {
-		if (_itemsLayout) {
-			item->setItemsHost(this);
-			_itemsLayout->addChild(item);
-		}
+		if (!_itemsLayout)
+			return;
+
+		item->setItemsHost(this);
+		_itemsLayout->addChild(item);
 	}
 
 	size_t ItemsHost::getSelectedIndex() const {
 		return _selectedIndex;
 	}
 
-	void ItemsHost::setSelectedIndex(int32_t value) {
+	void ItemsHost::setSelectedIndex(size_t value) {
 		if (value == _selectedIndex || !_itemsLayout)
 			return;
 

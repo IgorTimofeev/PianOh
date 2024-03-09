@@ -5,8 +5,8 @@
 #include "ui/color.h"
 #include "ui/display.h"
 #include "cmath"
-#include "ui/traits/background_aware.h"
-#include "ui/traits/foreground_aware.h"
+#include "background_aware.h"
+#include "foreground_aware.h"
 
 namespace ui {
 	class SevenSegment : public BackgroundAware, public ForegroundAware {

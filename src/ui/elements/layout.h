@@ -42,7 +42,7 @@ namespace ui {
 				return _children.size();
 			}
 
-			int getIndexOfChild(Element* element) {
+			size_t getIndexOfChild(Element* element) {
 				auto iterator = find(_children.begin(), _children.end(), element);
 
 				if (iterator == _children.end()) {
@@ -91,7 +91,7 @@ namespace ui {
 				invalidateLayout();
 			}
 
-			virtual Element* operator[](int index) {
+			virtual Element* operator[](size_t index) {
 				return getChildAt(index);
 			}
 

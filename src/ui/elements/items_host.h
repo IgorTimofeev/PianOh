@@ -12,13 +12,13 @@ namespace ui {
 
 			ItemsHostItem* getItemAt(size_t index);
 
-			int getIndexOfItem(ItemsHostItem* item);
+			size_t getIndexOfItem(ItemsHostItem* item);
 
 			void addItem(ItemsHostItem* item);
 
 			size_t getSelectedIndex() const;
 
-			void setSelectedIndex(int32_t value);
+			void setSelectedIndex(size_t value);
 
 			void addOnSelectionChanged(const std::function<void()>& value) {
 				_selectionChanged.add(value);

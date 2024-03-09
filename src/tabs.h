@@ -96,13 +96,13 @@ class TabView3 : public Layout {
 
 class PianoTabBar : public TabBar {
 	public:
-		TabItemView tabItemView1 = TabItemView("1");
+		TabItemView tabItemView1 = TabItemView("7 segments");
 		TabView1 tabView1 = TabView1();
 
-		TabItemView tabItemView2 = TabItemView("1");
+		TabItemView tabItemView2 = TabItemView("Slider");
 		TabView2 tabView2 = TabView2();
 
-		TabItemView tabItemView3 = TabItemView("1");
+		TabItemView tabItemView3 = TabItemView("Test");
 		TabView3 tabView3 = TabView3();
 
 		PianoTabBar() {
