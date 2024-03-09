@@ -4,45 +4,23 @@
 #include "ui/event.h"
 
 namespace ui {
+	class Display;
+
 	class Workspace : public Layout {
 		public:
-			Workspace() {
-				setFirstParent(this);
-			}
+			Workspace();
 
-			void measure(Display& display)  {
-				if (isMeasured)
-					return;
+			void measure(Display& display);
 
-				Layout::measure(display, getSize());
-				isMeasured = true;
-			}
+			void arrange();
 
-			void arrange() {
-				if (isArranged)
-					return;
+			void render(Display& display) override;
 
-				Layout::arrange(Bounds(getSize()));
-				isArranged = true;
-			}
-
-			void render(Display& display) override {
-				if (isRendered)
-					return;
-
-				Layout::render(display);
-				isRendered = true;
-			}
-
-			void invalidateLayout() override {
-				isMeasured = false;
-				isArranged = false;
-				isRendered = false;
-			}
+			void invalidateLayout() override;
 
 		private:
-			bool isRendered = false;
-			bool isMeasured = false;
-			bool isArranged = false;
+			bool _isRendered = false;
+			bool _isMeasured = false;
+			bool _isArranged = false;
 	};
 }

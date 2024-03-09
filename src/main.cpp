@@ -24,6 +24,7 @@
 #include "ui/elements/seven_segment.h"
 #include "ui/elements/tab_bar.h"
 #include "tabs.h"
+#include "ui/tft_display.h"
 
 using namespace ui;
 

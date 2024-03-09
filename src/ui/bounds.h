@@ -73,31 +73,11 @@ namespace ui {
 			}
 
 			bool intersectsWith(TouchEvent& event) const {
-//				Serial.print("INTER ");
-//				Serial.print(event.getX());
-//				Serial.print(" x ");
-//				Serial.print(event.getY());
-//				Serial.print(" on ");
-//				Serial.print(_x);
-//				Serial.print(" x ");
-//				Serial.print(_y);
-//				Serial.print(" x ");
-//				Serial.print(_width);
-//				Serial.print(" x ");
-//				Serial.println(_height);
-
 				return
 					event.getX() >= _x
 					&& event.getY() >= _y
 					&& event.getX() <= _x + _width
 					&& event.getY() <= _y + _height;
-			}
-
-			void debugPrint() const {
-				Serial.print("position: ");
-				getPosition().debugPrint();
-				Serial.print(", getChildrenCount: ");
-				getSize().debugPrint();
 			}
 
 		private:

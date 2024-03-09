@@ -2,7 +2,7 @@
 
 #include "element.h"
 #include "ui/display.h"
-#include "ui/geometry/bounds.h"
+#include "ui/bounds.h"
 
 namespace ui {
 	class Image : public Element {

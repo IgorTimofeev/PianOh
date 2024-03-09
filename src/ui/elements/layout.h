@@ -1,132 +1,44 @@
 #pragma once
 
 #include "element.h"
+#include "ui/bounds.h"
 #include "vector"
-#include "ui/geometry/bounds.h"
 
 namespace ui {
 	class Layout : public Element {
 		public:
-			void render(Display& display) override {
-				for (auto child : *this) {
-					child->setParent(this);
-					child->setFirstParent(getFirstParent());
-					child->render(display);
-				}
-			}
+			void render(Display& display) override;
 
-			bool onEvent(TouchEvent& event) override {
-				for (int32_t i = (int32_t) getChildrenCount() - 1; i >= 0; i--) {
-					auto child = getChildAt(i);
+			bool onEvent(TouchEvent& event) override;
 
-					if (!child->getBounds().intersectsWith(event))
-						continue;
+			std::vector<Element*>::iterator begin();
 
-					if (child->handleEvent(event)) {
-						return true;
-					}
-				}
+			std::vector<Element*>::iterator end();
 
-				return false;
-			}
+			size_t getChildrenCount();
 
-			std::vector<Element*>::iterator begin() {
-				return _children.begin();
-			}
+			size_t getIndexOfChild(Element* element);
 
-			std::vector<Element*>::iterator end() {
-				return _children.end();
-			}
+			void removeChildAt(int index);
 
-			size_t getChildrenCount() {
-				return _children.size();
-			}
+			void removeChild(Element* child);
 
-			size_t getIndexOfChild(Element* element) {
-				auto iterator = find(_children.begin(), _children.end(), element);
+			void removeChildren();
 
-				if (iterator == _children.end()) {
-					return -1;
-				}
-				else {
-					return iterator - _children.begin();
-				}
-			}
+			Element* getChildAt(size_t index);
 
-			void removeChildAt(int index) {
-				auto element = _children[index];
+			void addChild(Element* child);
 
-				_children.erase(_children.begin() + index);
+			virtual Element* operator[](size_t index);
 
-				invalidateLayout();
-			}
+			virtual void operator+=(Element* child);
 
-			void removeChild(Element* child) {
-				auto iterator = std::find(_children.begin(), _children.end(), child);
-
-				if (iterator == _children.end())
-					return;
-
-				_children.erase(iterator);
-
-				invalidateLayout();
-			}
-
-			void removeChildren() {
-				_children.clear();
-
-				invalidateLayout();
-			}
-
-			Element* getChildAt(size_t index) {
-				return _children[index];
-			}
-
-			void addChild(Element* child) {
-				child->setParent(this);
-				child->setFirstParent(getFirstParent());
-
-				_children.push_back(child);
-
-				invalidateLayout();
-			}
-
-			virtual Element* operator[](size_t index) {
-				return getChildAt(index);
-			}
-
-			virtual void operator+=(Element* child) {
-				addChild(child);
-			}
-
-			virtual void operator-=(Element* child) {
-				removeChild(child);
-			}
+			virtual void operator-=(Element* child);
 
 		protected:
-			Size measureOverride(Display& display, const Size& availableSize) override {
-				auto result = Size();
+			Size measureOverride(Display& display, const Size& availableSize) override;
 
-				Size childSize;
-
-				for (auto child : *this) {
-					childSize = child->measure(display, availableSize);
-
-					if (childSize.getWidth() > result.getWidth())
-						result.setWidth(childSize.getWidth());
-
-					if (childSize.getHeight() > result.getHeight())
-						result.setHeight(childSize.getHeight());
-				}
-
-				return result;
-			}
-
-			void arrangeOverride(const Bounds& bounds) override {
-				for (auto child : *this) {
-					child->arrange(bounds);
-				}
-			}
+			void arrangeOverride(const Bounds& bounds) override;
 
 		private:
 			std::vector<Element*> _children {};
