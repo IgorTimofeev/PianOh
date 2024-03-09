@@ -199,6 +199,13 @@ namespace ui {
 
 			}
 
+			void setAlignment(Alignment vertical, Alignment horizontal) {
+				_horizontalAlignment = vertical;
+				_verticalAlignment = horizontal;
+
+				invalidateLayout();
+			}
+
 			const Margin& getMargin() {
 				return _margin;
 			}

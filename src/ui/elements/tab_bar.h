@@ -3,8 +3,8 @@
 #include "items_host.h"
 
 namespace ui {
-	template<typename T>
-	class TabBar : public ItemsHost<T> {
+	template<typename TItem, typename TTemplate>
+	class TabBar : public ItemsHost<TItem, TTemplate> {
 		public:
 			TabBar() {
 				// Left
@@ -22,7 +22,7 @@ namespace ui {
 				_viewLayout->setMargin(Margin(100, 0, 0, 0));
 				this->addChild(_viewLayout);
 
-				this->setItemsLayout(_itemsLayout);
+				this->setItemViewsLayout(_itemsLayout);
 			}
 
 			~TabBar() override {
@@ -30,12 +30,14 @@ namespace ui {
 				delete _viewLayout;
 			}
 
-			void addTabAndView(T tab, Element* view) {
-				_tabsAndViews.push_back(std::pair<T, Element*>(tab, view));
+			void addTabAndView(const TItem& tab, Element* view) {
+				_tabsAndViews.push_back(std::pair<TItem, Element*>(tab, view));
 				this->addItem(tab);
 			}
 
 		protected:
+
+
 			void onSelectionChanged() override {
 				_viewLayout->removeChildren();
 
@@ -49,6 +51,6 @@ namespace ui {
 			StackLayout* _itemsLayout = new StackLayout();
 			Layout* _viewLayout = new Layout();
 
-			std::vector<std::pair<T, Element*>> _tabsAndViews {};
+			std::vector<std::pair<TItem, Element*>> _tabsAndViews {};
 	};
 }

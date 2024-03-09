@@ -4,22 +4,31 @@
 #include "vector"
 
 namespace ui {
-	template<typename T>
+	template<typename TItem, typename TItemView>
 	class ItemsHost : public Layout {
 		public:
 			size_t getItemsCount() {
 				return _items.size();
 			}
 
-			T getItemAt(size_t index) {
+			TItem getItemAt(size_t index) {
 				return _items[index];
 			}
 
-			void addItem(T item) {
+			void addItem(const TItem& item) {
 				_items.push_back(item);
 
-				if (_itemsLayout)
-					_itemsLayout->addChild(itemToElement(item));
+				if (_itemViewsLayout) {
+					auto view = createItemView();
+
+					view->addEventHandler([this, view](TouchEvent& event) {
+						auto index = _itemViewsLayout->getIndexOfChild(view);
+						setSelectedIndex(index);
+					});
+
+					itemToView(item, view);
+					_itemViewsLayout->addChild(view);
+				}
 			}
 
 			size_t getSelectedIndex() const {
@@ -32,8 +41,8 @@ namespace ui {
 
 				_selectedIndex = value;
 
-				for (size_t i = 0; i < _itemsLayout->getChildrenCount(); i++) {
-					setItemSelected(_itemsLayout->getChildAt(i), i == value);
+				for (size_t i = 0; i < _itemViewsLayout->getChildrenCount(); i++) {
+					setItemViewSelected(reinterpret_cast<TItemView*>(_itemViewsLayout->getChildAt(i)), i == value);
 				}
 
 				onSelectionChanged();
@@ -46,34 +55,28 @@ namespace ui {
 			}
 
 		protected:
-			virtual Element* itemToElement(T item) {
-				auto text = new Text();
-				text->setColor(Color::white);
-				text->setText("Penis");
+			virtual TItemView* createItemView() = 0;
 
-				return text;
-			}
+			virtual void itemToView(const TItem& item, TItemView* view) = 0;
 
-			virtual void setItemSelected(Element* element, const bool& value) {
-				reinterpret_cast<Text*>(element)->setColor(value ? Color::gold : Color::white);
-			}
+			virtual void setItemViewSelected(TItemView* element, const bool& value) = 0;
 
 			virtual void onSelectionChanged() {
 
 			}
 
 		public:
-			Layout* getItemsLayout() const {
-				return _itemsLayout;
+			Layout* getItemViewsLayout() const {
+				return _itemViewsLayout;
 			}
 
-			void setItemsLayout(Layout *itemsLayout) {
-				_itemsLayout = itemsLayout;
+			void setItemViewsLayout(Layout *itemsLayout) {
+				_itemViewsLayout = itemsLayout;
 			}
 
 		private:
-			Layout* _itemsLayout = nullptr;
-			std::vector<T> _items {};
+			Layout* _itemViewsLayout = nullptr;
+			std::vector<TItem> _items {};
 			size_t _selectedIndex = -1;
 			Action<> _selectionChanged;
 	};

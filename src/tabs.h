@@ -6,14 +6,27 @@
 
 using namespace ui;
 
-class PianoTab {
+class TabItem {
 	public:
-		explicit PianoTab(const String& name) : _name(name) {
+		explicit TabItem(const String& name) : name(name) {
 
 		}
 
-	private:
-		String _name;
+		String name;
+};
+
+class TabItemView : public Layout {
+	public:
+		TabItemView() {
+			addChild(&rectangle);
+
+			text.setAlignment(Alignment::center, Alignment::center);
+			text.setMargin(Margin(10));
+			addChild(&text);
+		}
+
+		Rectangle rectangle = Rectangle(Color::black);
+		Text text = Text();
 };
 
 class Tab1 : public StackLayout {
@@ -67,15 +80,29 @@ class Tab2 : public StackLayout {
 		}
 };
 
-class PianoTabBar : public TabBar<PianoTab> {
+class PianoTabBar : public TabBar<TabItem, TabItemView> {
 	public:
 		Tab1 tab1 = Tab1();
 		Tab2 tab2 = Tab2();
 
 		PianoTabBar() {
-			addTabAndView(PianoTab("Tab 1"), &tab1);
-			addTabAndView(PianoTab("Tab 2"), &tab2);
+			this->addTabAndView(TabItem("Tab 1"), &tab1);
+			this->addTabAndView(TabItem("Tab 2"), &tab2);
 
 			this->setSelectedIndex(1);
+		}
+
+	protected:
+		TabItemView* createItemView() override {
+			return new TabItemView();
+		}
+
+		void itemToView(const TabItem& item, TabItemView* view) override {
+			view->text.setText(item.name);
+		}
+
+		void setItemViewSelected(TabItemView* view, const bool &value) override {
+			view->rectangle.setFillColor(value ? Color::white : Color::black);
+			view->text.setColor(value ? Color::black : Color::white);
 		}
 };
