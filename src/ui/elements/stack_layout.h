@@ -33,7 +33,7 @@ namespace ui {
 							childSize = child->measure(
 								display,
 								Size(
-									Size::infinity,
+									Size::calculated,
 									availableSize.getHeight()
 								)
 							);
@@ -55,7 +55,7 @@ namespace ui {
 								display,
 								Size(
 									availableSize.getWidth(),
-									Size::infinity
+									Size::calculated
 								)
 							);
 

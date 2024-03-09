@@ -11,24 +11,14 @@ namespace ui {
 
 	class Display {
 		public:
-			Display() {
-				setFramerate(30);
-			}
-
 			virtual void clear() = 0;
 
 			virtual void render() {
-//				if (micros() <= _renderDeadline)
-//					return;
-
 				_workspace.measure(*this);
 				_workspace.arrange();
 				_workspace.render(*this);
-
-//				_renderDeadline = micros() + _renderInterval;
 			}
 
-			virtual void update() = 0;
 			virtual void begin() = 0;
 			virtual void drawText(const Point& position, const Color& color, const String& text, const uint8_t& size) = 0;
 			virtual void drawCircle(const Point& position, int32_t radius, const Color& color) = 0;
@@ -39,21 +29,11 @@ namespace ui {
 
 			// -------------------------------- Getters & setters --------------------------------
 
-			void setFramerate(uint8_t value) {
-				_renderInterval = 1000000 / value;
-			}
-
-			uint8_t getFramerate(uint8_t value) const {
-				return 1000000 / _renderInterval;
-			}
-
 			Workspace& getWorkspace() {
 				return _workspace;
 			}
 
 		private:
-			uint32_t _renderDeadline = 0;
-			uint32_t _renderInterval = 0;
 			Workspace _workspace;
 	};
 
@@ -85,7 +65,9 @@ namespace ui {
 				touch.begin();
 			}
 
-			void update() override {
+			void render() override {
+				Display::render();
+
 				sprite.pushSprite(0, 0);
 			}
 

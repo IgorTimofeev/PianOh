@@ -7,19 +7,11 @@ namespace ui {
 	class TabBar : public ItemsHost<TItem, TTemplate> {
 		public:
 			TabBar() {
-				// Left
-				auto leftLayout = new Layout();
+				_itemsLayout->setSpacing(0);
+				_itemsLayout->setSize(Size(100, Size::calculated));
+				this->addChild(_itemsLayout);
 
-				// Background
-				leftLayout->setSize(Size(150, Size::calculated));
-				leftLayout->addChild(new Rectangle(Color::gray));
-
-				_itemsLayout->setMargin(Margin(10));
-				leftLayout->addChild(_itemsLayout);
-
-				this->addChild(leftLayout);
-
-				_viewLayout->setMargin(Margin(150, 0, 0, 0));
+				_viewLayout->setMargin(Margin(100, 0, 0, 0));
 				this->addChild(_viewLayout);
 
 				this->setItemViewsLayout(_itemsLayout);
@@ -31,26 +23,22 @@ namespace ui {
 			}
 
 			void addTabAndView(const TItem& tab, Element* view) {
-				_tabsAndViews.push_back(std::pair<TItem, Element*>(tab, view));
+				_views.push_back(view);
 				this->addItem(tab);
 			}
 
 		protected:
-
-
 			void onSelectionChanged() override {
 				_viewLayout->removeChildren();
 
-				if (this->getSelectedIndex() < 0)
-					return;
-
-				_viewLayout->addChild(_tabsAndViews[this->getSelectedIndex()].second);
+				if (this->getSelectedIndex() >= 0)
+					_viewLayout->addChild(_views[this->getSelectedIndex()]);
 			}
 
 		private:
 			StackLayout* _itemsLayout = new StackLayout();
 			Layout* _viewLayout = new Layout();
 
-			std::vector<std::pair<TItem, Element*>> _tabsAndViews {};
+			std::vector<Element*> _views {};
 	};
 }

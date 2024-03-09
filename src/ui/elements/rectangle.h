@@ -14,12 +14,20 @@ namespace ui {
 			}
 
 			void render(Display& display) override {
-				display.drawRectangle(getBounds(), getFillColor());
+				display.drawRectangle(getBounds(), getCornerRadius(), getFillColor());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------
 
-		private:
+			uint8_t getCornerRadius() const {
+				return _cornerRadius;
+			}
 
+			void setCornerRadius(uint8_t value) {
+				_cornerRadius = value;
+			}
+
+		private:
+			uint8_t _cornerRadius = 0;
 	};
 }

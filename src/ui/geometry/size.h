@@ -7,7 +7,6 @@ namespace ui {
 	struct Size {
 		public:
 			static const uint16_t calculated = std::numeric_limits<uint16_t>::max();
-			static const uint16_t infinity = std::numeric_limits<uint16_t>::max() - 1;
 
 			Size() = default;
 			Size(const Size& size) = default;

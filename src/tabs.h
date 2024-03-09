@@ -18,6 +18,7 @@ class TabItem {
 class TabItemView : public Layout {
 	public:
 		TabItemView() {
+			rectangle.setCornerRadius(5);
 			addChild(&rectangle);
 
 			text.setAlignment(Alignment::center);
@@ -85,7 +86,7 @@ class Tab3 : public Layout {
 
 			addChild(&rectangle);
 
-			text.setText("3");
+			text.setText("Timer");
 			text.setAlignment(Alignment::center, Alignment::center);
 			text.setMargin(Margin(10));
 			addChild(&text);

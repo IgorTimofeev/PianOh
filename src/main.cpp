@@ -81,6 +81,18 @@ void setGradientEffect() {
 
 TFTDisplay display = TFTDisplay();
 
+uint32_t displayRenderDeadline = 0;
+
+void displayRender() {
+	if (micros() <= displayRenderDeadline)
+		return;
+
+	display.readTouch();
+	display.render();
+
+	displayRenderDeadline = micros() + 1000000 / 30;
+}
+
 //void displayDrawWhiteKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
 //	adafruitDisplay.fillRect(
 //		x,
@@ -200,6 +212,8 @@ void setup() {
 
 	// Display
 	display.begin();
+	display.getWorkspace().addChild(new Rectangle(Color::black));
+	display.getWorkspace().addChild(new PianoTabBar());
 
 	// Piano
 	piano.begin(115200);
@@ -265,20 +279,13 @@ void setup() {
 
 		lastMidiEvent = event;
 	});
-
-	// Screen
-	display.getWorkspace().addChild(new Rectangle(Color::black));
-	display.getWorkspace().addChild(new PianoTabBar());
 }
 
 void loop() {
+	displayRender();
+
 	piano.readMidiEvents();
-
 	renderPianoStrip();
-
-	display.readTouch();
-	display.render();
-	display.update();
 
 	updateOnboardLED();
 }
