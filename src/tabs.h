@@ -148,7 +148,6 @@ class PianoTabBar : public TabBar {
 			this->addTabAndView(&tabItemView2, &tabView2);
 			this->addTabAndView(&tabItemView3, &tabView3);
 			this->addTabAndView(&tabItemView4, &tabView4);
-
-			this->setSelectedIndex(1);
+			this->setSelectedIndex(0);
 		}
 };

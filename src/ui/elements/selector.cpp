@@ -1,6 +1,5 @@
 #include "selector.h"
 #include "selector_item.h"
-#include "functional"
 
 namespace ui {
 	SelectorItem *Selector::getItemAt(size_t index) {
@@ -25,11 +24,11 @@ namespace ui {
 		_itemsLayout->addChild(item);
 	}
 
-	size_t Selector::getSelectedIndex() const {
+	int32_t Selector::getSelectedIndex() const {
 		return _selectedIndex;
 	}
 
-	void Selector::setSelectedIndex(size_t value) {
+	void Selector::setSelectedIndex(int32_t value) {
 		if (value == _selectedIndex || !_itemsLayout)
 			return;
 

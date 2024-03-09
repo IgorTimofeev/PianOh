@@ -16,9 +16,9 @@ namespace ui {
 
 			void addItem(SelectorItem* item);
 
-			size_t getSelectedIndex() const;
+			int32_t getSelectedIndex() const;
 
-			void setSelectedIndex(size_t value);
+			void setSelectedIndex(int32_t value);
 
 			void addOnSelectionChanged(const std::function<void()>& value) {
 				_selectionChanged.add(value);
@@ -31,7 +31,7 @@ namespace ui {
 
 		private:
 			Layout* _itemsLayout = nullptr;
-			size_t _selectedIndex = -1;
+			int32_t _selectedIndex = -1;
 			Action<> _selectionChanged = Action<>();
 	};
 }
