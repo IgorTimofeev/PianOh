@@ -70,9 +70,6 @@ class TabView1 : public StackLayout {
 
 class TabView2 : public StackLayout {
 	public:
-		Slider slider = Slider();
-		Text text = Text();
-
 		TabView2() {
 			setAlignment(Alignment::center);
 
@@ -91,6 +88,9 @@ class TabView2 : public StackLayout {
 				text.setText(String("Value: ") + slider.getValue());
 			});
 		}
+
+		Slider slider = Slider();
+		Text text = Text();
 };
 
 class TabView3 : public Layout {

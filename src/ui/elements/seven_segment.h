@@ -11,6 +11,11 @@
 namespace ui {
 	class SevenSegment : public BackgroundAware, public ForegroundAware {
 		public:
+			SevenSegment() {
+				setBackground(Color::white);
+				setForeground(Color::black);
+			}
+
 			Size onMeasure(Display &display, const Size &availableSize) override {
 				return {
 					(uint16_t) (((getDigitWidth() + getSpacing()) * getDigitCount()) - getSpacing()),
@@ -59,7 +64,6 @@ namespace ui {
 
 				invalidateLayout();
 			}
-
 
 			uint32_t getValue() const {
 				return _value;

@@ -48,6 +48,6 @@ namespace ui {
 		private:
 			String _text;
 			uint8_t _fontSize = 2;
-			Color _color = Color::white;
+			Color _color = Color::black;
 	};
 }

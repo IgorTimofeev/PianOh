@@ -5,10 +5,17 @@
 #include "ui/display.h"
 #include "cmath"
 #include "ui/action.h"
+#include "background_aware.h"
+#include "foreground_aware.h"
 
 namespace ui {
-	class Slider : public Element {
+	class Slider : public BackgroundAware, public ForegroundAware {
 		public:
+			Slider() {
+				setBackground(Color::black);
+				setForeground(Color::gray);
+			}
+
 			bool onEvent(ui::TouchEvent &event) override {
 				auto bounds = getBounds();
 				auto part = (float) (event.getX() - bounds.getX()) / (float) bounds.getWidth();
@@ -52,22 +59,6 @@ namespace ui {
 				_cornerRadius = value;
 			}
 
-			const Color &getBackground() const {
-				return _background;
-			}
-
-			void setBackground(const Color &value) {
-				_background = value;
-			}
-
-			const Color &getForeground() const {
-				return _foreground;
-			}
-
-			void setForeground(const Color &value) {
-				_foreground = value;
-			}
-
 			float getValue() const {
 				return _value;
 			}
@@ -86,8 +77,6 @@ namespace ui {
 			}
 
 		private:
-			Color _background = Color::gray;
-			Color _foreground = Color::white;
 			float _value = 1;
 			uint16_t _cornerRadius = 0;
 

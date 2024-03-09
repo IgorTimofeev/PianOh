@@ -15,6 +15,6 @@ namespace ui {
 			}
 
 		private:
-			Color foreground = Color::white;
+			Color foreground = Color::black;
 	};
 }

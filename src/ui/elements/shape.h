@@ -16,6 +16,6 @@ namespace ui {
 			}
 
 		private:
-			Color _fillColor = Color::white;
+			Color _fillColor = Color::black;
 	};
 }
