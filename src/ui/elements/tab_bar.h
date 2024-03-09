@@ -1,10 +1,10 @@
 #pragma once
 
-#include "items_host.h"
-#include "items_host_item.h"
+#include "selector.h"
+#include "selector_item.h"
 
 namespace ui {
-	class TabBar : public ItemsHost {
+	class TabBar : public Selector {
 		public:
 			TabBar() {
 				_itemsLayout->setSpacing(0);
@@ -21,7 +21,7 @@ namespace ui {
 				delete _viewLayout;
 			}
 
-			void addTabAndView(ItemsHostItem* tab, Element* view) {
+			void addTabAndView(SelectorItem* tab, Element* view) {
 				_views.push_back(view);
 				this->addItem(tab);
 			}

@@ -4,20 +4,20 @@
 #include "vector"
 
 namespace ui {
-	class ItemsHost;
+	class Selector;
 
-	class ItemsHostItem : public Layout {
+	class SelectorItem : public Layout {
 		public:
 			virtual void setSelected(const bool& value);
 
-			ItemsHost *getItemsHost() const;
+			Selector *getSelector() const;
 
-			void setItemsHost(ItemsHost *itemsHost);
+			void setSelector(Selector *value);
 
 		protected:
 			bool onEvent(TouchEvent &event) override;
 
 		private:
-			ItemsHost* _itemsHost = nullptr;
+			Selector* _selector = nullptr;
 	};
 }

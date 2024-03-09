@@ -6,7 +6,7 @@
 
 using namespace ui;
 
-class TabItemView : public ItemsHostItem {
+class TabItemView : public SelectorItem {
 	public:
 		explicit TabItemView(const String& name) {
 			rectangle.setCornerRadius(5);

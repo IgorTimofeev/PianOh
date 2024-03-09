@@ -4,17 +4,17 @@
 #include "vector"
 
 namespace ui {
-	class ItemsHostItem;
+	class SelectorItem;
 
-	class ItemsHost : public Layout {
+	class Selector : public Layout {
 		public:
 			size_t getItemsCount();
 
-			ItemsHostItem* getItemAt(size_t index);
+			SelectorItem* getItemAt(size_t index);
 
-			size_t getIndexOfItem(ItemsHostItem* item);
+			size_t getIndexOfItem(SelectorItem* item);
 
-			void addItem(ItemsHostItem* item);
+			void addItem(SelectorItem* item);
 
 			size_t getSelectedIndex() const;
 
