@@ -8,11 +8,11 @@
 #include "ui/elements/linear_gradient_view.h"
 
 using namespace ui;
-using namespace resources;
+using namespace resources::images;
 
 class TabItemView : public SelectorItem {
 	public:
-		TabItemView(ImageSource* imageSourceOn, ImageSource*imageSourceOff) :
+		TabItemView(ImageSource* imageSourceOn, ImageSource* imageSourceOff) :
 			_imageSourceOn(imageSourceOn),
 			_imageSourceOff(imageSourceOff)
 		{
@@ -138,19 +138,19 @@ class TabView5 : public Layout {
 
 class PianoTabBar : public TabBar {
 	public:
-		TabItemView tabItemView1 = TabItemView(&Images::gradientOn, &Images::gradientOff);
+		TabItemView tabItemView1 = TabItemView(&gradientOn, &gradientOff);
 		TabView1 tabView1 = TabView1();
 
-		TabItemView tabItemView2 = TabItemView(&Images::waveOn, &Images::waveOff);
+		TabItemView tabItemView2 = TabItemView(&waveOn, &waveOff);
 		TabView2 tabView2 = TabView2();
 
-		TabItemView tabItemView3 = TabItemView(&Images::flameOn, &Images::flameOff);
+		TabItemView tabItemView3 = TabItemView(&flameOn, &flameOff);
 		TabView3 tabView3 = TabView3();
 
-		TabItemView tabItemView4 = TabItemView(&Images::strobeOn, &Images::strobeOff);
+		TabItemView tabItemView4 = TabItemView(&strobeOn, &strobeOff);
 		TabView4 tabView4 = TabView4();
 
-		TabItemView tabItemView5 = TabItemView(&Images::pianoOn, &Images::pianoOff);
+		TabItemView tabItemView5 = TabItemView(&pianoOn, &pianoOff);
 		TabView5 tabView5 = TabView5();
 
 		PianoTabBar() {

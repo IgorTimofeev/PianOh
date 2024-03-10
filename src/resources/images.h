@@ -5,18 +5,15 @@
 
 using namespace ui;
 
-namespace resources {
-	class Images {
-		public:
-			static ImageSource flameOff;
-			static ImageSource flameOn;
-			static ImageSource gradientOff;
-			static ImageSource gradientOn;
-			static ImageSource pianoOff;
-			static ImageSource pianoOn;
-			static ImageSource strobeOff;
-			static ImageSource strobeOn;
-			static ImageSource waveOff;
-			static ImageSource waveOn;
-	};
-}
+namespace resources { namespace images {
+	extern ImageSource flameOff;
+	extern ImageSource flameOn;
+	extern ImageSource gradientOff;
+	extern ImageSource gradientOn;
+	extern ImageSource pianoOff;
+	extern ImageSource pianoOn;
+	extern ImageSource strobeOff;
+	extern ImageSource strobeOn;
+	extern ImageSource waveOff;
+	extern ImageSource waveOn;
+} }
