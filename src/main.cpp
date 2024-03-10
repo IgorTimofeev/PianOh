@@ -71,11 +71,12 @@ void changeEffect(Effect* effect) {
 }
 
 void setGradientEffect() {
-	changeEffect(new GradientEffect(new LinearGradient(std::vector<GradientStep*> {
-		new GradientStep(0, Color(0xFF, 0x00, 0x00)),
-		new GradientStep(0.5, Color(0x00, 0xFF, 0x00)),
-		new GradientStep(1, Color(0x00, 0x00, 0xFF))
-	})));
+	auto gradient = new LinearGradient();
+	gradient->getStops().emplace_back(0, Color(0xFF, 0x00, 0x00));
+	gradient->getStops().emplace_back(0.5, Color(0x00, 0xFF, 0x00));
+	gradient->getStops().emplace_back(1, Color(0x00, 0x00, 0xFF));
+
+	changeEffect(new GradientEffect(gradient));
 }
 
 // ---------------------------------- Display ----------------------------------

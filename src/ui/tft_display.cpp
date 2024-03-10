@@ -7,7 +7,9 @@ namespace ui {
 		getWorkspace().setSize(Size(TFT_HEIGHT, TFT_WIDTH));
 	}
 
-	Size TFTDisplay::measureText(const String &text) {
+	Size TFTDisplay::measureText(const String &text, const uint8_t& fontSize) {
+		_sprite.setTextSize(fontSize);
+
 		return {
 			(uint16_t) _sprite.textWidth(text),
 			(uint16_t) _sprite.fontHeight()
@@ -113,4 +115,21 @@ namespace ui {
 		}
 	}
 
+	void TFTDisplay::drawFastHLine(const Point &position, uint16_t size, const Color &color) {
+		_sprite.drawFastHLine(
+			position.getX(),
+			position.getY(),
+			size,
+			_sprite.color24to16(color.toUint32())
+		);
+	}
+
+	void TFTDisplay::drawFastVLine(const Point &position, uint16_t size, const Color &color) {
+		_sprite.drawFastVLine(
+			position.getX(),
+			position.getY(),
+			size,
+			_sprite.color24to16(color.toUint32())
+		);
+	}
 }

@@ -21,10 +21,12 @@ namespace ui {
 			virtual void drawCircle(const Point& position, int32_t radius, const Color& color) = 0;
 			virtual void drawRectangle(const Bounds& bounds, const Color& color) = 0;
 			virtual void drawRectangle(const Bounds& bounds, uint16_t radius, const Color& color) = 0;
+			virtual void drawFastHLine(const Point& position, uint16_t size, const Color& color) = 0;
+			virtual void drawFastVLine(const Point& position, uint16_t size, const Color& color) = 0;
 			virtual void drawImage(const Bounds& bounds, const uint16_t* data) = 0;
 			virtual void flush() = 0;
 
-			virtual Size measureText(const String& text) = 0;
+			virtual Size measureText(const String& text, const uint8_t& fontSize) = 0;
 
 			// -------------------------------- Getters & setters --------------------------------
 

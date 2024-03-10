@@ -4,9 +4,9 @@
 #include "vector"
 #include <cmath>
 
-class GradientStep {
+class GradientStop {
 	public:
-		GradientStep(float position, const Color& color) :
+		GradientStop(float position, const Color& color) :
 			_position(position),
 			_color(color)
 		{
@@ -36,18 +36,8 @@ class GradientStep {
 
 class LinearGradient {
 	public:
-		explicit LinearGradient(const std::vector<GradientStep*>& steps) {
-			setSteps(steps);
-		}
-
-		~LinearGradient() {
-			for (auto& step : _steps) {
-				delete step;
-			}
-		}
-
 		Color getColor(float position) {
-			if (_steps.size() < 2)
+			if (_stops.size() < 2)
 				return Color::white;
 
 			size_t fromIndex = 0;
@@ -55,8 +45,8 @@ class LinearGradient {
 			// |------------|---|
 			//               *
 
-			for (size_t i = 1; i < _steps.size(); i++) {
-				if (_steps[i]->getPosition() < position) {
+			for (size_t i = 1; i < _stops.size(); i++) {
+				if (_stops[i].getPosition() < position) {
 					fromIndex = i;
 				}
 				else {
@@ -64,26 +54,31 @@ class LinearGradient {
 				}
 			}
 
-			auto toIndex = min(fromIndex + 1, _steps.size() - 1);
-			auto fromStep = _steps[fromIndex];
-			auto toStep = _steps[toIndex];
-			auto spaceBetweenSteps = toStep->getPosition() - fromStep->getPosition();
-			auto positionBetweenSteps = position - fromStep->getPosition();
+			auto toIndex = min(fromIndex + 1, _stops.size() - 1);
+			auto fromStep = _stops[fromIndex];
+			auto toStep = _stops[toIndex];
+			auto spaceBetweenSteps = toStep.getPosition() - fromStep.getPosition();
+			auto positionBetweenSteps = position - fromStep.getPosition();
 
-			auto result = Color(fromStep->getColor());
-			result.interpolateTo(toStep->getColor(), positionBetweenSteps / spaceBetweenSteps);
+			auto result = Color(fromStep.getColor());
+			result.interpolateTo(toStep.getColor(), positionBetweenSteps / spaceBetweenSteps);
 
 			return result;
 		}
 
-		std::vector<GradientStep*>& getSteps() {
-			return _steps;
+		std::vector<GradientStop>& getStops() {
+			return _stops;
 		}
 
-		void setSteps(const std::vector<GradientStep*>& steps) {
-			_steps = steps;
+		void addRainbowStops() {
+			_stops.emplace_back(0, Color(0xFF, 0x00, 0xFF));
+			_stops.emplace_back(0.2, Color(0x00, 0x00, 0xff));
+			_stops.emplace_back(0.4, Color(0x00, 0xff, 0xff));
+			_stops.emplace_back(0.6, Color(0x00, 0xFF, 0x00));
+			_stops.emplace_back(0.8, Color(0xFF, 0xFF, 0x00));
+			_stops.emplace_back(1, Color(0xFF, 0x00, 0x00));
 		}
 
 	private:
-		std::vector<GradientStep*> _steps;
+		std::vector<GradientStop> _stops {};
 };

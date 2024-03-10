@@ -9,7 +9,7 @@ namespace ui {
 	class Text : public Element {
 		public:
 			Size onMeasure(Display& display, const Size& availableSize) override {
-				return display.measureText(getText());
+				return display.measureText(getText(), getFontSize());
 			}
 
 			void render(Display& display) override {
