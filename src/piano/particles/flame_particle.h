@@ -2,8 +2,8 @@
 
 #include "wave_particle.h"
 #include "piano/piano.h"
-#include "ui/color.h"
-#include "random.h"
+#include "ui/core/color.h"
+#include "../../../lib/effolkronium/random.hpp"
 
 using Random = effolkronium::random_static;
 

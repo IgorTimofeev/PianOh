@@ -3,7 +3,7 @@
 
 
 #include <string>
-#include "ui/color.h"
+#include "ui/core/color.h"
 #include "piano/piano.h"
 #include "map"
 #include "piano/particles/flame_particle.h"
@@ -15,16 +15,16 @@
 #include "piano/effects/test_effect.h"
 #include "piano/effects/gradient_effect.h"
 #include "piano/effects/strobe_effect.h"
-#include "ui/elements/workspace.h"
-#include "ui/elements/stack_layout.h"
-#include "ui/elements/text.h"
-#include "ui/elements/rectangle.h"
-#include "ui/elements/circle.h"
-#include "ui/elements/slider.h"
-#include "ui/elements/seven_segment.h"
-#include "ui/elements/tab_bar.h"
-#include "tabs.h"
-#include "ui/tft_display.h"
+#include "ui/core/elements/workspace.h"
+#include "ui/core/elements/stack_layout.h"
+#include "ui/core/elements/text.h"
+#include "ui/core/elements/rectangle.h"
+#include "ui/core/elements/circle.h"
+#include "ui/core/elements/slider.h"
+#include "ui/core/elements/seven_segment.h"
+#include "ui/core/elements/tab_bar.h"
+#include "ui/tabs/tabs.h"
+#include "ui/core/tft_display.h"
 
 using namespace ui;
 

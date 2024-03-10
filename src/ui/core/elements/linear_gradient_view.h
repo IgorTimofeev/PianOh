@@ -1,9 +1,9 @@
 #pragma once
 
 #include "element.h"
-#include "../display.h"
-#include "../color.h"
-#include "../gradient.h"
+#include "ui/core/display.h"
+#include "ui/core/color.h"
+#include "ui/core/gradient.h"
 
 namespace ui {
 	class LinearGradientView : public Element {

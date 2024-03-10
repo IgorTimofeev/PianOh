@@ -1,10 +1,10 @@
 #pragma once
 
-#include "ui/elements/element.h"
-#include "ui/color.h"
-#include "ui/display.h"
+#include "element.h"
+#include "ui/core/color.h"
+#include "ui/core/display.h"
 #include "cmath"
-#include "ui/action.h"
+#include "ui/core/action.h"
 #include "background_aware.h"
 #include "foreground_aware.h"
 

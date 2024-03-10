@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ui/elements/shape.h"
-#include "ui/elements/stack_layout.h"
-#include "ui/color.h"
-#include "ui/display.h"
+#include "shape.h"
+#include "stack_layout.h"
+#include "ui/core/color.h"
+#include "ui/core/display.h"
 #include "cmath"
 #include "background_aware.h"
 #include "foreground_aware.h"

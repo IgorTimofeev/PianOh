@@ -1,9 +1,9 @@
 #pragma once
 
 #include "element.h"
-#include "ui/display.h"
-#include "ui/bounds.h"
-#include "ui/image_source.h"
+#include "ui/core/display.h"
+#include "ui/core/bounds.h"
+#include "ui/core/image_source.h"
 
 namespace ui {
 	class Image : public Element {

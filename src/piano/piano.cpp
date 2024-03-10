@@ -1,7 +1,7 @@
 #include "piano/piano.h"
 #include "piano/particles/particle.h"
 #include "piano/effects/flame_effect.h"
-#include "ui/color.h"
+#include "ui/core/color.h"
 
 Piano::Piano(uint8_t keyCount, uint16_t stripLEDCount, int16_t stripPin) {
 	_keyCount = keyCount;

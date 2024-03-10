@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Arduino.h"
-#include "ui/elements/layout.h"
-#include "ui/elements/tab_bar.h"
-#include "ui/elements/image.h"
+#include "ui/core/elements/layout.h"
+#include "ui/core/elements/tab_bar.h"
+#include "ui/core/elements/image.h"
 #include "resources/images.h"
-#include "ui/elements/linear_gradient_view.h"
+#include "ui/core/elements/linear_gradient_view.h"
 
 using namespace ui;
 using namespace resources::images;

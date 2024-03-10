@@ -3,10 +3,10 @@
 #include <cstdint>
 #include <limits>
 
-#include "ui/action.h"
-#include "ui/margin.h"
-#include "ui/bounds.h"
-#include "ui/size.h"
+#include "ui/core/action.h"
+#include "ui/core/margin.h"
+#include "ui/core/bounds.h"
+#include "ui/core/size.h"
 
 namespace ui {
 	enum Alignment: uint8_t {

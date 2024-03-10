@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ui/elements/shape.h"
-#include "ui/color.h"
-#include "ui/display.h"
+#include "shape.h"
+#include "ui/core/color.h"
+#include "ui/core/display.h"
 #include "cmath"
 
 namespace ui {

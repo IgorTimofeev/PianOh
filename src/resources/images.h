@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include "../ui/image_source.h"
+#include "ui/core/image_source.h"
 
 using namespace ui;
 

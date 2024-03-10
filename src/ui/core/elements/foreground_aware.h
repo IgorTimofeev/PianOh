@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ui/elements/element.h"
-#include "ui/color.h"
+#include "element.h"
+#include "ui/core/color.h"
 
 namespace ui {
 	class ForegroundAware : virtual public Element {

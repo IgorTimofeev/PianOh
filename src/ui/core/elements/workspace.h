@@ -1,7 +1,7 @@
 #pragma once
 
 #include "layout.h"
-#include "ui/event.h"
+#include "ui/core/event.h"
 
 namespace ui {
 	class Display;

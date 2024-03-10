@@ -1,12 +1,11 @@
 #pragma once
 
 #include "effect.h"
-#include "ui/color.h"
+#include "ui/core/color.h"
 #include "piano/piano.h"
 #include "particles_effect.h"
 #include "number.h"
 #include "piano/particles/flame_particle.h"
-#include "random.h"
 
 class RainbowEffect : public ParticlesEffect {
 	public:

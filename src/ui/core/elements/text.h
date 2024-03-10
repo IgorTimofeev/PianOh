@@ -1,9 +1,9 @@
 #pragma once
 
 #include "element.h"
-#include "ui/color.h"
-#include "ui/display.h"
-#include "ui/bounds.h"
+#include "ui/core/color.h"
+#include "ui/core/display.h"
+#include "ui/core/bounds.h"
 
 namespace ui {
 	class Text : public Element {

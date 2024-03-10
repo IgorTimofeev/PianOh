@@ -4,7 +4,7 @@
 #include <cstdint>
 #include "point.h"
 #include "size.h"
-#include "ui/event.h"
+#include "event.h"
 
 namespace ui {
 	class Bounds {

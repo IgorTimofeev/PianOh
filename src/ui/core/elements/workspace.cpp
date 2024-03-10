@@ -1,5 +1,5 @@
 #include "workspace.h"
-#include "ui/display.h"
+#include "ui/core/display.h"
 
 namespace ui {
 	void Workspace::invalidateLayout() {

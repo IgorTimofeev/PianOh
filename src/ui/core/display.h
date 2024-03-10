@@ -7,7 +7,7 @@
 #include "size.h"
 #include "bounds.h"
 #include "color.h"
-#include "elements/workspace.h"
+#include "ui/core/elements/workspace.h"
 
 namespace ui {
 	class Display {

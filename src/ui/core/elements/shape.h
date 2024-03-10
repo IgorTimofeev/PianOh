@@ -1,8 +1,8 @@
 #pragma once
 
 #include "element.h"
-#include "ui/color.h"
-#include "ui/display.h"
+#include "ui/core/color.h"
+#include "ui/core/display.h"
 
 namespace ui {
 	class Shape : public Element {

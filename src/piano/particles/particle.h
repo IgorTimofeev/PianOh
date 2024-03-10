@@ -1,7 +1,7 @@
 #pragma once
 
 #include "piano/piano.h"
-#include "ui/color.h"
+#include "ui/core/color.h"
 #include "number.h"
 
 class Particle {
