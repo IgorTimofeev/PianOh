@@ -10,7 +10,7 @@ namespace ui {
 				// Background
 				this->addChild(new Rectangle(Color::white));
 
-				auto pizda = 60;
+				auto pizda = 52;
 
 				// Left
 

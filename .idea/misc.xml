@@ -8,6 +8,9 @@
       <file path="$PROJECT_DIR$/src/ui/geometry" />
       <file path="$PROJECT_DIR$/src/ui/traits" />
     </sourceRoots>
+    <excludeRoots>
+      <file path="$PROJECT_DIR$/resources" />
+    </excludeRoots>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="PlatformIOSettings">
