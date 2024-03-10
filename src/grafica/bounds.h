@@ -72,6 +72,14 @@ namespace grafica {
 				return {getWidth(), getHeight()};
 			}
 
+			int32_t getX2() const {
+				return _x + _width;
+			}
+
+			int32_t getY2() const {
+				return _y + _height;
+			}
+
 			bool intersectsWith(TouchEvent& event) const {
 				return
 					event.getX() >= _x

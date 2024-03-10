@@ -31,6 +31,10 @@ namespace grafica {
 
 			void setBottom(int32_t value);
 
+			int32_t getHorizontal() const;
+
+			int32_t getVertical() const;
+
 		private:
 			int32_t left = 0;
 			int32_t top = 0;

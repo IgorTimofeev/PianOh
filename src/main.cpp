@@ -3,19 +3,18 @@
 
 
 #include <string>
-#include "grafica/color.h"
 #include "piano/piano.h"
 #include "map"
 #include "piano/particles/flame_particle.h"
 #include "HardwareSerial.h"
-#include "grafica/number.h"
 #include "piano/effects/flame_effect.h"
 #include "piano/effects/rainbow_effect.h"
 #include "piano/effects/water_effect.h"
 #include "piano/effects/test_effect.h"
 #include "piano/effects/gradient_effect.h"
 #include "piano/effects/strobe_effect.h"
-#include "grafica/elements/workspace.h"
+#include "grafica/color.h"
+#include "grafica/number.h"
 #include "grafica/elements/stack_layout.h"
 #include "grafica/elements/text.h"
 #include "grafica/elements/rectangle.h"
@@ -33,10 +32,6 @@ using namespace grafica;
 #define LED_ONBOARD_PIN1 12
 #define LED_ONBOARD_PIN2 13
 #define LED_ONBOARD_BLINK_PIN LED_ONBOARD_PIN1
-
-#define PIANO_KEY_WIDTH 3
-#define PIANO_KEY_WHITE_HEIGHT 20
-#define PIANO_KEY_BLACK_HEIGHT 12
 
 // ---------------------------------- Piano ----------------------------------
 
@@ -95,71 +90,6 @@ void displayRender() {
 	displayRenderDeadline = micros() + 1000000 / 30;
 }
 
-//void displayDrawWhiteKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
-//	adafruitDisplay.fillRect(
-//		x,
-//		y,
-//		PIANO_KEY_WIDTH,
-//		PIANO_KEY_WHITE_HEIGHT,
-//		getKeyVelocity(keyIndex) > 0 ? BLACK : WHITE
-//	);
-//
-//	x += PIANO_KEY_WIDTH + 1;
-//}
-//
-//void displayDrawBlackKey(int16_t &x, int16_t &y, uint8_t &keyIndex) {
-//	adafruitDisplay.fillRect(
-//		x,
-//		y,
-//		PIANO_KEY_WIDTH,
-//		PIANO_KEY_BLACK_HEIGHT,
-//		getKeyVelocity(keyIndex) > 0 ? WHITE : BLACK
-//	);
-//
-//	x += PIANO_KEY_WIDTH + 1;
-//}
-//
-//void displayDrawOctave(int16_t &x, int16_t &y, uint8_t &keyIndex) {
-//	// White
-//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 1;
-//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-//	displayDrawWhiteKey(x, y, keyIndex); keyIndex -= 10;
-//	x -= (PIANO_KEY_WIDTH + 1) * 6 + 2;
-//
-//	// Black
-//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
-//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 3;
-//	x += PIANO_KEY_WIDTH + 1;
-//
-//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
-//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
-//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
-//	x += 2;
-//}
-//
-//void displayDrawOctaves() {
-//	int16_t x = 0;
-//	int16_t y = display.getSize().getHeight() - (int16_t) PIANO_KEY_WHITE_HEIGHT;
-//	uint8_t keyIndex = 0;
-//
-//	// 0 octave
-//
-//	// White
-//	displayDrawWhiteKey(x, y, keyIndex); keyIndex += 2;
-//	displayDrawWhiteKey(x, y, keyIndex); keyIndex -= 1;
-//	x -= (PIANO_KEY_WIDTH + 1) + 2;
-//
-//	// Black
-//	displayDrawBlackKey(x, y, keyIndex); keyIndex += 2;
-//
-//	// 7 octaves
-//	for (int i = 0; i < 7; i++)
-//		displayDrawOctave(x, y, keyIndex);
-//}
 
 MidiEvent lastMidiEvent;
 
@@ -212,7 +142,7 @@ void setup() {
 
 	// Display
 	display.begin();
-	display.getWorkspace().addChild(new PianoTabBar());
+	display.getWorkspace().addChild(new ui::PianoTabBar());
 
 	// Piano
 	piano.begin(115200);

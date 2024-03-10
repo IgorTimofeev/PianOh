@@ -46,4 +46,12 @@ namespace grafica {
 	Margin::Margin(int32_t uniformValue) : left(uniformValue), top(uniformValue), right(uniformValue), bottom(uniformValue) {
 
 	}
+
+	int32_t Margin::getHorizontal() const {
+		return left + right;
+	}
+
+	int32_t Margin::getVertical() const {
+		return top + bottom;
+	}
 }
