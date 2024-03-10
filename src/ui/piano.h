@@ -14,16 +14,20 @@ namespace ui {
 			const uint8_t displayMargin = 4;
 			const uint8_t displayWidth = 28;
 
-			const Size whiteKeySize = Size(6, 54);
-			const Size blackKeySize = Size(4, 34);
+			const Size whiteKeySize = Size(6, 52);
+			const Size blackKeySize = Size(4, 30);
 			const uint8_t whiteKeySpacing = 1;
 			const uint8_t blackKeySpacing = 3;
 			const Margin keysMargin = Margin(3, 42, 3, 3);
+			const uint16_t keysWidth = (whiteKeySize.getWidth() + whiteKeySpacing) * 52 - whiteKeySpacing;
+
+			const uint8_t stripHeight = 3;
+			const uint8_t stripLedCount = 180;
 
 			Piano() {
 				setSize(Size(
-					(whiteKeySize.getWidth() + whiteKeySpacing) * 52 - whiteKeySpacing + keysMargin.getHorizontal(),
-					whiteKeySize.getHeight() + keysMargin.getVertical()
+					keysWidth + keysMargin.getHorizontal(),
+					keysMargin.getVertical() + stripHeight + whiteKeySize.getHeight()
 				));
 			}
 
@@ -99,13 +103,36 @@ namespace ui {
 				sl88Position.setX(sl88Position.getX() + sl88Size.getWidth());
 				display.drawText(sl88Position, Color::gold, studioText, 1);
 
+				// Strip
+				auto stripBounds = Bounds(
+					bounds.getX() + keysMargin.getLeft(),
+					bounds.getY() + keysMargin.getTop(),
+					keysWidth,
+					stripHeight
+				);
+
+				drawStrip(display, stripBounds);
+
 				// Keys
-				int32_t x = bounds.getX() + keysMargin.getLeft();
-				int32_t y = bounds.getY() + keysMargin.getTop();
-				drawOctaves(display, x, y);
+				stripBounds.setY(stripBounds.getY() + stripHeight);
+				stripBounds.setHeight(whiteKeySize.getHeight());
+				drawOctaves(display, stripBounds);
 			}
 
 		private:
+			void drawStrip(Display &display, Bounds& bounds) const {
+				display.drawRectangle(bounds, Color::gray);
+
+				auto x = (float) bounds.getX();
+				auto step = (float) bounds.getWidth() / (float) stripLedCount;
+
+				for (uint8_t i = 0; i < stripLedCount; i++) {
+					display.drawRectangle(Bounds((int32_t) x, bounds.getY(), 2, stripHeight), Color::gold);
+
+					x += step;
+				}
+			}
+
 			void drawWhiteKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
 				display.drawRectangle(
 					Bounds(
@@ -169,7 +196,10 @@ namespace ui {
 				x = oldX;
 			}
 
-			void drawOctaves(Display &display, int32_t &x, int32_t &y) {
+			void drawOctaves(Display &display, Bounds& bounds) {
+				int32_t x = bounds.getX();
+				int32_t y = bounds.getY();
+
 				uint8_t keyIndex = 0;
 
 				// 0 octave

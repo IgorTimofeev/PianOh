@@ -12,9 +12,9 @@ namespace ui {
 		public:
 			GradientTabView() {
 				setAlignment(Alignment::center);
+				setSpacing(50);
 
-				gradientView.setSize(Size(300, 50));
-				gradientView.setMargin(Margin(20));
+				gradientView.setSize(Size(piano.getSize().getWidth(), 20));
 				addChild(&gradientView);
 
 				addChild(&piano);
