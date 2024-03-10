@@ -3,10 +3,12 @@
 #include "Adafruit_NeoPixel.h"
 #include <vector>
 #include <map>
-#include "ui/core/color.h"
+#include "grafica/color.h"
 #include "piano/effects/effect.h"
 #include "midi_event.h"
-#include "ui/core/action.h"
+#include "grafica/action.h"
+
+using namespace grafica;
 
 class Particle;
 

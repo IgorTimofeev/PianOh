@@ -2,7 +2,7 @@
 
 #include "particle.h"
 #include "piano/piano.h"
-#include "ui/core/color.h"
+#include "grafica/color.h"
 
 class WaveParticle : public Particle {
 	public:

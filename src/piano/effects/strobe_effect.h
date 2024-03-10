@@ -2,10 +2,10 @@
 
 #include <unordered_set>
 #include "effect.h"
-#include "ui/core/color.h"
+#include "grafica/color.h"
 #include "piano/piano.h"
 #include "particles_effect.h"
-#include "number.h"
+#include "grafica/number.h"
 
 class StrobeEffect : public Effect {
 	public:

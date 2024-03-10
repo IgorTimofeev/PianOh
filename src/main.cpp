@@ -3,30 +3,30 @@
 
 
 #include <string>
-#include "ui/core/color.h"
+#include "grafica/color.h"
 #include "piano/piano.h"
 #include "map"
 #include "piano/particles/flame_particle.h"
 #include "HardwareSerial.h"
-#include "number.h"
+#include "grafica/number.h"
 #include "piano/effects/flame_effect.h"
 #include "piano/effects/rainbow_effect.h"
 #include "piano/effects/water_effect.h"
 #include "piano/effects/test_effect.h"
 #include "piano/effects/gradient_effect.h"
 #include "piano/effects/strobe_effect.h"
-#include "ui/core/elements/workspace.h"
-#include "ui/core/elements/stack_layout.h"
-#include "ui/core/elements/text.h"
-#include "ui/core/elements/rectangle.h"
-#include "ui/core/elements/circle.h"
-#include "ui/core/elements/slider.h"
-#include "ui/core/elements/seven_segment.h"
-#include "ui/core/elements/tab_bar.h"
-#include "ui/tabs/tabs.h"
-#include "ui/core/tft_display.h"
+#include "grafica/elements/workspace.h"
+#include "grafica/elements/stack_layout.h"
+#include "grafica/elements/text.h"
+#include "grafica/elements/rectangle.h"
+#include "grafica/elements/circle.h"
+#include "grafica/elements/slider.h"
+#include "grafica/elements/seven_segment.h"
+#include "grafica/elements/tab_bar.h"
+#include "grafica/tft_display.h"
+#include "ui/tabs.h"
 
-using namespace ui;
+using namespace grafica;
 
 // -------------------------------------------------------------------------------
 

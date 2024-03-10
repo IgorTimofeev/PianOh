@@ -1,8 +1,8 @@
 #pragma once
 
 #include "piano/piano.h"
-#include "ui/core/color.h"
-#include "number.h"
+#include "grafica/color.h"
+#include "grafica/number.h"
 
 class Particle {
 	public:

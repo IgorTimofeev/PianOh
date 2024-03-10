@@ -1,11 +1,11 @@
 #pragma once
 
 #include "effect.h"
-#include "ui/core/color.h"
+#include "grafica/color.h"
 #include "piano/piano.h"
 #include "particles_effect.h"
-#include "number.h"
-#include "ui/core/gradient.h"
+#include "grafica/number.h"
+#include "grafica/gradient.h"
 
 class GradientEffect : public ParticlesEffect {
 	public:

@@ -3,8 +3,8 @@
   <component name="CidrRootsConfiguration">
     <sourceRoots>
       <file path="$PROJECT_DIR$/src" />
+      <file path="$PROJECT_DIR$/src/grafica/elements" />
       <file path="$PROJECT_DIR$/src/ui" />
-      <file path="$PROJECT_DIR$/src/ui/core/elements" />
       <file path="$PROJECT_DIR$/src/ui/geometry" />
       <file path="$PROJECT_DIR$/src/ui/traits" />
     </sourceRoots>

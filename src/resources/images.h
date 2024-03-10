@@ -1,9 +1,9 @@
 #pragma once
 
 #include <cstdint>
-#include "ui/core/image_source.h"
+#include "grafica/image_source.h"
 
-using namespace ui;
+using namespace grafica;
 
 namespace resources { namespace images {
 	extern ImageSource flameOff;

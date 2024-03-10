@@ -1,7 +1,7 @@
 #pragma once
 
 #include "effect.h"
-#include "ui/core/color.h"
+#include "grafica/color.h"
 #include "piano/piano.h"
 #include "particles_effect.h"
 

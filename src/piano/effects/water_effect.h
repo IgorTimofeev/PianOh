@@ -1,10 +1,10 @@
 #pragma once
 
 #include "effect.h"
-#include "ui/core/color.h"
+#include "grafica/color.h"
 #include "piano/piano.h"
 #include "particles_effect.h"
-#include "number.h"
+#include "grafica/number.h"
 #include "piano/particles/flame_particle.h"
 
 using Random = effolkronium::random_static;
