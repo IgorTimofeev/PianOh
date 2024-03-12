@@ -80,12 +80,12 @@ namespace grafica {
 				return _y + _height;
 			}
 
-			bool intersectsWith(TouchEvent& event) const {
+			bool intersectsWith(Point& point) const {
 				return
-					event.getX() >= _x
-					&& event.getY() >= _y
-					&& event.getX() <= _x + _width
-					&& event.getY() <= _y + _height;
+					point.getX() >= _x
+					&& point.getY() >= _y
+					&& point.getX() <= _x + _width
+					&& point.getY() <= _y + _height;
 			}
 
 		private:

@@ -7,9 +7,15 @@
 #include "color.h"
 
 namespace grafica {
+	class TouchPoint {
+		public:
+			Point position = Point();
+			bool down = false;
+	};
+
 	class TFTDisplay : public Display {
 		public:
-			TFTDisplay();
+			TFTDisplay(int8_t sdaPin, int8_t sclPin, uint8_t rstPin, uint8_t intPin);
 
 			void begin() override;
 			void clear() override;
@@ -24,15 +30,37 @@ namespace grafica {
 			void flush() override;
 			void readTouch();
 
+		protected:
+			virtual void onTouchDown();
+			virtual void onTouchDrag();
+			virtual void onTouchUp();
+			virtual void onPinchDown();
+			virtual void onPinchDrag();
+			virtual void onPinchUp();
+
 		private:
-			FT6336U _touch = FT6336U(
-				4,
-				5,
-				9,
-				8
-			);
+			static volatile bool _touchInterrupted;
 
 			TFT_eSPI _display = TFT_eSPI();
 			TFT_eSprite _sprite = TFT_eSprite(&_display);
+
+			bool _touched = false;
+			bool _pinched = false;
+
+			uint8_t _intPin;
+			FT6336U _touchPanel;
+
+			TouchPoint _touchPoints[2] {
+				TouchPoint(),
+				TouchPoint()
+			};
+
+			static void touchInterrupt();
+
+			const Point &rotatePoint(uint16_t x, uint16_t y);
+
+			const Point &readPoint1();
+
+			const Point &readPoint2();
 	};
 }

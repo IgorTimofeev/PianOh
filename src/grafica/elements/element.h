@@ -22,7 +22,7 @@ namespace grafica {
 	};
 
 	class Display;
-	class TouchEvent;
+	class Event;
 
 	class Element {
 		public:
@@ -38,11 +38,11 @@ namespace grafica {
 
 			virtual void invalidateLayout();
 
-			bool handleEvent(TouchEvent& event);
+			bool handleEvent(Event& event);
 
-			virtual bool onEvent(TouchEvent& event);
+			virtual bool onEvent(Event& event);
 
-			virtual void addEventHandler(const std::function<void(TouchEvent&)>& handler);
+			virtual void addEventHandler(const std::function<void(Event&)>& handler);
 
 			int32_t tag = 0;
 
@@ -88,7 +88,7 @@ namespace grafica {
 			Bounds _bounds;
 			Size _desiredSize = Size();
 
-			Action<TouchEvent&> _eventHandlers {};
+			Action<Event&> _eventHandlers {};
 
 			void setDesiredSize(const Size& value);
 

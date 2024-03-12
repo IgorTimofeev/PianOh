@@ -42,12 +42,12 @@ namespace grafica {
 		};
 	}
 
-	bool Element::onEvent(TouchEvent &event) {
+	bool Element::onEvent(Event &event) {
 		return false;
 	}
 
-	bool Element::handleEvent(TouchEvent &event) {
-		if (!(getBounds().intersectsWith(event)))
+	bool Element::handleEvent(Event &event) {
+		if (!event.matches(this))
 			return false;
 
 		auto result = onEvent(event);
@@ -57,7 +57,7 @@ namespace grafica {
 		return result;
 	}
 
-	void Element::addEventHandler(const std::function<void(TouchEvent &)> &handler) {
+	void Element::addEventHandler(const std::function<void(Event &)> &handler) {
 		_eventHandlers.add(handler);
 	}
 

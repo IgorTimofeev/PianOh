@@ -21,8 +21,8 @@ namespace ui {
 				sevenSegment.setDigitCount(6);
 				sevenSegment.setHorizontalAlignment(Alignment::center);
 
-				sevenSegment.addEventHandler([this](TouchEvent &event) {
-					if (event.getType() == TouchEventType::Touch) {
+				sevenSegment.addEventHandler([this](Event &event) {
+					if (event.getType() == EventType::touchDown) {
 						sevenSegment.setValue(sevenSegment.getValue() + 1);
 					}
 				});

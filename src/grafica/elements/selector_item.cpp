@@ -2,8 +2,11 @@
 #include "selector.h"
 
 namespace grafica {
-	bool SelectorItem::onEvent(TouchEvent &event) {
+	bool SelectorItem::onEvent(Event &event) {
 		Layout::onEvent(event);
+
+		if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag)
+			return false;
 
 		if (getSelector())
 			getSelector()->setSelectedIndex(getSelector()->getIndexOfItem(this));

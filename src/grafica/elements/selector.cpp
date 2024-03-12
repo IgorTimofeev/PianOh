@@ -9,7 +9,7 @@ namespace grafica {
 			: nullptr;
 	}
 
-	size_t Selector::getIndexOfItem(SelectorItem* item) {
+	int32_t Selector::getIndexOfItem(SelectorItem* item) {
 		return
 			_itemsLayout
 			? _itemsLayout->getIndexOfChild(item)

@@ -16,9 +16,14 @@ namespace grafica {
 				setForeground(Color::gray);
 			}
 
-			bool onEvent(grafica::TouchEvent &event) override {
+			bool onEvent(Event &event) override {
+				if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag)
+					return false;
+
+				auto touchEvent = reinterpret_cast<TouchEvent*>(&event);
+
 				auto bounds = getBounds();
-				auto part = (float) (event.getX() - bounds.getX()) / (float) bounds.getWidth();
+				auto part = (float) (touchEvent->getPosition().getX() - bounds.getX()) / (float) bounds.getWidth();
 
 				if (part >= 0 && part <= 1)
 					setValue(part);

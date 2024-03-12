@@ -12,7 +12,7 @@ namespace grafica {
 
 			SelectorItem* getItemAt(size_t index);
 
-			size_t getIndexOfItem(SelectorItem* item);
+			int32_t getIndexOfItem(SelectorItem* item);
 
 			void addItem(SelectorItem* item);
 

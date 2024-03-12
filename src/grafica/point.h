@@ -29,10 +29,12 @@ namespace grafica {
 				y = value;
 			}
 
-			void debugPrint() const {
-				Serial.print(getX());
-				Serial.print(" x ");
-				Serial.print(getY());
+			bool operator==(const Point &right) const {
+				return x == right.x && y == right.y;
+			}
+
+			bool operator!=(const Point &right) const {
+				return !operator==(right);
 			}
 
 		private:

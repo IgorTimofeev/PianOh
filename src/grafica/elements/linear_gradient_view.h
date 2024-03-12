@@ -61,9 +61,14 @@ namespace grafica {
 				}
 			}
 
-			bool onEvent(TouchEvent &event) override {
+			bool onEvent(Event &event) override {
+				if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag)
+					return false;
+
+				auto touchEvent = reinterpret_cast<TouchEvent*>(&event);
+
 				auto bounds = getBounds();
-				auto position = (float) (event.getX() - bounds.getX()) / (float) bounds.getWidth();
+				auto position = (float) (touchEvent->getPosition().getX() - bounds.getX()) / (float) bounds.getWidth();
 
 				if (position >= 0 && position <= 1) {
 					uint16_t closestIndex = 0;

@@ -9,7 +9,7 @@ namespace grafica {
 		public:
 			void render(Display& display) override;
 
-			bool onEvent(TouchEvent& event) override;
+			bool onEvent(Event& event) override;
 
 			std::vector<Element*>::iterator begin();
 
@@ -17,7 +17,7 @@ namespace grafica {
 
 			size_t getChildrenCount();
 
-			size_t getIndexOfChild(Element* element);
+			int32_t getIndexOfChild(Element* element);
 
 			void removeChildAt(int index);
 

@@ -76,7 +76,7 @@ void setGradientEffect() {
 
 // ---------------------------------- Display ----------------------------------
 
-TFTDisplay display = TFTDisplay();
+TFTDisplay display = TFTDisplay(4, 5, 9, 8);
 
 uint32_t displayRenderDeadline = 0;
 

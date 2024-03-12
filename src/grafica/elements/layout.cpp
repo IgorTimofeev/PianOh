@@ -9,14 +9,9 @@ namespace grafica {
 		}
 	}
 
-	bool Layout::onEvent(TouchEvent &event) {
+	bool Layout::onEvent(Event &event) {
 		for (int32_t i = (int32_t) getChildrenCount() - 1; i >= 0; i--) {
-			auto child = getChildAt(i);
-
-			if (!child->getBounds().intersectsWith(event))
-				continue;
-
-			if (child->handleEvent(event)) {
+			if (getChildAt(i)->handleEvent(event)) {
 				return true;
 			}
 		}
@@ -36,7 +31,7 @@ namespace grafica {
 		return _children.size();
 	}
 
-	size_t Layout::getIndexOfChild(Element *element) {
+	int32_t Layout::getIndexOfChild(Element *element) {
 		auto iterator = find(_children.begin(), _children.end(), element);
 
 		if (iterator == _children.end()) {
