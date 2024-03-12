@@ -22,7 +22,7 @@
 #include "grafica/elements/slider.h"
 #include "grafica/elements/seven_segment.h"
 #include "grafica/elements/tab_bar.h"
-#include "grafica/tft_display.h"
+#include "grafica/display.h"
 #include "ui/tabs.h"
 
 using namespace grafica;
@@ -76,7 +76,7 @@ void setGradientEffect() {
 
 // ---------------------------------- Display ----------------------------------
 
-TFTDisplay display = TFTDisplay(4, 5, 9, 8);
+Display display = Display(4, 5, 9, 8);
 
 uint32_t displayRenderDeadline = 0;
 
