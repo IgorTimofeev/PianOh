@@ -47,7 +47,7 @@ namespace grafica {
 		_touchPanel.begin();
 
 		pinMode (_intPin, INPUT_PULLUP);
-		attachInterrupt(digitalPinToInterrupt(_intPin), TFTDisplay::touchInterrupt, CHANGE);
+		attachInterrupt(digitalPinToInterrupt(_intPin), TFTDisplay::onTouchInterrupted, CHANGE);
 	}
 
 	void TFTDisplay::drawCircle(const Point &position, int32_t radius, const Color &color) {
@@ -118,11 +118,11 @@ namespace grafica {
 
 	volatile bool TFTDisplay::_touchInterrupted = false;
 
-	void TFTDisplay::touchInterrupt() {
+	void TFTDisplay::onTouchInterrupted() {
 		_touchInterrupted = true;
 	}
 
-	const Point& TFTDisplay::rotatePoint(uint16_t x, uint16_t y) {
+	Point TFTDisplay::rotateTouchPoint(uint16_t x, uint16_t y) {
 		switch (_display.getRotation()) {
 			// 270
 			case 1:
@@ -133,15 +133,15 @@ namespace grafica {
 				break;
 		}
 
-		return Point(x, y);
+		return {x, y};
 	}
 
-	const Point& TFTDisplay::readPoint1() {
-		return rotatePoint(_touchPanel.read_touch1_x(), _touchPanel.read_touch1_y());
+	Point TFTDisplay::readPoint1() {
+		return rotateTouchPoint(_touchPanel.read_touch1_x(), _touchPanel.read_touch1_y());
 	}
 
-	const Point& TFTDisplay::readPoint2() {
-		return rotatePoint(_touchPanel.read_touch2_x(), _touchPanel.read_touch2_y());
+	Point TFTDisplay::readPoint2() {
+		return rotateTouchPoint(_touchPanel.read_touch2_x(), _touchPanel.read_touch2_y());
 	}
 
 	void TFTDisplay::readTouch() {
@@ -152,8 +152,6 @@ namespace grafica {
 
 		auto isDown1 = _touchPanel.read_touch1_event() == 2;
 		auto isDown2 = _touchPanel.read_touch2_event() == 2;
-
-		// Events
 
 		// Down / drag / pinch
 		if (isDown1) {
@@ -219,7 +217,7 @@ namespace grafica {
 				}
 			}
 		}
-			// Up / pinch up
+		// Up / pinch up
 		else {
 			if (_pinched) {
 				_pinched = false;
@@ -242,16 +240,34 @@ namespace grafica {
 	}
 
 	void TFTDisplay::onTouchDown() {
+//		Serial.print("Down ");
+//		Serial.print(_touchPoints[0].position.getX());
+//		Serial.print("x");
+//		Serial.print(_touchPoints[0].position.getY());
+//		Serial.println();
+
 		auto event = TouchDownEvent(_touchPoints[0].position);
 		getWorkspace().handleEvent(event);
 	}
 
 	void TFTDisplay::onTouchDrag() {
+//		Serial.print("Drag ");
+//		Serial.print(_touchPoints[0].position.getX());
+//		Serial.print("x");
+//		Serial.print(_touchPoints[0].position.getY());
+//		Serial.println();
+
 		auto event = TouchDragEvent(_touchPoints[0].position);
 		getWorkspace().handleEvent(event);
 	}
 
 	void TFTDisplay::onTouchUp() {
+//		Serial.print("Up ");
+//		Serial.print(_touchPoints[0].position.getX());
+//		Serial.print("x");
+//		Serial.print(_touchPoints[0].position.getY());
+//		Serial.println();
+
 		auto event = TouchUpEvent(_touchPoints[0].position);
 		getWorkspace().handleEvent(event);
 	}

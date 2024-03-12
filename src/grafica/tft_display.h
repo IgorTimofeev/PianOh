@@ -55,12 +55,10 @@ namespace grafica {
 				TouchPoint()
 			};
 
-			static void touchInterrupt();
+			static void onTouchInterrupted();
 
-			const Point &rotatePoint(uint16_t x, uint16_t y);
-
-			const Point &readPoint1();
-
-			const Point &readPoint2();
+			Point rotateTouchPoint(uint16_t x, uint16_t y);
+			Point readPoint1();
+			Point readPoint2();
 	};
 }
