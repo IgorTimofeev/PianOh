@@ -88,7 +88,7 @@ namespace grafica {
 					}
 
 					selectedIndex = closestIndex;
-					invalidateLayout();
+					invalidate();
 				}
 
 				return true;

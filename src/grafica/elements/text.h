@@ -26,7 +26,7 @@ namespace grafica {
 			void setText(const String& value) {
 				_text = value;
 
-				invalidateLayout();
+				invalidate();
 			}
 
 			const Color &getColor() const {

@@ -72,7 +72,7 @@ namespace grafica {
 				_value = value;
 
 				clampValue();
-				invalidateLayout();
+				invalidateRender();
 
 				_onValueChanged.invoke();
 			}

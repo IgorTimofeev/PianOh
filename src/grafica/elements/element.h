@@ -36,7 +36,9 @@ namespace grafica {
 
 			virtual void render(Display& display);
 
+			virtual void invalidateRender();
 			virtual void invalidateLayout();
+			virtual void invalidate();
 
 			bool handleEvent(Event& event);
 

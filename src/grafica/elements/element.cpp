@@ -88,7 +88,7 @@ namespace grafica {
 	void Element::setSize(const Size &value) {
 		_size = value;
 
-		invalidateLayout();
+		invalidate();
 	}
 
 	const Size &Element::getSize() {
@@ -98,7 +98,7 @@ namespace grafica {
 	void Element::setMargin(const Margin &value) {
 		_margin = value;
 
-		invalidateLayout();
+		invalidate();
 	}
 
 	const Margin &Element::getMargin() {
@@ -113,13 +113,13 @@ namespace grafica {
 		_horizontalAlignment = horizontal;
 		_verticalAlignment = vertical;
 
-		invalidateLayout();
+		invalidate();
 	}
 
 	void Element::setVerticalAlignment(Alignment value) {
 		_verticalAlignment = value;
 
-		invalidateLayout();
+		invalidate();
 	}
 
 	Alignment Element::getVerticalAlignment() const {
@@ -129,7 +129,7 @@ namespace grafica {
 	void Element::setHorizontalAlignment(Alignment value) {
 		_horizontalAlignment = value;
 
-		invalidateLayout();
+		invalidate();
 	}
 
 	Alignment Element::getHorizontalAlignment() const {
@@ -247,8 +247,18 @@ namespace grafica {
 		}
 	}
 
+	void Element::invalidateRender() {
+		if (_firstParent)
+			_firstParent->invalidateRender();
+	}
+
 	void Element::invalidateLayout() {
 		if (_firstParent)
 			_firstParent->invalidateLayout();
+	}
+
+	void Element::invalidate() {
+		if (_firstParent)
+			_firstParent->invalidate();
 	}
 }

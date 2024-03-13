@@ -45,7 +45,7 @@ namespace grafica {
 	void Layout::removeChildAt(int index) {
 		_children.erase(_children.begin() + index);
 
-		invalidateLayout();
+		invalidate();
 	}
 
 	void Layout::removeChild(Element *child) {
@@ -56,13 +56,13 @@ namespace grafica {
 
 		_children.erase(iterator);
 
-		invalidateLayout();
+		invalidate();
 	}
 
 	void Layout::removeChildren() {
 		_children.clear();
 
-		invalidateLayout();
+		invalidate();
 	}
 
 	Element *Layout::getChildAt(size_t index) {
@@ -75,7 +75,7 @@ namespace grafica {
 
 		_children.push_back(child);
 
-		invalidateLayout();
+		invalidate();
 	}
 
 	Element *Layout::operator[](size_t index) {

@@ -14,7 +14,7 @@ namespace ui {
 			switch (event.getType()) {
 				case NoteOn:
 				case NoteOff:
-					invalidateLayout();
+					invalidateRender();
 					break;
 
 				default:

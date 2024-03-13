@@ -52,7 +52,7 @@ namespace grafica {
 			void setSegmentThickness(uint8_t value) {
 				_segmentThickness = value;
 
-				invalidateLayout();
+				invalidate();
 			}
 
 			uint8_t getSegmentLength() const {
@@ -62,7 +62,7 @@ namespace grafica {
 			void setSegmentLength(uint8_t value) {
 				_segmentLength = value;
 
-				invalidateLayout();
+				invalidate();
 			}
 
 			uint32_t getValue() const {
@@ -72,7 +72,7 @@ namespace grafica {
 			void setValue(uint32_t value) {
 				_value = value;
 
-				invalidateLayout();
+				invalidate();
 			}
 
 			uint8_t getDigitCount() const {
@@ -82,7 +82,7 @@ namespace grafica {
 			void setDigitCount(uint8_t value) {
 				_digitCount = value;
 
-				invalidateLayout();
+				invalidate();
 			}
 
 			uint8_t getSpacing() const {
@@ -92,7 +92,7 @@ namespace grafica {
 			void setSpacing(uint8_t value) {
 				_spacing = value;
 
-				invalidateLayout();
+				invalidate();
 			}
 
 			uint16_t getDigitWidth() const {

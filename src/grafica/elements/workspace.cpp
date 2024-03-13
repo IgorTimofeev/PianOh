@@ -2,12 +2,6 @@
 #include "grafica/display.h"
 
 namespace grafica {
-	void Workspace::invalidateLayout() {
-		_isMeasured = false;
-		_isArranged = false;
-		_isRendered = false;
-	}
-
 	void Workspace::render(Display &display) {
 		if (_isRendered)
 			return;
@@ -35,5 +29,19 @@ namespace grafica {
 
 	Workspace::Workspace() {
 		setFirstParent(this);
+	}
+
+	void Workspace::invalidateLayout() {
+		_isMeasured = false;
+		_isArranged = false;
+	}
+
+	void Workspace::invalidateRender() {
+		_isRendered = false;
+	}
+
+	void Workspace::invalidate() {
+		invalidateLayout();
+		invalidateRender();
 	}
 }
