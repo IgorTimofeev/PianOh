@@ -14,13 +14,13 @@ namespace devices { namespace piano {
 	class FlameEffect : public ParticlesEffect {
 		public:
 			void handleEvent(Piano &piano, MidiEvent &event) override {
-				switch (event.type) {
+				switch (event.getType()) {
 					case MidiType::NoteOn:
-						onNoteOn(piano, event.data1, event.data2);
+						onNoteOn(piano, event.getData1(), event.getData2());
 						break;
 
 					case MidiType::NoteOff:
-						onNoteOff(event.data1);
+						onNoteOff(event.getData1());
 						break;
 
 					default:

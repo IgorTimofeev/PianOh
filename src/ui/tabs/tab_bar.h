@@ -41,7 +41,7 @@ namespace ui {
 
 			TabBar() {
 				// Background
-				addChild(new Rectangle(Color::white));
+				addChild(&_background);
 
 				auto tmpLeftSize = 52;
 
@@ -83,6 +83,8 @@ namespace ui {
 			Layout _itemsLayoutHolder = Layout();
 			Rectangle _itemsLayoutBackground = Rectangle(Color::black);
 			StackLayout _itemsLayout = StackLayout();
+
+			Rectangle _background = Rectangle(Color::white);
 			Layout _viewLayout = Layout();
 
 			std::vector<Element*> _views {};

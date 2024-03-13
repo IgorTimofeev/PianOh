@@ -15,9 +15,9 @@ namespace devices { namespace piano {
 			}
 
 			void handleEvent(Piano &piano, MidiEvent &event) override {
-				switch (event.type) {
+				switch (event.getType()) {
 					case MidiType::NoteOn:
-						lastKey = event.data1;
+						lastKey = event.getData1();
 						break;
 
 					case MidiType::NoteOff:

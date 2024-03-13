@@ -95,13 +95,13 @@ namespace devices { namespace piano {
 			MIDI.getData2()
 		);
 
-		switch (event.type) {
+		switch (event.getType()) {
 			case MidiType::NoteOn:
-				pressedKeysVelocities[Piano::noteToKey(event.data1)] = event.data2;
+				pressedKeysVelocities[Piano::noteToKey(event.getData1())] = event.getData2();
 				break;
 
 			case MidiType::NoteOff:
-				pressedKeysVelocities.erase(Piano::noteToKey(event.data1));
+				pressedKeysVelocities.erase(Piano::noteToKey(event.getData1()));
 				break;
 
 			default:

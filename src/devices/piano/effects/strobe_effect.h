@@ -15,13 +15,13 @@ namespace devices { namespace piano {
 			}
 
 			void handleEvent(Piano &piano, MidiEvent &event) override {
-				switch (event.type) {
+				switch (event.getType()) {
 					case MidiType::NoteOn:
-						onNoteOn(piano, event.data1, event.data2);
+						onNoteOn(piano, event.getData1(), event.getData2());
 						break;
 
 					case MidiType::NoteOff:
-						onNoteOff(piano, event.data1);
+						onNoteOff(piano, event.getData1());
 						break;
 
 					default:

@@ -30,16 +30,11 @@ namespace ui {
 			const uint16_t keysWidth = (whiteKeySize.getWidth() + whiteKeySpacing) * 52 - whiteKeySpacing;
 
 			const uint8_t stripHeight = 3;
-			const uint8_t stripLedCount = 180;
 
 			void drawStrip(Display &display, Bounds& bounds) const;
-
 			void drawWhiteKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
-
 			void drawBlackKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
-
 			void drawOctave(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
-
 			void drawOctaves(Display &display, Bounds& bounds);
 	};
 }

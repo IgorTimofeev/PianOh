@@ -1,5 +1,6 @@
 #include "piano.h"
 #include "grafica/color.h"
+#include "ui/application.h"
 
 namespace ui {
 	Piano::Piano() {
@@ -7,6 +8,19 @@ namespace ui {
 			keysWidth + keysMargin.getHorizontal(),
 			keysMargin.getVertical() + stripHeight + whiteKeySize.getHeight()
 		));
+
+		// Callbacks
+		Application::getInstance().piano.addOnMidiRead([this](MidiEvent& event) {
+			switch (event.getType()) {
+				case NoteOn:
+				case NoteOff:
+					invalidateLayout();
+					break;
+
+				default:
+					break;
+			}
+		});
 	}
 
 	void Piano::render(Display &display) {
@@ -100,10 +114,13 @@ namespace ui {
 		display.drawRectangle(bounds, Color::gray);
 
 		auto x = (float) bounds.getX();
-		auto step = (float) bounds.getWidth() / (float) stripLedCount;
+		auto step = (float) bounds.getWidth() / (float) Application::getInstance().piano.getStripLength();
 
-		for (uint8_t i = 0; i < stripLedCount; i++) {
-			display.drawRectangle(Bounds((int32_t) x, bounds.getY(), 2, stripHeight), Color::gold);
+		for (uint16_t i = 0; i < Application::getInstance().piano.getStripLength(); i++) {
+			display.drawRectangle(
+				Bounds((int32_t) x, bounds.getY(), 2, stripHeight),
+				Application::getInstance().piano.getStripColor(i)
+			);
 
 			x += step;
 		}
@@ -117,7 +134,7 @@ namespace ui {
 				whiteKeySize.getWidth(),
 				whiteKeySize.getHeight()
 			),
-			Color::white
+			Application::getInstance().piano.getKeyVelocity(keyIndex) > 0 ? Color::gold : Color::white
 		);
 
 		x += whiteKeySize.getWidth() + whiteKeySpacing;
@@ -131,7 +148,7 @@ namespace ui {
 				blackKeySize.getWidth(),
 				blackKeySize.getHeight()
 			),
-			Color::black
+			Application::getInstance().piano.getKeyVelocity(keyIndex) > 0 ? Color::gold : Color::black
 		);
 
 		x += blackKeySize.getWidth() + blackKeySpacing;

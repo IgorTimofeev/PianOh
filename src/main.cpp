@@ -6,7 +6,7 @@
 
 using namespace ui;
 
-Application application = Application();
+Application& application = Application::getInstance();
 
 void setup() {
 	// Onboard LED
@@ -18,5 +18,5 @@ void setup() {
 }
 
 void loop() {
-	application.loop();
+	application.update();
 }

@@ -22,18 +22,30 @@ using namespace devices::piano;
 namespace ui {
 	class Application {
 		public:
-			Application() {
-
-			}
-
 			static Application& getInstance() {
 				static Application instance;
+
 				return instance;
+			}
+
+			// ---------------------------------- Display ----------------------------------
+
+			Display display = Display(4, 5, 9, 8);
+			uint32_t displayRenderDeadline = 0;
+
+			void displayRender() {
+				if (micros() <= displayRenderDeadline)
+					return;
+
+				display.readTouch();
+				display.render();
+
+				displayRenderDeadline = micros() + 1000000 / 30;
 			}
 
 			// ---------------------------------- UI ----------------------------------
 
-			TabBar tabBar = TabBar();
+//			TabBar tabBar;
 
 			// ---------------------------------- Piano ----------------------------------
 
@@ -53,36 +65,25 @@ namespace ui {
 				pianoRenderDeadline = time + 1000 / 60;
 			}
 
-			// ---------------------------------- Display ----------------------------------
-
-			Display display = Display(4, 5, 9, 8);
-			uint32_t displayRenderDeadline = 0;
-
-			void displayRender() {
-				if (micros() <= displayRenderDeadline)
-					return;
-
-				display.readTouch();
-				display.render();
-
-				displayRenderDeadline = micros() + 1000000 / 30;
-			}
-
 			void begin() {
 				// Display
 				display.begin();
-				display.getWorkspace().addChild(&tabBar);
+//				display.getWorkspace().addChild(&tabBar);
+				display.getWorkspace().addChild(new TabBar());
 
 				// Piano
 				piano.begin();
 				piano.clearStrip();
 			}
 
-			void loop() {
+			void update() {
 				displayRender();
 
 				piano.readMidiEvents();
 				renderPianoStrip();
 			}
+
+		private:
+			Application() = default;
 	};
 }
