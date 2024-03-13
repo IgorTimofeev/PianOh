@@ -84,7 +84,7 @@ namespace devices { namespace piano {
 		fillStripColor(0, getStripLength(), color);
 	}
 
-	void Piano::readMidiEvents() {
+	void Piano::read() {
 		if (!MIDI.read())
 			return;
 

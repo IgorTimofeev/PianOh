@@ -33,7 +33,7 @@ namespace ui {
 			Display display = Display(4, 5, 9, 8);
 			uint32_t displayRenderDeadline = 0;
 
-			void displayRender() {
+			void renderDisplay() {
 				if (micros() <= displayRenderDeadline)
 					return;
 
@@ -74,9 +74,9 @@ namespace ui {
 			}
 
 			void update() {
-				displayRender();
+				piano.read();
 
-				piano.readMidiEvents();
+				renderDisplay();
 				renderPianoStrip();
 			}
 

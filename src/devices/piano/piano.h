@@ -43,7 +43,7 @@ namespace devices { namespace piano {
 
 			void fillStripColor(Color& color);
 
-			void readMidiEvents();
+			void read();
 
 			void addOnMidiRead(const std::function<void(MidiEvent&)> &callback);
 
