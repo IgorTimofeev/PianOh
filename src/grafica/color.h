@@ -45,14 +45,8 @@ namespace grafica {
 
 			uint32_t toUint32() const;
 
-			static uint8_t interpolateChannel(uint8_t first, uint8_t second, float position) {
-				return (uint8_t) ((float) first + (float) (second - first) * position);
-			}
+			static uint8_t interpolateChannel(uint8_t first, uint8_t second, float position);
 
-			void interpolateTo(Color& second, float position) {
-				r = interpolateChannel(r, second.r, position);
-				g = interpolateChannel(g, second.g, position);
-				b = interpolateChannel(b, second.b, position);
-			}
+			void interpolateTo(Color& second, float position);
 	};
 }

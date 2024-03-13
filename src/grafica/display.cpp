@@ -11,7 +11,7 @@ namespace grafica {
 			intPin
 		))
 	{
-		getWorkspace().setSize(Size(TFT_HEIGHT, TFT_WIDTH));
+		
 	}
 
 	Workspace &Display::getWorkspace() {
@@ -37,6 +37,9 @@ namespace grafica {
 
 		pinMode (_intPin, INPUT_PULLUP);
 		attachInterrupt(digitalPinToInterrupt(_intPin), Display::onTouchInterrupted, CHANGE);
+		
+		// Workspace
+		_workspace.setSize(Size(TFT_HEIGHT, TFT_WIDTH));
 	}
 
 	// ------------------------------------------- Rendering -------------------------------------------
@@ -257,7 +260,7 @@ namespace grafica {
 //		Serial.println();
 
 		auto event = TouchDownEvent(_touchPoints[0].position);
-		getWorkspace().handleEvent(event);
+		_workspace.handleEvent(event);
 	}
 
 	void Display::onTouchDrag() {
@@ -268,7 +271,7 @@ namespace grafica {
 //		Serial.println();
 
 		auto event = TouchDragEvent(_touchPoints[0].position);
-		getWorkspace().handleEvent(event);
+		_workspace.handleEvent(event);
 	}
 
 	void Display::onTouchUp() {
@@ -279,21 +282,21 @@ namespace grafica {
 //		Serial.println();
 
 		auto event = TouchUpEvent(_touchPoints[0].position);
-		getWorkspace().handleEvent(event);
+		_workspace.handleEvent(event);
 	}
 
 	void Display::onPinchDown() {
 		auto event = PinchDownEvent(_touchPoints[0].position, _touchPoints[1].position);
-		getWorkspace().handleEvent(event);
+		_workspace.handleEvent(event);
 	}
 
 	void Display::onPinchDrag() {
 		auto event = PinchDragEvent(_touchPoints[0].position, _touchPoints[1].position);
-		getWorkspace().handleEvent(event);
+		_workspace.handleEvent(event);
 	}
 
 	void Display::onPinchUp() {
 		auto event = PinchUpEvent(_touchPoints[0].position, _touchPoints[1].position);
-		getWorkspace().handleEvent(event);
+		_workspace.handleEvent(event);
 	}
 }

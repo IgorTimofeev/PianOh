@@ -101,4 +101,14 @@ namespace grafica {
 	uint32_t Color::toUint32() const {
 		return r << 16 | g << 8 | b;
 	}
+
+	uint8_t Color::interpolateChannel(uint8_t first, uint8_t second, float position) {
+		return (uint8_t) ((float) first + (float) (second - first) * position);
+	}
+
+	void Color::interpolateTo(Color &second, float position) {
+		r = interpolateChannel(r, second.r, position);
+		g = interpolateChannel(g, second.g, position);
+		b = interpolateChannel(b, second.b, position);
+	}
 }

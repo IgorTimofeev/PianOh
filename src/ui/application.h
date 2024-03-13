@@ -43,10 +43,6 @@ namespace ui {
 				displayRenderDeadline = micros() + 1000000 / 30;
 			}
 
-			// ---------------------------------- UI ----------------------------------
-
-//			TabBar tabBar;
-
 			// ---------------------------------- Piano ----------------------------------
 
 			devices::piano::Piano piano = devices::piano::Piano(180, 18);
@@ -68,12 +64,13 @@ namespace ui {
 			void begin() {
 				// Display
 				display.begin();
-//				display.getWorkspace().addChild(&tabBar);
-				display.getWorkspace().addChild(new TabBar());
 
 				// Piano
 				piano.begin();
 				piano.clearStrip();
+
+				// Workspace
+				display.getWorkspace().addChild(new TabBar());
 			}
 
 			void update() {
