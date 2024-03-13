@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Arduino.h"
-#include "grafica/elements/layout.h"
 #include "grafica/elements/linear_gradient_view.h"
-#include "../piano.h"
+#include "grafica/elements/stack_layout.h"
+#include "devices/piano/piano.h"
+#include "ui/elements/piano/piano.h"
 
 using namespace grafica;
 

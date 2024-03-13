@@ -3,29 +3,24 @@
 
 
 #include <string>
-#include "piano/piano.h"
+#include "devices/piano/piano.h"
 #include "map"
-#include "piano/particles/flame_particle.h"
 #include "HardwareSerial.h"
-#include "piano/effects/flame_effect.h"
-#include "piano/effects/rainbow_effect.h"
-#include "piano/effects/water_effect.h"
-#include "piano/effects/test_effect.h"
-#include "piano/effects/gradient_effect.h"
-#include "piano/effects/strobe_effect.h"
+#include "devices/piano/effects/effect.h"
+#include "devices/piano/effects/flame_effect.h"
+#include "devices/piano/effects/rainbow_effect.h"
+#include "devices/piano/effects/water_effect.h"
+#include "devices/piano/effects/test_effect.h"
+#include "devices/piano/effects/gradient_effect.h"
+#include "devices/piano/effects/strobe_effect.h"
 #include "grafica/color.h"
 #include "grafica/number.h"
-#include "grafica/elements/stack_layout.h"
-#include "grafica/elements/text.h"
-#include "grafica/elements/rectangle.h"
-#include "grafica/elements/circle.h"
-#include "grafica/elements/slider.h"
-#include "grafica/elements/seven_segment.h"
-#include "grafica/elements/tab_bar.h"
 #include "grafica/display.h"
-#include "ui/tabs.h"
+#include "ui/tabs/tabs.h"
+#include "devices/piano/piano.h"
 
 using namespace grafica;
+using namespace devices::piano;
 
 // -------------------------------------------------------------------------------
 
@@ -35,9 +30,7 @@ using namespace grafica;
 
 // ---------------------------------- Piano ----------------------------------
 
-Piano piano = Piano(88, 180, 18);
-
-std::map<uint16_t, uint8_t> pressedKeysVelocities;
+Piano piano = Piano(180, 18);
 
 uint32_t pianoRenderDeadline;
 
@@ -51,12 +44,6 @@ void renderPianoStrip() {
 	piano.renderStrip(time);
 
 	pianoRenderDeadline = time + 1000 / 60;
-}
-
-uint8_t getKeyVelocity(uint16_t index) {
-	auto kayAndVelocity = pressedKeysVelocities.find(index);
-
-	return kayAndVelocity == pressedKeysVelocities.end() ? 0 : kayAndVelocity->second;
 }
 
 void changeEffect(Effect* effect) {
@@ -90,27 +77,6 @@ void displayRender() {
 	displayRenderDeadline = micros() + 1000000 / 30;
 }
 
-
-MidiEvent lastMidiEvent;
-
-void renderMidiEventOnDisplay() {
-//	adafruitDisplay.clearDisplay();
-//
-//	displayDrawOctaves();
-//
-//	adafruitDisplay.setCursor(0, 5);
-//	adafruitDisplay.print("MIDI ");
-//	adafruitDisplay.print(String((int) lastMidiEvent.data1));
-//	adafruitDisplay.print(" ");
-//	adafruitDisplay.print(String((int) lastMidiEvent.channel));
-//	adafruitDisplay.print(" ");
-//	adafruitDisplay.print(String((int) lastMidiEvent.data1));
-//	adafruitDisplay.print(" ");
-//	adafruitDisplay.print(String((int) lastMidiEvent.data2));
-//
-//	adafruitDisplay.display();
-}
-
 // ---------------------------------- Onboard LED ----------------------------------
 
 uint32_t onboardLEDBlinkDeadline = 0;
@@ -142,18 +108,16 @@ void setup() {
 
 	// Display
 	display.begin();
-	display.getWorkspace().addChild(new ui::PianoTabBar());
+	display.getWorkspace().addChild(new ui::TabBar());
 
 	// Piano
-	piano.begin(115200);
+	piano.begin();
 	piano.clearStrip();
 	changeEffect(new RainbowEffect());
 
 	piano.addOnMidiRead([](MidiEvent& event) {
 		switch (event.type) {
-			case MidiEventType::NoteOn:
-				pressedKeysVelocities[Piano::noteToKey(event.data1)] = event.data2;
-
+			case MidiType::NoteOn:
 				switch (Piano::noteToKey(event.data1)) {
 					case 83:
 						setGradientEffect();
@@ -178,11 +142,7 @@ void setup() {
 
 				break;
 
-			case MidiEventType::NoteOff:
-				pressedKeysVelocities.erase(Piano::noteToKey(event.data1));
-				break;
-
-			case MidiEventType::ControlChange:
+			case MidiType::ControlChange:
 				switch (event.data1) {
 					// Vertical
 					case 71:
@@ -205,8 +165,6 @@ void setup() {
 		}
 
 		onboardLEDBlink();
-
-		lastMidiEvent = event;
 	});
 }
 
