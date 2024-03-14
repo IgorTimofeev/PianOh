@@ -8,9 +8,9 @@
 using namespace grafica;
 
 namespace ui {
-	class WaveTabView : public StackLayout {
+	class WaveTab : public StackLayout {
 		public:
-			WaveTabView() {
+			WaveTab() {
 				setAlignment(Alignment::center);
 
 				// Slider

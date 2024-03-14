@@ -136,10 +136,6 @@ namespace grafica {
 		return _horizontalAlignment;
 	}
 
-	void Element::render(Display &display) {
-
-	}
-
 	void Element::arrange(const Bounds &bounds) {
 		auto margin = getMargin();
 		auto desiredSize = getDesiredSize();
@@ -260,5 +256,13 @@ namespace grafica {
 	void Element::invalidate() {
 		if (_firstParent)
 			_firstParent->invalidate();
+	}
+
+	void Element::tick() {
+
+	}
+
+	void Element::render(Display &display) {
+
 	}
 }

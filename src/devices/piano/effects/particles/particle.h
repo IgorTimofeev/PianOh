@@ -4,7 +4,7 @@
 #include "grafica/color.h"
 #include "grafica/number.h"
 
-namespace devices { namespace piano {
+namespace devices {
 	class Particle {
 		public:
 			float position = 0;
@@ -23,4 +23,4 @@ namespace devices { namespace piano {
 				position += positionVector;
 			}
 	};
-}}
+}

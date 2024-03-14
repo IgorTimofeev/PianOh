@@ -2,6 +2,8 @@
 #include "grafica/color.h"
 #include "ui/application.h"
 
+using namespace devices;
+
 namespace ui {
 	Piano::Piano() {
 		setSize(Size(

@@ -7,14 +7,15 @@
 #include "grafica/elements/image.h"
 #include "grafica/elements/linear_gradient_view.h"
 
-#include "tab_item_view.h"
+#include "tab_item.h"
 
-#include "ui/tabs/gradient/tab_view.h"
-#include "ui/tabs/flame/tab_view.h"
-#include "ui/tabs/wave/tab_view.h"
-#include "ui/tabs/piano/tab_view.h"
-#include "ui/tabs/strobe/tab_view.h"
 #include "ui/elements/piano/piano.h"
+
+#include "ui/tabs/gradient/tab.h"
+#include "ui/tabs/flame/tab.h"
+#include "ui/tabs/wave/tab.h"
+#include "ui/tabs/piano/tab.h"
+#include "ui/tabs/strobe/tab.h"
 
 #include "resources/images.h"
 
@@ -24,20 +25,20 @@ using namespace resources::images;
 namespace ui {
 	class TabBar : public Selector {
 		public:
-			TabItemView gradientItemView = TabItemView(&gradientOn, &gradientOff);
-			GradientTabView gradientTabView = GradientTabView();
+			TabItem gradientItemView = TabItem(&gradientOn, &gradientOff);
+			GradientTab gradientTabView = GradientTab();
 
-			TabItemView waveItemView = TabItemView(&waveOn, &waveOff);
-			WaveTabView waveTabView = WaveTabView();
+			TabItem waveItemView = TabItem(&waveOn, &waveOff);
+			WaveTab waveTabView = WaveTab();
 
-			TabItemView flameItemView = TabItemView(&flameOn, &flameOff);
-			FlameTabView flameTabView = FlameTabView();
+			TabItem flameItemView = TabItem(&flameOn, &flameOff);
+			FlameTab flameTabView = FlameTab();
 
-			TabItemView strobeItemView = TabItemView(&strobeOn, &strobeOff);
-			StrobeTabView strobeTabView = StrobeTabView();
+			TabItem strobeItemView = TabItem(&strobeOn, &strobeOff);
+			StrobeTab strobeTabView = StrobeTab();
 
-			TabItemView pianoItemView = TabItemView(&pianoOn, &pianoOff);
-			PianoTabView pianoTabView = PianoTabView();
+			TabItem pianoItemView = TabItem(&pianoOn, &pianoOff);
+			PianoTab pianoTabView = PianoTab();
 
 			TabBar() {
 				// Background

@@ -5,7 +5,7 @@
 #include "grafica/color.h"
 #include "random.hpp"
 
-namespace devices { namespace piano {
+namespace devices {
 	using Random = effolkronium::random_static;
 
 	class FlameParticle : public WaveParticle {
@@ -37,4 +37,4 @@ namespace devices { namespace piano {
 				}
 			}
 	};
-}}
+}

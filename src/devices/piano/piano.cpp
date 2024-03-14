@@ -1,9 +1,10 @@
 #include "Arduino.h"
+#include "devices/piano/effects/effect.h"
 #include "piano.h"
 #include "grafica/color.h"
 #include "MIDI.h"
 
-namespace devices { namespace piano {
+namespace devices {
 	struct CustomBaudRateSettings : public MIDI_NAMESPACE::DefaultSerialSettings {
 		static const long BaudRate = 115200;
 	};
@@ -84,7 +85,7 @@ namespace devices { namespace piano {
 		fillStripColor(0, getStripLength(), color);
 	}
 
-	void Piano::read() {
+	void Piano::tick() {
 		if (!MIDI.read())
 			return;
 
@@ -155,4 +156,4 @@ namespace devices { namespace piano {
 
 		return kayAndVelocity == pressedKeysVelocities.end() ? 0 : kayAndVelocity->second;
 	}
-}}
+}

@@ -1,7 +1,13 @@
 #include "effect.h"
+#include "ui/elements/piano/piano.h"
+#include "devices/piano/piano.h"
 
-namespace devices { namespace piano {
-	void Effect::handleEvent(Piano &piano, MidiEvent &event) {
+namespace devices {
+	void Effect::handleEvent(devices::Piano &piano, MidiEvent &event) {
 
 	}
-}}
+
+	void Effect::example(ui::Piano &piano) {
+
+	}
+}

@@ -7,14 +7,14 @@
 #include "particles_effect.h"
 #include "grafica/number.h"
 
-namespace devices { namespace piano {
+namespace devices {
 	class StrobeEffect : public Effect {
 		public:
 			explicit StrobeEffect(const Color &color) : _color(color) {
 
 			}
 
-			void handleEvent(Piano &piano, MidiEvent &event) override {
+			void handleEvent(devices::Piano &piano, MidiEvent &event) override {
 				switch (event.getType()) {
 					case MidiType::NoteOn:
 						onNoteOn(piano, event.getData1(), event.getData2());
@@ -29,7 +29,7 @@ namespace devices { namespace piano {
 				}
 			}
 
-			void render(Piano &piano, const uint32_t &time) override {
+			void render(devices::Piano &piano, const uint32_t &time) override {
 				piano.clearStrip();
 
 				if (time < _strobeDeadline || _pressedStripIndicesAndVelocities.empty())
@@ -68,4 +68,4 @@ namespace devices { namespace piano {
 				_pressedStripIndicesAndVelocities.erase(piano.noteToStripIndex(note));
 			}
 	};
-}}
+}

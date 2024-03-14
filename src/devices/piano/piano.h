@@ -2,7 +2,7 @@
 
 #include "Arduino.h"
 #include "Adafruit_NeoPixel.h"
-#include "devices/piano/effects/effect.h"
+#include "midi_event.h"
 #include "grafica/color.h"
 #include "grafica/action.h"
 #include "map"
@@ -10,7 +10,9 @@
 
 using namespace grafica;
 
-namespace devices { namespace piano {
+namespace devices {
+	class Effect;
+
 	class Piano {
 		public:
 			Piano(uint16_t stripLEDCount, int16_t stripPin);
@@ -43,7 +45,7 @@ namespace devices { namespace piano {
 
 			void fillStripColor(Color& color);
 
-			void read();
+			void tick();
 
 			void addOnMidiRead(const std::function<void(MidiEvent&)> &callback);
 
@@ -71,4 +73,4 @@ namespace devices { namespace piano {
 
 			void invertStripIndexIfRequired(uint16_t& index);
 	};
-}}
+}

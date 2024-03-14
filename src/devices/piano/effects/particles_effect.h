@@ -5,7 +5,7 @@
 #include "devices/piano/piano.h"
 #include "grafica/color.h"
 
-namespace devices { namespace piano {
+namespace devices {
 	class ParticlesEffect : public Effect {
 		protected:
 			std::vector<Particle*> particles;
@@ -26,7 +26,7 @@ namespace devices { namespace piano {
 				delete particle;
 			}
 
-			void render(Piano& piano, const uint32_t& time) override {
+			void render(devices::Piano &piano, const uint32_t& time) override {
 				Particle* particle;
 
 				for (int i = 0; i < particles.size(); i++) {
@@ -41,4 +41,4 @@ namespace devices { namespace piano {
 				}
 			}
 	};
-}}
+}

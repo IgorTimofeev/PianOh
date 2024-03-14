@@ -34,6 +34,7 @@ namespace grafica {
 
 			void arrange(const Bounds& bounds);
 
+			virtual void tick();
 			virtual void render(Display& display);
 
 			virtual void invalidateRender();

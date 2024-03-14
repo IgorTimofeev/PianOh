@@ -33,8 +33,8 @@ namespace grafica {
 			virtual void flush();
 
 			virtual void begin();
+			virtual void tick();
 			virtual void render();
-			virtual void readTouch();
 
 			// -------------------------------- Getters & setters --------------------------------
 
@@ -55,13 +55,12 @@ namespace grafica {
 
 			TFT_eSPI _screen = TFT_eSPI();
 			TFT_eSprite _sprite = TFT_eSprite(&_screen);
+			FT6336U _touchPanel;
 
 			Workspace _workspace;
 
-			bool _touched = false;
-			bool _pinched = false;
-
-			FT6336U _touchPanel;
+			bool _touchDown = false;
+			bool _touchPinched = false;
 
 			TouchPoint _touchPoints[2] {
 				TouchPoint(),
@@ -71,7 +70,8 @@ namespace grafica {
 			static void onTouchInterrupted();
 
 			Point rotateTouchPoint(uint16_t x, uint16_t y);
-			Point readPoint1();
-			Point readPoint2();
+			Point readTouchPoint1();
+			Point readTouchPoint2();
+			void readTouch();
 	};
 }

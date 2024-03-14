@@ -7,10 +7,10 @@
 #include "grafica/number.h"
 #include "particles/flame_particle.h"
 
-namespace devices { namespace piano {
+namespace devices {
 	class RainbowEffect : public ParticlesEffect {
 		public:
-			void handleEvent(Piano &piano, MidiEvent &event) override {
+			void handleEvent(devices::Piano &piano, MidiEvent &event) override {
 				switch (event.getType()) {
 					case MidiType::NoteOn:
 						onNoteOn(piano, event.getData1(), event.getData2());
@@ -25,7 +25,7 @@ namespace devices { namespace piano {
 				}
 			}
 
-			void render(Piano &piano, const uint32_t &time) override {
+			void render(devices::Piano &piano, const uint32_t &time) override {
 				piano.clearStrip();
 
 				ParticlesEffect::render(piano, time);
@@ -65,4 +65,4 @@ namespace devices { namespace piano {
 				notesAndParticlesMap.erase(note);
 			}
 	};
-}}
+}

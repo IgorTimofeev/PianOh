@@ -18,12 +18,6 @@ namespace grafica {
 		return _workspace;
 	}
 
-	void Display::render() {
-		_workspace.measure(*this);
-		_workspace.arrange();
-		_workspace.render(*this);
-	}
-
 	void Display::begin() {
 		// Display
 		_screen.init();
@@ -40,6 +34,17 @@ namespace grafica {
 		
 		// Workspace
 		_workspace.setSize(Size(TFT_HEIGHT, TFT_WIDTH));
+	}
+
+	void Display::tick() {
+		readTouch();
+		_workspace.tick();
+	}
+
+	void Display::render() {
+		_workspace.measure(*this);
+		_workspace.arrange();
+		_workspace.render(*this);
 	}
 
 	// ------------------------------------------- Rendering -------------------------------------------
@@ -149,11 +154,11 @@ namespace grafica {
 		return {x, y};
 	}
 
-	Point Display::readPoint1() {
+	Point Display::readTouchPoint1() {
 		return rotateTouchPoint(_touchPanel.read_touch1_x(), _touchPanel.read_touch1_y());
 	}
 
-	Point Display::readPoint2() {
+	Point Display::readTouchPoint2() {
 		return rotateTouchPoint(_touchPanel.read_touch2_x(), _touchPanel.read_touch2_y());
 	}
 
@@ -171,9 +176,9 @@ namespace grafica {
 			// Pinch
 			if (isDown2) {
 				// Pinch drag
-				if (_pinched) {
-					auto point1 = readPoint1();
-					auto point2 = readPoint2();
+				if (_touchPinched) {
+					auto point1 = readTouchPoint1();
+					auto point2 = readTouchPoint2();
 
 					if (
 						point1 != _touchPoints[0].position
@@ -187,13 +192,13 @@ namespace grafica {
 				}
 					// Pinch down
 				else {
-					_pinched = true;
+					_touchPinched = true;
 
 					_touchPoints[0].down = true;
-					_touchPoints[0].position = readPoint1();
+					_touchPoints[0].position = readTouchPoint1();
 
 					_touchPoints[1].down = true;
-					_touchPoints[1].position = readPoint2();
+					_touchPoints[1].position = readTouchPoint2();
 
 					onPinchDown();
 				}
@@ -201,17 +206,17 @@ namespace grafica {
 				// Down / drag / pinch up
 			else {
 				// Pinch up
-				if (_pinched) {
-					_pinched = false;
+				if (_touchPinched) {
+					_touchPinched = false;
 
 					_touchPoints[1].down = false;
-					_touchPoints[1].position = readPoint2();
+					_touchPoints[1].position = readTouchPoint2();
 
 					onPinchUp();
 				}
 					// Drag
-				else if (_touched) {
-					auto point1 = readPoint1();
+				else if (_touchDown) {
+					auto point1 = readTouchPoint1();
 
 					if (point1 != _touchPoints[0].position) {
 						_touchPoints[0].position = point1;
@@ -221,10 +226,10 @@ namespace grafica {
 				}
 					// Down
 				else {
-					_touched = true;
+					_touchDown = true;
 
 					_touchPoints[0].down = true;
-					_touchPoints[0].position = readPoint1();
+					_touchPoints[0].position = readTouchPoint1();
 
 					onTouchDown();
 				}
@@ -232,20 +237,20 @@ namespace grafica {
 		}
 			// Up / pinch up
 		else {
-			if (_pinched) {
-				_pinched = false;
+			if (_touchPinched) {
+				_touchPinched = false;
 
 				_touchPoints[1].down = false;
-				_touchPoints[1].position = readPoint2();
+				_touchPoints[1].position = readTouchPoint2();
 
 				onPinchUp();
 			}
 
-			if (_touched) {
-				_touched = false;
+			if (_touchDown) {
+				_touchDown = false;
 
 				_touchPoints[0].down = false;
-				_touchPoints[0].position = readPoint1();
+				_touchPoints[0].position = readTouchPoint1();
 
 				onTouchUp();
 			}

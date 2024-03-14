@@ -18,5 +18,5 @@ void setup() {
 }
 
 void loop() {
-	application.update();
+	application.loop();
 }

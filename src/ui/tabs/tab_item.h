@@ -10,9 +10,9 @@
 using namespace grafica;
 
 namespace ui {
-	class TabItemView : public SelectorItem {
+	class TabItem : public SelectorItem {
 		public:
-			TabItemView(ImageSource *imageSourceOn, ImageSource *imageSourceOff) :
+			TabItem(ImageSource *imageSourceOn, ImageSource *imageSourceOff) :
 				_imageSourceOn(imageSourceOn),
 				_imageSourceOff(imageSourceOff) {
 				// Background rect

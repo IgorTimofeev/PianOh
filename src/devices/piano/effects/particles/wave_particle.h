@@ -4,7 +4,7 @@
 #include "devices/piano/piano.h"
 #include "grafica/color.h"
 
-namespace devices { namespace piano {
+namespace devices {
 	class WaveParticle : public Particle {
 		public:
 			uint16_t sizeLeft = 0;
@@ -44,4 +44,4 @@ namespace devices { namespace piano {
 				Particle::render(piano, time);
 			}
 	};
-}}
+}

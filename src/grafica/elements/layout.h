@@ -7,6 +7,8 @@
 namespace grafica {
 	class Layout : public Element {
 		public:
+			void tick() override;
+
 			void render(Display& display) override;
 
 			bool onEvent(Event& event) override;

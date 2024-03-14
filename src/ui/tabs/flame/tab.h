@@ -7,11 +7,11 @@
 using namespace grafica;
 
 namespace ui {
-	class FlameTabView : public Layout {
+	class FlameTab : public Layout {
 		public:
 			SevenSegment sevenSegment = SevenSegment();
 
-			FlameTabView() {
+			FlameTab() {
 				setAlignment(Alignment::center);
 
 				// SevenSegment

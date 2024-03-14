@@ -1,10 +1,17 @@
 #include "layout.h"
 
 namespace grafica {
-	void Layout::render(Display &display) {
-		for (auto child : *this) {
+	void Layout::tick() {
+		for (const auto& child : *this) {
 			child->setParent(this);
 			child->setFirstParent(getFirstParent());
+
+			child->tick();
+		}
+	}
+
+	void Layout::render(Display &display) {
+		for (const auto& child : *this) {
 			child->render(display);
 		}
 	}

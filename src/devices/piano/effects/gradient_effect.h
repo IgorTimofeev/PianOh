@@ -7,7 +7,7 @@
 #include "grafica/number.h"
 #include "grafica/gradient.h"
 
-namespace devices { namespace piano {
+namespace devices {
 	class GradientEffect : public ParticlesEffect {
 		public:
 			GradientEffect() = default;
@@ -20,7 +20,7 @@ namespace devices { namespace piano {
 				setGradient(gradient);
 			}
 
-			void handleEvent(Piano& piano, MidiEvent& event) override {
+			void handleEvent(devices::Piano &piano, MidiEvent& event) override {
 				switch (event.getType()) {
 					case MidiType::NoteOn:
 						onNoteOn(piano, event.getData1(), event.getData2());
@@ -35,7 +35,7 @@ namespace devices { namespace piano {
 				}
 			}
 
-			void render(Piano& piano, const uint32_t& time) override {
+			void render(devices::Piano &piano, const uint32_t& time) override {
 				piano.clearStrip();
 
 				ParticlesEffect::render(piano, time);
@@ -87,4 +87,4 @@ namespace devices { namespace piano {
 				_notesAndParticlesMap.erase(note);
 			}
 	};
-}}
+}

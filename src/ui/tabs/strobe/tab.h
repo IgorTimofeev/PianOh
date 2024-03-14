@@ -8,9 +8,9 @@
 using namespace grafica;
 
 namespace ui {
-	class PianoTabView : public Layout {
+	class StrobeTab : public Layout {
 		public:
-			PianoTabView() {
+			StrobeTab() {
 				setAlignment(Alignment::center);
 
 				addChild(&rectangle);

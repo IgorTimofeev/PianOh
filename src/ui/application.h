@@ -17,7 +17,6 @@
 #include "tabs/tab_bar.h"
 
 using namespace grafica;
-using namespace devices::piano;
 
 namespace ui {
 	class Application {
@@ -28,59 +27,40 @@ namespace ui {
 				return instance;
 			}
 
-			// ---------------------------------- Display ----------------------------------
-
 			Display display = Display(4, 5, 9, 8);
-			uint32_t displayRenderDeadline = 0;
-
-			void renderDisplay() {
-				if (micros() <= displayRenderDeadline)
-					return;
-
-				display.readTouch();
-				display.render();
-
-				displayRenderDeadline = micros() + 1000000 / 30;
-			}
-
-			// ---------------------------------- Piano ----------------------------------
-
-			devices::piano::Piano piano = devices::piano::Piano(180, 18);
-
-			uint32_t pianoRenderDeadline = 0;
-
-			void renderPianoStrip() {
-				uint32_t time = millis();
-
-				if (time <= pianoRenderDeadline)
-					return;
-
-				// Updating piano
-				piano.renderStrip(time);
-
-				pianoRenderDeadline = time + 1000 / 60;
-			}
+			devices::Piano piano = devices::Piano(180, 18);
 
 			void begin() {
-				// Display
 				display.begin();
-
-				// Piano
 				piano.begin();
-				piano.clearStrip();
-
-				// Workspace
 				display.getWorkspace().addChild(new TabBar());
 			}
 
-			void update() {
-				piano.read();
+			void loop() {
+				// Tick
+				if (micros() > _tickDeadline) {
+					display.tick();
+					piano.tick();
 
-				renderDisplay();
-				renderPianoStrip();
+					_tickDeadline = micros() + 1000000 / _tps;
+				}
+
+				// Render
+				if (micros() > _renderDeadline) {
+					display.render();
+					piano.renderStrip(micros());
+
+					_renderDeadline = micros() + 1000000 / _fps;
+				}
 			}
 
 		private:
 			Application() = default;
+
+		private:
+			uint32_t _tickDeadline = 0;
+			uint32_t _renderDeadline = 0;
+			uint16_t _tps = 20;
+			uint16_t _fps = 30;
 	};
 }
