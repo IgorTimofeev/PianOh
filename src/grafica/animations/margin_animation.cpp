@@ -11,10 +11,10 @@ namespace grafica {
 
 	void MarginAnimation::onTick(Element *element, double position) {
 		element->setMargin(Margin(
-			(uint16_t) (_from.getLeft() + position * (_to.getLeft() - _from.getLeft())),
-			(uint16_t) (_from.getTop() + position * (_to.getTop() - _from.getTop())),
-			(uint16_t) (_from.getRight() + position * (_to.getRight() - _from.getRight())),
-			(uint16_t) (_from.getBottom() + position * (_to.getBottom() - _from.getBottom()))
+			(int32_t) (_from.getLeft() + position * (_to.getLeft() - _from.getLeft())),
+			(int32_t) (_from.getTop() + position * (_to.getTop() - _from.getTop())),
+			(int32_t) (_from.getRight() + position * (_to.getRight() - _from.getRight())),
+			(int32_t) (_from.getBottom() + position * (_to.getBottom() - _from.getBottom()))
 		));
 	}
 

@@ -60,7 +60,7 @@ namespace ui {
 				addChild(&_menuButton);
 
 				// Menu background
-//				_menuOverlay.setVisible(false);
+				_menuOverlay.setVisible(false);
 				addChild(&_menuOverlay);
 
 				_menuOverlay.addEventHandler([this](Event& event) {
@@ -73,9 +73,8 @@ namespace ui {
 
 				// Menu
 				_menu.setSize(Size(_menuSize, Size::calculated));
-				_menu.setMargin(Margin(0, 0, 0, 0));
 				_menu.setHorizontalAlignment(Alignment::start);
-//				_menu.setVisible(false);
+				_menu.setVisible(false);
 				_menu.addChild(&_menuBackground);
 
 				_menuItemsLayout.setMargin(Margin(10));
@@ -127,9 +126,6 @@ namespace ui {
 			}
 
 			void setMenuOpen(bool value) {
-//				_menuOverlay.setVisible(value);
-//				_menu.setVisible(value);
-
 				if (value) {
 					_menuOverlay.setVisible(true);
 					_menu.setVisible(true);
@@ -138,7 +134,7 @@ namespace ui {
 				auto animation = new MarginAnimation(
 					Margin(value ? -_menuSize : 0, 0, 0, 0),
 					Margin(value ? 0 : -_menuSize, 0, 0, 0),
-					5000
+					200
 				);
 
 				animation->addOnCompleted([this, value, animation] {

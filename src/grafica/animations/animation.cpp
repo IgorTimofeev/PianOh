@@ -16,7 +16,6 @@ namespace grafica {
 		double position = Number::clampDouble((double) (time - _start) / (double) _duration);
 
 		onTick(element, position);
-		element->invalidate();
 
 		if (position < 1) {
 			return false;

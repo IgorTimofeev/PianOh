@@ -24,6 +24,6 @@ namespace grafica {
 
 		private:
 			String _text = "Hello";
-			uint8_t _fontSize = 2;
+			uint8_t _fontSize = 1;
 	};
 }
