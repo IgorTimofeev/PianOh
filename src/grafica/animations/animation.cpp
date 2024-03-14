@@ -5,23 +5,28 @@
 
 namespace grafica {
 	void Animation::start() {
-		_start = micros();
+		_start = millis();
 	}
 
 	void Animation::stop() {
 		_start = 0;
 	}
 
-	void Animation::tick(Element *element, uint32_t time) {
+	bool Animation::tick(Element *element, uint32_t time) {
 		double position = Number::clampDouble((double) (time - _start) / (double) _duration);
 
+		onTick(element, position);
+		element->invalidateLayout();
+
 		if (position < 1) {
-			onTick(element, position);
+			return false;
 		}
 		else {
+			stop();
+
 			_onCompleted.invoke();
 
-			stop();
+			return true;
 		}
 	}
 

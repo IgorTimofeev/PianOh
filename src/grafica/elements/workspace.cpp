@@ -47,7 +47,7 @@ namespace grafica {
 		invalidateRender();
 	}
 
-	void Workspace::addAnimation(Element *element, Animation& animation) {
+	void Workspace::addAnimation(Element *element, Animation* animation) {
 		_animations.emplace_back(element, animation);
 	}
 
@@ -55,14 +55,12 @@ namespace grafica {
 		if (_animations.empty())
 			return;
 
-		auto time = micros();
+		auto time = millis();
 
 		for (int i = 0; i < _animations.size(); i++) {
 			auto elementAndAnimation = _animations[i];
 
-			elementAndAnimation.second.tick(elementAndAnimation.first, time);
-
-			if (!elementAndAnimation.second.isStarted()) {
+			if (elementAndAnimation.second->tick(elementAndAnimation.first, time)) {
 				_animations.erase(_animations.begin() + i);
 				i--;
 			}

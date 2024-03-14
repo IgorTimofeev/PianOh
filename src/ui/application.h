@@ -23,7 +23,7 @@ namespace ui {
 		private:
 			uint32_t _tickDeadline = 0;
 			uint32_t _renderDeadline = 0;
-			uint16_t _tps = 20;
+			uint16_t _tps = 30;
 			uint16_t _fps = 30;
 	};
 }

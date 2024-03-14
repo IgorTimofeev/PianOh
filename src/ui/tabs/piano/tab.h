@@ -21,15 +21,19 @@ namespace ui {
 				button.setText("Click");
 
 				button.addOnClick([this]() {
-					SizeAnimation animation = SizeAnimation(
+					auto animation = new SizeAnimation(
 						pizda ? Size(320, 100) : Size(120, 40),
-						pizda ? Size(320, 100) : Size(120, 40),
-						2000
+						pizda ? Size(120, 40) : Size(320, 100),
+						200
 					);
 
 					button.addAnimation(animation);
 
-					animation.start();
+					animation->start();
+
+					animation->addOnCompleted([animation]() {
+						delete animation;
+					});
 
 					pizda = !pizda;
 				});

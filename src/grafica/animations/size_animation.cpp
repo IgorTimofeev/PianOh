@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "size_animation.h"
 #include "grafica/elements/element.h"
 
@@ -10,8 +11,8 @@ namespace grafica {
 
 	void SizeAnimation::onTick(Element *element, double position) {
 		element->setSize(Size(
-			(uint16_t) (_from.getWidth() + _to.getWidth() * position),
-			(uint16_t) (_from.getHeight() + _to.getHeight() * position)
+			(uint16_t) (_from.getWidth() + position * (_to.getWidth() - _from.getWidth())),
+			(uint16_t) (_from.getHeight() + position * (_to.getHeight() - _from.getHeight()))
 		));
 	}
 

@@ -49,7 +49,7 @@ namespace grafica {
 
 			virtual void addEventHandler(const std::function<void(Event&)>& handler);
 
-			void addAnimation(Animation& animation);
+			void addAnimation(Animation* animation);
 
 			int32_t tag = 0;
 

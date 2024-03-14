@@ -63,7 +63,7 @@ namespace grafica {
 		_eventHandlers.add(handler);
 	}
 
-	void Element::addAnimation(Animation &animation) {
+	void Element::addAnimation(Animation *animation) {
 		if (_workspace)
 			_workspace->addAnimation(this, animation);
 	}
