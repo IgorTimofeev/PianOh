@@ -13,15 +13,23 @@ namespace ui {
 		public:
 			StrobeTab() {
 				setAlignment(Alignment::center);
-
 				addChild(&rectangle);
 
-				text.setAlignment(Alignment::center, Alignment::center);
-				text.setMargin(Margin(10));
+				holder.setMargin(Margin(10));
+				holder.setAlignment(Alignment::center);
+				addChild(&holder);
+
+				holder.addChild(&holderBack);
+
+				text.setAlignment(Alignment::center);
+//				text.setMargin(Margin(10));
 				text.setForeground(Color::black);
 				text.setText("Timer");
-				addChild(&text);
+				holder.addChild(&text);
 			}
+
+			Layout holder = Layout();
+			Rectangle holderBack = Rectangle(Color::water);
 
 			Rectangle rectangle = Rectangle(Color::gold);
 			Text text = Text();

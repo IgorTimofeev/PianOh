@@ -73,7 +73,7 @@ namespace ui {
 
 				// Menu
 				_menu.setSize(Size(_menuSize, Size::calculated));
-				_menu.setMargin(Margin(-5, 0, 0, 0));
+				_menu.setMargin(Margin(-15, 0, 0, 0));
 //				_menu.setVisible(false);
 				_menu.addChild(&_menuBackground);
 

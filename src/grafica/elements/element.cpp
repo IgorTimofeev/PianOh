@@ -25,56 +25,14 @@ namespace grafica {
 
 	void Element::calculateMeasureShit(const Alignment &alignment, const uint16_t &size,
 									   const uint16_t &desiredSize, const int32_t &marginStart, const int32_t &marginEnd, int32_t &newSize) {
-
-		switch (alignment) {
-			case start:
-				if (size == Size::calculated) {
-					newSize = desiredSize;
-				}
-				else {
-					newSize = size;
-				}
-
-				newSize = newSize + marginStart + marginEnd;
-
-				break;
-
-			case center:
-				if (size == Size::calculated) {
-					newSize = desiredSize;
-				}
-				else {
-					newSize = size;
-				}
-
-				newSize = newSize + marginStart + marginEnd;
-
-				break;
-
-			case end:
-				if (size == Size::calculated) {
-					newSize = desiredSize;
-				}
-				else {
-					newSize = size;
-				}
-
-				newSize = newSize + marginStart + marginEnd;
-
-				break;
-
-			case stretch:
-				if (size == Size::calculated) {
-					newSize = desiredSize;
-				}
-				else {
-					newSize = size;
-				}
-
-				newSize = newSize + marginStart + marginEnd;
-
-				break;
+		if (size == Size::calculated) {
+			newSize = desiredSize;
 		}
+		else {
+			newSize = size;
+		}
+
+		newSize = newSize + marginStart + marginEnd;
 
 		if (newSize < 0)
 			newSize = 0;
@@ -129,6 +87,11 @@ namespace grafica {
 					newSize = size;
 				}
 
+				newSize = newSize - marginStart - marginEnd;
+
+				if (newSize < 0)
+					newSize = 0;
+
 				newPosition = position + marginStart;
 
 				break;
@@ -141,7 +104,12 @@ namespace grafica {
 					newSize = size;
 				}
 
-				newPosition = position + limit / 2 - newSize / 2 + marginStart - marginEnd;
+				newSize = newSize - marginStart - marginEnd;
+
+				if (newSize < 0)
+					newSize = 0;
+
+				newPosition = position + marginStart - marginEnd + limit / 2 - newSize / 2;
 
 				break;
 
@@ -153,20 +121,27 @@ namespace grafica {
 					newSize = size;
 				}
 
+				newSize = newSize - marginStart - marginEnd;
+
+				if (newSize < 0)
+					newSize = 0;
+
 				newPosition = position + limit - marginEnd - newSize;
 
 				break;
 
 			case stretch:
 				if (size == Size::calculated) {
-					newSize = limit - marginStart - marginEnd;
-
-					if (newSize < 0)
-						newSize = 0;
+					newSize = limit;
 				}
 				else {
 					newSize = size;
 				}
+
+				newSize = newSize - marginStart - marginEnd;
+
+				if (newSize < 0)
+					newSize = 0;
 
 				newPosition = position + marginStart;
 

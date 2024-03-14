@@ -18,20 +18,21 @@ namespace ui {
 				_imageSourceOn(imageSourceOn),
 				_imageSourceOff(imageSourceOff)
 			{
-				setSize(Size(Size::calculated, 40));
+//				setSize(Size(Size::calculated, 40));
 
 				// Background rect
 				_rectangle.setCornerRadius(4);
 				addChild(&_rectangle);
 
 				// Row
+				_row.setMargin(Margin(5));
 				_row.setVerticalAlignment(Alignment::center);
 				_row.setOrientation(Orientation::horizontal);
 				addChild(&_row);
 
 				// Image
 				_image.setSize(imageSourceOn->getSize());
-				_image.setMargin(Margin(5, 0, 0, 0));
+				_image.setMargin(Margin(5));
 				_image.setVerticalAlignment(Alignment::center);
 				_row.addChild(&_image);
 
