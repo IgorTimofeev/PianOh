@@ -16,9 +16,9 @@ namespace grafica {
 				setForeground(Color::gray);
 			}
 
-			bool onEvent(Event &event) override {
+			void onEvent(Event &event) override {
 				if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag)
-					return false;
+					return;
 
 				auto touchEvent = (TouchEvent&) event;
 
@@ -28,7 +28,7 @@ namespace grafica {
 				if (part >= 0 && part <= 1)
 					setValue(part);
 
-				return true;
+				event.setHandled(true);
 			}
 
 			void render(Display& display) override {

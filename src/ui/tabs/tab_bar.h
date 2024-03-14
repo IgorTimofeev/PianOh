@@ -54,7 +54,7 @@ namespace ui {
 				_menuButton.setFontSize(4);
 				_menuButton.setText("=");
 
-				_menuButton.addOnClick([this]() {
+				_menuButton.addOnClick([this](Event& event) {
 					setMenuOpen(true);
 				});
 
@@ -64,14 +64,18 @@ namespace ui {
 				_menuOverlay.setVisible(false);
 				addChild(&_menuOverlay);
 
-				_menuOverlay.addEventHandler([this](const Event& event) {
-					if (event.getType() == EventType::touchDown)
-						setMenuOpen(false);
+				_menuOverlay.addEventHandler([this](Event& event) {
+					if (event.getType() != EventType::touchDown)
+						return;
+
+					setMenuOpen(false);
+					event.setHandled(true);
 				});
 
 				// Menu
+				_menu.setVisible(false);
 				_menu.setSize(Size(_menuSize, Size::calculated));
-				_menu.setMargin(Margin(-_menuSize, 0, 0, 0));
+//				_menu.setMargin(Margin(-_menuSize, 0, 0, 0));
 				_menu.addChild(&_menuBackground);
 
 				_menuItemsLayout.setMargin(Margin(10));
@@ -109,7 +113,7 @@ namespace ui {
 			Layout _tabLayout = Layout();
 
 			Button _menuButton = Button();
-			Element _menuOverlay = Element();
+			Rectangle _menuOverlay = Rectangle(Color::gold);
 			const uint16_t _menuSize = 180;
 			Layout _menu = Layout();
 			Rectangle _menuBackground = Rectangle(Color::black);
@@ -123,21 +127,24 @@ namespace ui {
 			}
 
 			void setMenuOpen(bool value) {
-				auto animation = new MarginAnimation(
-					Margin(value ? -_menuSize : 0, 0, 0, 0),
-					Margin(value ? 0 : -_menuSize, 0, 0, 0),
-					5000
-				);
+				_menu.setVisible(value);
+				_menuOverlay.setVisible(value);
 
-				_menu.addAnimation(animation);
-
-				animation->addOnCompleted([this, animation] {
-					_menuOverlay.setVisible(!_menuOverlay.isVisible());
-
-					delete animation;
-				});
-
-				_menuOverlay.setVisible(true);
+//				auto animation = new MarginAnimation(
+//					Margin(value ? -_menuSize : 0, 0, 0, 0),
+//					Margin(value ? 0 : -_menuSize, 0, 0, 0),
+//					5000
+//				);
+//
+////				animation->addOnCompleted([animation] {
+////					delete animation;
+////				});
+//
+//				_menu.addAnimation(animation);
+//
+//				_menuOverlay.setVisible(value);
+//
+//				animation->start();
 			}
 	};
 }

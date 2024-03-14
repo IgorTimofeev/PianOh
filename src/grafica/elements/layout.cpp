@@ -11,19 +11,22 @@ namespace grafica {
 	}
 
 	void Layout::render(Display &display) {
+		if (!isVisible())
+			return;
+
 		for (const auto& child : *this) {
-			child->render(display);
+			if (child->isVisible())
+				child->render(display);
 		}
 	}
 
-	bool Layout::onEvent(Event &event) {
+	void Layout::onEvent(Event &event) {
 		for (int32_t i = (int32_t) getChildrenCount() - 1; i >= 0; i--) {
-			if (getChildAt(i)->handleEvent(event)) {
-				return true;
-			}
-		}
+			getChildAt(i)->handleEvent(event);
 
-		return false;
+			if (event.isHandled())
+				return;
+		}
 	}
 
 	std::vector<Element *>::iterator Layout::begin() {

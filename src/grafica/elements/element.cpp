@@ -64,19 +64,17 @@ namespace grafica {
 		};
 	}
 
-	bool Element::onEvent(Event &event) {
-		return false;
+	void Element::onEvent(Event &event) {
+
 	}
 
-	bool Element::handleEvent(Event &event) {
-		if (!_isEnabled || !event.matches(this))
-			return false;
+	void Element::handleEvent(Event &event) {
+		if (!isVisible() || !_isEnabled || !event.matches(this))
+			return;
 
-		auto result = onEvent(event);
+		onEvent(event);
 
 		_eventHandlers.invoke(event);
-
-		return result;
 	}
 
 	void Element::addEventHandler(const std::function<void(Event &)> &handler) {

@@ -20,7 +20,7 @@ namespace ui {
 				button.setForeground(Color::black);
 				button.setText("Click");
 
-				button.addOnClick([this]() {
+				button.addOnClick([this](Event& event) {
 					auto animation = new SizeAnimation(
 						pizda ? Size(320, 100) : Size(120, 40),
 						pizda ? Size(120, 40) : Size(320, 100),

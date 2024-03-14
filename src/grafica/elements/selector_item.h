@@ -15,7 +15,7 @@ namespace grafica {
 			void setSelector(Selector *value);
 
 		protected:
-			bool onEvent(Event &event) override;
+			void onEvent(Event &event) override;
 
 		private:
 			Selector* _selector = nullptr;

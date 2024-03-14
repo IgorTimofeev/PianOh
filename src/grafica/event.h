@@ -23,7 +23,12 @@ namespace grafica {
 
 			virtual bool matches(Element* element) = 0;
 
+			bool isHandled() const;
+
+			void setHandled(bool handled);
+
 		private:
+			bool _handled = false;
 			EventType _type;
 	};
 

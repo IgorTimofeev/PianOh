@@ -76,9 +76,9 @@ namespace grafica {
 				}
 			}
 
-			bool onEvent(Event &event) override {
+			void onEvent(Event &event) override {
 				if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag)
-					return false;
+					return;
 
 				auto touchEvent = (TouchEvent&) event;
 
@@ -106,7 +106,7 @@ namespace grafica {
 					invalidate();
 				}
 
-				return true;
+				event.setHandled(true);
 			}
 
 		private:

@@ -43,9 +43,9 @@ namespace grafica {
 			virtual void invalidateLayout();
 			virtual void invalidate();
 
-			bool handleEvent(Event& event);
+			void handleEvent(Event& event);
 
-			virtual bool onEvent(Event& event);
+			virtual void onEvent(Event& event);
 
 			virtual void addEventHandler(const std::function<void(Event&)>& handler);
 

@@ -11,7 +11,7 @@ namespace grafica {
 
 			void render(Display& display) override;
 
-			bool onEvent(Event& event) override;
+			void onEvent(Event& event) override;
 
 			std::vector<Element*>::iterator begin();
 

@@ -2,16 +2,16 @@
 #include "selector.h"
 
 namespace grafica {
-	bool SelectorItem::onEvent(Event &event) {
+	void SelectorItem::onEvent(Event &event) {
 		Layout::onEvent(event);
 
-		if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag)
-			return false;
+		if (event.isHandled() || (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag))
+			return;
 
 		if (getSelector())
 			getSelector()->setSelectedIndex(getSelector()->getIndexOfItem(this));
 
-		return true;
+		event.setHandled(true);
 	}
 
 	void SelectorItem::setSelected(const bool &value) {

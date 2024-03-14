@@ -10,6 +10,14 @@ namespace grafica {
 		return _type;
 	}
 
+	bool Event::isHandled() const {
+		return _handled;
+	}
+
+	void Event::setHandled(bool handled) {
+		_handled = handled;
+	}
+
 	TouchEvent::TouchEvent(const EventType &type, const Point &position) :
 		ScreenEvent(type),
 		_position(position)

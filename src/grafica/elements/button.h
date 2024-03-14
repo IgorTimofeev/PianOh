@@ -10,7 +10,7 @@
 namespace grafica {
 	class Button : public TextAware, public BackgroundAware, public ForegroundAware {
 		public:
-			void addOnClick(const std::function<void()>& value) {
+			void addOnClick(const std::function<void(Event&)>& value) {
 				_onClick.add(value);
 			}
 
@@ -33,16 +33,14 @@ namespace grafica {
 				);
 			}
 
-			bool onEvent(Event &event) override {
+			void onEvent(Event &event) override {
 				if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag)
-					return false;
+					return;
 
-				_onClick.invoke();
-
-				return true;
+				_onClick.invoke(event);
 			}
 
 		private:
-			Action<> _onClick {};
+			Action<Event&> _onClick {};
 	};
 }
