@@ -73,7 +73,8 @@ namespace ui {
 
 				// Menu
 				_menu.setSize(Size(_menuSize, Size::calculated));
-				_menu.setMargin(Margin(-15, 0, 0, 0));
+				_menu.setMargin(Margin(0, 0, 0, 0));
+				_menu.setHorizontalAlignment(Alignment::start);
 //				_menu.setVisible(false);
 				_menu.addChild(&_menuBackground);
 
@@ -126,32 +127,32 @@ namespace ui {
 			}
 
 			void setMenuOpen(bool value) {
-				_menuOverlay.setVisible(value);
-				_menu.setVisible(value);
+//				_menuOverlay.setVisible(value);
+//				_menu.setVisible(value);
 
-//				if (value) {
-//					_menuOverlay.setVisible(true);
-//					_menu.setVisible(true);
-//				}
-//
-//				auto animation = new MarginAnimation(
-//					Margin(value ? -_menuSize : 0, 0, 0, 0),
-//					Margin(value ? 0 : -_menuSize, 0, 0, 0),
-//					5000
-//				);
-//
-//				animation->addOnCompleted([this, value, animation] {
-//					if (!value) {
-//						_menuOverlay.setVisible(false);
-//						_menu.setVisible(false);
-//					}
-//
-//					delete animation;
-//				});
-//
-//				_menu.addAnimation(animation);
-//
-//				animation->start();
+				if (value) {
+					_menuOverlay.setVisible(true);
+					_menu.setVisible(true);
+				}
+
+				auto animation = new MarginAnimation(
+					Margin(value ? -_menuSize : 0, 0, 0, 0),
+					Margin(value ? 0 : -_menuSize, 0, 0, 0),
+					5000
+				);
+
+				animation->addOnCompleted([this, value, animation] {
+					if (!value) {
+						_menuOverlay.setVisible(false);
+						_menu.setVisible(false);
+					}
+
+					delete animation;
+				});
+
+				_menu.addAnimation(animation);
+
+				animation->start();
 			}
 	};
 }

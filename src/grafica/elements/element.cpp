@@ -81,16 +81,14 @@ namespace grafica {
 		switch (alignment) {
 			case start:
 				if (size == Size::calculated) {
-					newSize = desiredSize;
+					newSize = desiredSize - marginStart - marginEnd;
+
+					if (newSize < 0)
+						newSize = 0;
 				}
 				else {
 					newSize = size;
 				}
-
-				newSize = newSize - marginStart - marginEnd;
-
-				if (newSize < 0)
-					newSize = 0;
 
 				newPosition = position + marginStart;
 
@@ -98,16 +96,14 @@ namespace grafica {
 
 			case center:
 				if (size == Size::calculated) {
-					newSize = desiredSize;
+					newSize = desiredSize - marginStart - marginEnd;
+
+					if (newSize < 0)
+						newSize = 0;
 				}
 				else {
 					newSize = size;
 				}
-
-				newSize = newSize - marginStart - marginEnd;
-
-				if (newSize < 0)
-					newSize = 0;
 
 				newPosition = position + marginStart - marginEnd + limit / 2 - newSize / 2;
 
@@ -115,16 +111,15 @@ namespace grafica {
 
 			case end:
 				if (size == Size::calculated) {
-					newSize = desiredSize;
+					newSize = desiredSize - marginStart - marginEnd;
+
+					if (newSize < 0)
+						newSize = 0;
+
 				}
 				else {
 					newSize = size;
 				}
-
-				newSize = newSize - marginStart - marginEnd;
-
-				if (newSize < 0)
-					newSize = 0;
 
 				newPosition = position + limit - marginEnd - newSize;
 
@@ -132,16 +127,14 @@ namespace grafica {
 
 			case stretch:
 				if (size == Size::calculated) {
-					newSize = limit;
+					newSize = limit - marginStart - marginEnd;
+
+					if (newSize < 0)
+						newSize = 0;
 				}
 				else {
 					newSize = size;
 				}
-
-				newSize = newSize - marginStart - marginEnd;
-
-				if (newSize < 0)
-					newSize = 0;
 
 				newPosition = position + marginStart;
 
