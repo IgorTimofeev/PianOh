@@ -84,8 +84,8 @@ namespace grafica {
 				return
 					point.getX() >= _x
 					&& point.getY() >= _y
-					&& point.getX() <= _x + _width
-					&& point.getY() <= _y + _height;
+					&& point.getX() <= getX2()
+					&& point.getY() <= getY2();
 			}
 
 		private:

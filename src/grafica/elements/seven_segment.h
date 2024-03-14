@@ -23,7 +23,7 @@ namespace grafica {
 				};
 			}
 
-			void render(Display& display) override {
+			void onRender(Display& display) override {
 				auto bounds = getBounds();
 				bounds.setX(bounds.getX() + (getDigitWidth() + getSpacing()) * (getDigitCount() - 1));
 

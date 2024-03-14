@@ -8,7 +8,7 @@
 namespace grafica {
 	class Image : public Element {
 		public:
-			void render(Display& display) override {
+			void onRender(Display& display) override {
 				if (!getSource() || !getSource()->getPixels())
 					return;
 

@@ -13,7 +13,7 @@ namespace grafica {
 
 			void measure(Display& display);
 			void arrange();
-			void render(Display& display) override;
+			void onRender(Display& display) override;
 			void invalidateLayout() override;
 			void invalidateRender() override;
 			void invalidate() override;

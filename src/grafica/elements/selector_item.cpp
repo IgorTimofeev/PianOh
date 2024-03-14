@@ -3,9 +3,7 @@
 
 namespace grafica {
 	void SelectorItem::onEvent(Event &event) {
-		Layout::onEvent(event);
-
-		if (event.isHandled() || (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag))
+		if ((event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag))
 			return;
 
 		if (getSelector())

@@ -37,15 +37,12 @@ namespace grafica {
 			void arrange(const Bounds& bounds);
 
 			virtual void tick();
-			virtual void render(Display& display);
+			void render(Display &display);
+			void handleEvent(Event& event);
 
 			virtual void invalidateRender();
 			virtual void invalidateLayout();
 			virtual void invalidate();
-
-			void handleEvent(Event& event);
-
-			virtual void onEvent(Event& event);
 
 			virtual void addEventHandler(const std::function<void(Event&)>& handler);
 
@@ -84,10 +81,12 @@ namespace grafica {
 			Element* getParent();
 			void setParent(Element* value);
 
+
 		protected:
 			virtual Size onMeasure(Display& display, const Size& availableSize);
-
 			virtual void onArrange(const Bounds& bounds);
+			virtual void onRender(Display& display);
+			virtual void onEvent(Event& event);
 
 		private:
 			bool _isVisible = true;
@@ -107,6 +106,9 @@ namespace grafica {
 			void setDesiredSize(const Size& value);
 
 			void setBounds(const Bounds& value);
+
+			static void calculateMeasureShit(const Alignment &alignment, const uint16_t &size, const uint16_t &desiredSize,
+											 const uint16_t &marginStart, const uint16_t &marginEnd, int32_t &newSize);
 
 			static void calculateArrangeShit(
 				const Alignment& alignment,

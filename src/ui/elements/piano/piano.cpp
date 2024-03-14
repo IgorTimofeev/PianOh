@@ -25,7 +25,7 @@ namespace ui {
 		});
 	}
 
-	void Piano::render(Display &display) {
+	void Piano::onRender(Display &display) {
 		auto bounds = getBounds();
 
 		// Casing

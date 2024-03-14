@@ -9,7 +9,7 @@ namespace grafica {
 		public:
 			void tick() override;
 
-			void render(Display& display) override;
+			void onRender(Display& display) override;
 
 			void onEvent(Event& event) override;
 

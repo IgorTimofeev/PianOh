@@ -31,7 +31,7 @@ namespace grafica {
 				event.setHandled(true);
 			}
 
-			void render(Display& display) override {
+			void onRender(Display& display) override {
 				auto bounds = getBounds();
 				auto part = (uint16_t) round(_value * (float) bounds.getWidth());
 

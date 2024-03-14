@@ -8,7 +8,7 @@
 namespace grafica {
 	class Circle : public Shape {
 		public:
-			void render(Display& display) override {
+			void onRender(Display& display) override {
 				auto bounds = getBounds();
 
 				display.drawCircle(

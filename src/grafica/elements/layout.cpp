@@ -10,13 +10,9 @@ namespace grafica {
 		}
 	}
 
-	void Layout::render(Display &display) {
-		if (!isVisible())
-			return;
-
+	void Layout::onRender(Display &display) {
 		for (const auto& child : *this) {
-			if (child->isVisible())
-				child->render(display);
+			child->render(display);
 		}
 	}
 

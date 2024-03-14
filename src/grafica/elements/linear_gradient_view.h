@@ -25,7 +25,7 @@ namespace grafica {
 			}
 
 		protected:
-			void render(Display &display) override {
+			void onRender(Display &display) override {
 				if (!_gradient)
 					return;
 

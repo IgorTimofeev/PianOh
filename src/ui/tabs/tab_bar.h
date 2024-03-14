@@ -48,7 +48,6 @@ namespace ui {
 
 				// Menu button
 				_menuButton.setSize(Size(40, 40));
-				_menuButton.setMargin(Margin(10, 10, 0, 0));
 				_menuButton.setAlignment(Alignment::start, Alignment::start);
 				_menuButton.setBackground(Color::white);
 				_menuButton.setFontSize(4);
@@ -61,7 +60,7 @@ namespace ui {
 				addChild(&_menuButton);
 
 				// Menu background
-				_menuOverlay.setVisible(false);
+//				_menuOverlay.setVisible(false);
 				addChild(&_menuOverlay);
 
 				_menuOverlay.addEventHandler([this](Event& event) {
@@ -73,9 +72,9 @@ namespace ui {
 				});
 
 				// Menu
-				_menu.setVisible(false);
 				_menu.setSize(Size(_menuSize, Size::calculated));
-//				_menu.setMargin(Margin(-_menuSize, 0, 0, 0));
+				_menu.setMargin(Margin(0, 0, 0, 0));
+//				_menu.setVisible(false);
 				_menu.addChild(&_menuBackground);
 
 				_menuItemsLayout.setMargin(Margin(10));
@@ -113,7 +112,7 @@ namespace ui {
 			Layout _tabLayout = Layout();
 
 			Button _menuButton = Button();
-			Rectangle _menuOverlay = Rectangle(Color::gold);
+			Element _menuOverlay = Element();
 			const uint16_t _menuSize = 180;
 			Layout _menu = Layout();
 			Rectangle _menuBackground = Rectangle(Color::black);
@@ -127,22 +126,30 @@ namespace ui {
 			}
 
 			void setMenuOpen(bool value) {
-				_menu.setVisible(value);
 				_menuOverlay.setVisible(value);
+				_menu.setVisible(value);
 
+//				if (value) {
+//					_menuOverlay.setVisible(true);
+//					_menu.setVisible(true);
+//				}
+//
 //				auto animation = new MarginAnimation(
 //					Margin(value ? -_menuSize : 0, 0, 0, 0),
 //					Margin(value ? 0 : -_menuSize, 0, 0, 0),
 //					5000
 //				);
 //
-////				animation->addOnCompleted([animation] {
-////					delete animation;
-////				});
+//				animation->addOnCompleted([this, value, animation] {
+//					if (!value) {
+//						_menuOverlay.setVisible(false);
+//						_menu.setVisible(false);
+//					}
+//
+//					delete animation;
+//				});
 //
 //				_menu.addAnimation(animation);
-//
-//				_menuOverlay.setVisible(value);
 //
 //				animation->start();
 			}

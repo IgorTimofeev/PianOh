@@ -15,7 +15,7 @@ namespace grafica {
 			}
 
 		public:
-			void render(Display &display) override {
+			void onRender(Display &display) override {
 				auto& bounds = getBounds();
 				auto& text = getText();
 				auto textSize = display.measureText(text, getFontSize());

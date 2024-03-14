@@ -23,26 +23,167 @@ namespace grafica {
 		invalidate();
 	}
 
+	void Element::calculateMeasureShit(const Alignment &alignment, const uint16_t &size,
+									   const uint16_t &desiredSize, const uint16_t &marginStart, const uint16_t &marginEnd, int32_t &newSize) {
+
+		if (size == Size::calculated) {
+			newSize = desiredSize;
+		}
+		else {
+			newSize = size;
+		}
+
+		newSize = newSize + marginStart + marginEnd;
+
+		if (newSize < 0)
+			newSize = 0;
+
+
+	}
+
 	Size Element::measure(Display &display, const Size &availableSize) {
 		auto desiredSize = onMeasure(display, availableSize);
 
 		auto size = getSize();
 		auto margin = getMargin();
 
-		if (size.getWidth() != Size::calculated) {
-			desiredSize.setWidth(size.getWidth());
-		}
+		int32_t newSize = 0;
 
-		if (size.getHeight() != Size::calculated) {
-			desiredSize.setHeight(size.getHeight());
-		}
+		// Width
+		calculateMeasureShit(
+			getHorizontalAlignment(),
+			size.getWidth(),
+			desiredSize.getWidth(),
+			margin.getLeft(),
+			margin.getRight(),
+			newSize
+		);
 
-		desiredSize.setWidth(desiredSize.getWidth() + margin.getLeft() + margin.getRight());
-		desiredSize.setHeight(desiredSize.getHeight() + margin.getTop() + margin.getBottom());
+		desiredSize.setWidth(newSize);
+
+		// Height
+		calculateMeasureShit(
+			getVerticalAlignment(),
+			size.getHeight(),
+			desiredSize.getHeight(),
+			margin.getTop(),
+			margin.getBottom(),
+			newSize
+		);
+
+		desiredSize.setHeight(newSize);
 
 		setDesiredSize(desiredSize);
 
 		return desiredSize;
+	}
+
+	void Element::calculateArrangeShit(const Alignment &alignment, const int32_t &position, const uint16_t &size,
+									   const uint16_t &desiredSize, const uint16_t &marginStart, const uint16_t &marginEnd,
+									   const uint16_t &limit, int32_t &newPosition, int32_t &newSize) {
+		switch (alignment) {
+			case start:
+				if (size == Size::calculated) {
+					newSize = max(desiredSize - marginStart - marginEnd, 0);
+				}
+				else {
+					newSize = size;
+				}
+
+				newPosition = position + marginStart;
+
+				break;
+
+			case center:
+				if (size == Size::calculated) {
+					newSize = max(desiredSize - marginStart - marginEnd, 0);
+				}
+				else {
+					newSize = size;
+				}
+
+				newPosition = position + limit / 2 - newSize / 2 + marginStart - marginEnd;
+
+				break;
+
+			case end:
+				if (size == Size::calculated) {
+					newSize = max(desiredSize - marginStart - marginEnd, 0);
+				}
+				else {
+					newSize = size;
+				}
+
+				newPosition = position + limit - marginEnd - newSize;
+
+				break;
+
+			case stretch:
+				if (size == Size::calculated) {
+					newSize = max(limit - marginStart - marginEnd, 0);
+				}
+				else {
+					newSize = size;
+				}
+
+				newPosition = position + marginStart;
+
+				break;
+		}
+	}
+
+
+	void Element::arrange(const Bounds &bounds) {
+		auto margin = getMargin();
+		auto desiredSize = getDesiredSize();
+		auto size = getSize();
+
+		Bounds newBounds;
+		int32_t newPosition = 0;
+		int32_t newSize = 0;
+
+		calculateArrangeShit(
+			getHorizontalAlignment(),
+			bounds.getX(),
+			size.getWidth(),
+			desiredSize.getWidth(),
+			margin.getLeft(),
+			margin.getRight(),
+			bounds.getWidth(),
+			newPosition,
+			newSize
+		);
+
+		newBounds.setX(newPosition);
+		newBounds.setWidth(newSize);
+
+		calculateArrangeShit(
+			getVerticalAlignment(),
+			bounds.getY(),
+			size.getHeight(),
+			desiredSize.getHeight(),
+			margin.getTop(),
+			margin.getBottom(),
+			bounds.getHeight(),
+			newPosition,
+			newSize
+		);
+//
+//		if (tag == 1) {
+//			Serial.print(desiredSize.getHeight());
+//			Serial.print(" x ");
+//			Serial.print(bounds.getHeight());
+//			Serial.print(" x ");
+//			Serial.print(newPosition);
+//			Serial.print(" x ");
+//			Serial.println(newSize);
+//		}
+
+		newBounds.setY(newPosition);
+		newBounds.setHeight(newSize);
+
+		setBounds(newBounds);
+		onArrange(newBounds);
 	}
 
 	void Element::setDesiredSize(const Size &value) {
@@ -65,7 +206,7 @@ namespace grafica {
 	}
 
 	void Element::onEvent(Event &event) {
-
+		event.setHandled(true);
 	}
 
 	void Element::handleEvent(Event &event) {
@@ -161,113 +302,6 @@ namespace grafica {
 		return _horizontalAlignment;
 	}
 
-	void Element::arrange(const Bounds &bounds) {
-		auto margin = getMargin();
-		auto desiredSize = getDesiredSize();
-		auto size = getSize();
-
-		Bounds newBounds;
-		int32_t newPosition = 0;
-		int32_t newSize = 0;
-
-		calculateArrangeShit(
-			getHorizontalAlignment(),
-			bounds.getX(),
-			size.getWidth(),
-			desiredSize.getWidth(),
-			margin.getLeft(),
-			margin.getRight(),
-			bounds.getWidth(),
-			newPosition,
-			newSize
-		);
-
-		newBounds.setX(newPosition);
-		newBounds.setWidth(newSize);
-
-		calculateArrangeShit(
-			getVerticalAlignment(),
-			bounds.getY(),
-			size.getHeight(),
-			desiredSize.getHeight(),
-			margin.getTop(),
-			margin.getBottom(),
-			bounds.getHeight(),
-			newPosition,
-			newSize
-		);
-//
-//		if (tag == 1) {
-//			Serial.print(desiredSize.getHeight());
-//			Serial.print(" x ");
-//			Serial.print(bounds.getHeight());
-//			Serial.print(" x ");
-//			Serial.print(newPosition);
-//			Serial.print(" x ");
-//			Serial.println(newSize);
-//		}
-
-		newBounds.setY(newPosition);
-		newBounds.setHeight(newSize);
-
-		setBounds(newBounds);
-		onArrange(newBounds);
-	}
-
-	void Element::calculateArrangeShit(const Alignment &alignment, const int32_t &position, const uint16_t &size,
-									   const uint16_t &desiredSize, const uint16_t &marginStart, const uint16_t &marginEnd,
-									   const uint16_t &limit, int32_t &newPosition, int32_t &newSize) {
-		switch (alignment) {
-			case start:
-				if (size == Size::calculated) {
-					newSize = max(desiredSize - marginStart - marginEnd, 0);
-				}
-				else {
-					newSize = size;
-				}
-
-				newPosition = position + marginStart;
-
-				break;
-
-			case center:
-				if (size == Size::calculated) {
-					newSize = max(desiredSize - marginStart - marginEnd, 0);
-				}
-				else {
-					newSize = size;
-				}
-
-				newPosition = position + limit / 2 - newSize / 2 + marginStart - marginEnd;
-
-				break;
-
-			case end:
-				if (size == Size::calculated) {
-					newSize = max(desiredSize - marginStart - marginEnd, 0);
-				}
-				else {
-					newSize = size;
-				}
-
-				newPosition = position + limit - marginEnd - newSize;
-
-				break;
-
-			case stretch:
-				if (size == Size::calculated) {
-					newSize = max(limit - marginStart - marginEnd, 0);
-				}
-				else {
-					newSize = size;
-				}
-
-				newPosition = position + marginStart;
-
-				break;
-		}
-	}
-
 	void Element::invalidateRender() {
 		if (_workspace)
 			_workspace->invalidateRender();
@@ -288,6 +322,13 @@ namespace grafica {
 	}
 
 	void Element::render(Display &display) {
+		if (!isVisible())
+			return;
+
+		onRender(display);
+	}
+
+	void Element::onRender(Display &display) {
 
 	}
 }

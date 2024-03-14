@@ -13,7 +13,7 @@ namespace grafica {
 				setFillColor(color);
 			}
 
-			void render(Display& display) override {
+			void onRender(Display& display) override {
 				display.drawRectangle(getBounds(), getCornerRadius(), getFillColor());
 			}
 

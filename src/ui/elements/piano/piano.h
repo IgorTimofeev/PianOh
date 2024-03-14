@@ -19,7 +19,7 @@ namespace ui {
 			void setEffect(Effect *effect);
 
 		protected:
-			void render(Display &display) override;
+			void onRender(Display &display) override;
 
 		private:
 			const uint8_t controlsWidth = 62;

@@ -4,12 +4,13 @@
 #include "grafica/animations/animation.h"
 
 namespace grafica {
-	void Workspace::render(Display &display) {
+	void Workspace::onRender(Display &display) {
 		if (_isRendered)
 			return;
 
-		Layout::render(display);
+		Layout::onRender(display);
 		display.flush();
+
 		_isRendered = true;
 	}
 
@@ -18,6 +19,7 @@ namespace grafica {
 			return;
 
 		Layout::arrange(Bounds(getSize()));
+
 		_isArranged = true;
 	}
 
@@ -26,6 +28,7 @@ namespace grafica {
 			return;
 
 		Layout::measure(display, getSize());
+
 		_isMeasured = true;
 	}
 
