@@ -24,21 +24,60 @@ namespace grafica {
 	}
 
 	void Element::calculateMeasureShit(const Alignment &alignment, const uint16_t &size,
-									   const uint16_t &desiredSize, const uint16_t &marginStart, const uint16_t &marginEnd, int32_t &newSize) {
+									   const uint16_t &desiredSize, const int32_t &marginStart, const int32_t &marginEnd, int32_t &newSize) {
 
-		if (size == Size::calculated) {
-			newSize = desiredSize;
-		}
-		else {
-			newSize = size;
-		}
+		switch (alignment) {
+			case start:
+				if (size == Size::calculated) {
+					newSize = desiredSize;
+				}
+				else {
+					newSize = size;
+				}
 
-		newSize = newSize + marginStart + marginEnd;
+				newSize = newSize + marginStart + marginEnd;
+
+				break;
+
+			case center:
+				if (size == Size::calculated) {
+					newSize = desiredSize;
+				}
+				else {
+					newSize = size;
+				}
+
+				newSize = newSize + marginStart + marginEnd;
+
+				break;
+
+			case end:
+				if (size == Size::calculated) {
+					newSize = desiredSize;
+				}
+				else {
+					newSize = size;
+				}
+
+				newSize = newSize + marginStart + marginEnd;
+
+				break;
+
+			case stretch:
+				if (size == Size::calculated) {
+					newSize = desiredSize;
+				}
+				else {
+					newSize = size;
+				}
+
+				newSize = newSize + marginStart + marginEnd;
+
+				break;
+		}
 
 		if (newSize < 0)
 			newSize = 0;
-
-
 	}
 
 	Size Element::measure(Display &display, const Size &availableSize) {
@@ -79,12 +118,12 @@ namespace grafica {
 	}
 
 	void Element::calculateArrangeShit(const Alignment &alignment, const int32_t &position, const uint16_t &size,
-									   const uint16_t &desiredSize, const uint16_t &marginStart, const uint16_t &marginEnd,
+									   const uint16_t &desiredSize, const int32_t &marginStart, const int32_t &marginEnd,
 									   const uint16_t &limit, int32_t &newPosition, int32_t &newSize) {
 		switch (alignment) {
 			case start:
 				if (size == Size::calculated) {
-					newSize = max(desiredSize - marginStart - marginEnd, 0);
+					newSize = desiredSize;
 				}
 				else {
 					newSize = size;
@@ -96,7 +135,7 @@ namespace grafica {
 
 			case center:
 				if (size == Size::calculated) {
-					newSize = max(desiredSize - marginStart - marginEnd, 0);
+					newSize = desiredSize;
 				}
 				else {
 					newSize = size;
@@ -108,7 +147,7 @@ namespace grafica {
 
 			case end:
 				if (size == Size::calculated) {
-					newSize = max(desiredSize - marginStart - marginEnd, 0);
+					newSize = desiredSize;
 				}
 				else {
 					newSize = size;
@@ -120,7 +159,10 @@ namespace grafica {
 
 			case stretch:
 				if (size == Size::calculated) {
-					newSize = max(limit - marginStart - marginEnd, 0);
+					newSize = limit - marginStart - marginEnd;
+
+					if (newSize < 0)
+						newSize = 0;
 				}
 				else {
 					newSize = size;

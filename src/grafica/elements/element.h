@@ -107,16 +107,22 @@ namespace grafica {
 
 			void setBounds(const Bounds& value);
 
-			static void calculateMeasureShit(const Alignment &alignment, const uint16_t &size, const uint16_t &desiredSize,
-											 const uint16_t &marginStart, const uint16_t &marginEnd, int32_t &newSize);
+			static void calculateMeasureShit(
+				const Alignment &alignment,
+				const uint16_t &size,
+				const uint16_t &desiredSize,
+				const int32_t &marginStart,
+				const int32_t &marginEnd,
+				int32_t &newSize
+			);
 
 			static void calculateArrangeShit(
 				const Alignment& alignment,
 				const int32_t& position,
 				const uint16_t& size,
 				const uint16_t& desiredSize,
-				const uint16_t& marginStart,
-				const uint16_t& marginEnd,
+				const int32_t& marginStart,
+				const int32_t& marginEnd,
 				const uint16_t& limit,
 				int32_t& newPosition,
 				int32_t& newSize
