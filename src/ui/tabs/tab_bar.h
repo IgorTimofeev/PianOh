@@ -6,6 +6,7 @@
 #include "grafica/elements/selector_item.h"
 #include "grafica/elements/image.h"
 #include "grafica/elements/linear_gradient_view.h"
+#include "grafica/animations/margin_animation.h"
 
 #include "tab_item.h"
 
@@ -26,43 +27,59 @@ using namespace resources::images;
 namespace ui {
 	class TabBar : public Selector {
 		public:
-			TabItem gradientItemView = TabItem(&gradientOn, &gradientOff);
+			TabItem gradientItemView = TabItem(&gradientOn, &gradientOff, "Gradient");
 			GradientTab gradientTabView = GradientTab();
 
-			TabItem waveItemView = TabItem(&waveOn, &waveOff);
+			TabItem waveItemView = TabItem(&waveOn, &waveOff, "Wave");
 			WaveTab waveTabView = WaveTab();
 
-			TabItem flameItemView = TabItem(&flameOn, &flameOff);
+			TabItem flameItemView = TabItem(&flameOn, &flameOff, "Flame");
 			FlameTab flameTabView = FlameTab();
 
-			TabItem strobeItemView = TabItem(&strobeOn, &strobeOff);
+			TabItem strobeItemView = TabItem(&strobeOn, &strobeOff, "Strobe");
 			StrobeTab strobeTabView = StrobeTab();
 
-			TabItem pianoItemView = TabItem(&pianoOn, &pianoOff);
+			TabItem pianoItemView = TabItem(&pianoOn, &pianoOff, "Settings");
 			PianoTab pianoTabView = PianoTab();
 
 			TabBar() {
-				// Background
 				addChild(&_background);
+				addChild(&_tabLayout);
 
-				auto tmpLeftSize = 52;
+				// Menu button
+				_menuButton.setSize(Size(40, 40));
+				_menuButton.setMargin(Margin(10, 10, 0, 0));
+				_menuButton.setAlignment(Alignment::start, Alignment::start);
+				_menuButton.setBackground(Color::white);
+				_menuButton.setFontSize(4);
+				_menuButton.setText("=");
 
-				// Left
+				_menuButton.addOnClick([this]() {
+					setMenuOpen(true);
+				});
 
-				// Background
-				_itemsLayoutHolder.setSize(Size(tmpLeftSize, Size::calculated));
-				_itemsLayoutHolder.addChild(&_itemsLayoutBackground);
+				addChild(&_menuButton);
 
-				// Items
-				_itemsLayout.setSpacing(0);
-				_itemsLayoutHolder.addChild(&_itemsLayout);
-				setItemsLayout(&_itemsLayout);
+				// Menu background
+				_menuOverlay.setVisible(false);
+				addChild(&_menuOverlay);
 
-				addChild(&_itemsLayoutHolder);
+				_menuOverlay.addEventHandler([this](const Event& event) {
+					if (event.getType() == EventType::touchDown)
+						setMenuOpen(false);
+				});
 
-				// Right
-				_viewLayout.setMargin(Margin(tmpLeftSize, 0, 0, 0));
-				addChild(&_viewLayout);
+				// Menu
+				_menu.setSize(Size(_menuSize, Size::calculated));
+				_menu.setMargin(Margin(-_menuSize, 0, 0, 0));
+				_menu.addChild(&_menuBackground);
+
+				_menuItemsLayout.setMargin(Margin(10));
+				_menuItemsLayout.setSpacing(10);
+				_menu.addChild(&_menuItemsLayout);
+				setItemsLayout(&_menuItemsLayout);
+
+				addChild(&_menu);
 
 				// Initialization
 				addTabAndView(&gradientItemView, &gradientTabView);
@@ -75,7 +92,7 @@ namespace ui {
 
 		protected:
 			void onSelectionChanged() override {
-				_viewLayout.removeChildren();
+				_tabLayout.removeChildren();
 
 				if (getSelectedIndex() < 0)
 					return;
@@ -84,22 +101,43 @@ namespace ui {
 
 				Application::getInstance().piano.setEffect(tab->getEffect());
 
-				_viewLayout.addChild(tab);
+				_tabLayout.addChild(tab);
 			}
 
 		private:
-			Layout _itemsLayoutHolder = Layout();
-			Rectangle _itemsLayoutBackground = Rectangle(Color::black);
-			StackLayout _itemsLayout = StackLayout();
-
 			Rectangle _background = Rectangle(Color::white);
-			Layout _viewLayout = Layout();
+			Layout _tabLayout = Layout();
+
+			Button _menuButton = Button();
+			Element _menuOverlay = Element();
+			const uint16_t _menuSize = 180;
+			Layout _menu = Layout();
+			Rectangle _menuBackground = Rectangle(Color::black);
+			StackLayout _menuItemsLayout = StackLayout();
 
 			std::vector<EffectTab*> _views {};
 
 			void addTabAndView(SelectorItem* tab, EffectTab* view) {
 				_views.push_back(view);
 				addItem(tab);
+			}
+
+			void setMenuOpen(bool value) {
+				auto animation = new MarginAnimation(
+					Margin(value ? -_menuSize : 0, 0, 0, 0),
+					Margin(value ? 0 : -_menuSize, 0, 0, 0),
+					5000
+				);
+
+				_menu.addAnimation(animation);
+
+				animation->addOnCompleted([this, animation] {
+					_menuOverlay.setVisible(!_menuOverlay.isVisible());
+
+					delete animation;
+				});
+
+				_menuOverlay.setVisible(true);
 			}
 	};
 }

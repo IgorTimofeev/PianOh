@@ -25,11 +25,15 @@ namespace grafica {
 			Size onMeasure(Display& display, const Size& availableSize) override {
 				auto result = Size();
 
+				size_t visibleChildrenCount = 0;
 				Size childSize;
 
 				switch (getOrientation()) {
 					case horizontal:
 						for (auto child : *this) {
+							if (!child->isVisible())
+								continue;
+
 							childSize = child->measure(
 								display,
 								Size(
@@ -42,15 +46,20 @@ namespace grafica {
 
 							if (childSize.getHeight() > result.getHeight())
 								result.setHeight(childSize.getHeight());
+
+							visibleChildrenCount++;
 						}
 
-						if (getChildrenCount() > 0)
+						if (visibleChildrenCount > 0)
 							result.setWidth(result.getWidth() - getSpacing());
 
 						break;
 
 					case vertical:
 						for (auto child : *this) {
+							if (!child->isVisible())
+								continue;
+
 							childSize = child->measure(
 								display,
 								Size(
@@ -63,9 +72,11 @@ namespace grafica {
 								result.setWidth(childSize.getWidth());
 
 							result.setHeight(result.getHeight() + childSize.getHeight() + getSpacing());
+
+							visibleChildrenCount++;
 						}
 
-						if (getChildrenCount() > 0)
+						if (visibleChildrenCount > 0)
 							result.setHeight(result.getHeight() - getSpacing());
 
 						break;

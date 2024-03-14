@@ -3,6 +3,26 @@
 #include "grafica/animations/animation.h"
 
 namespace grafica {
+	bool Element::isVisible() const {
+		return _isVisible;
+	}
+
+	void Element::setVisible(bool value) {
+		_isVisible = value;
+
+		invalidate();
+	}
+
+	bool Element::isEnabled() const {
+		return _isEnabled;
+	}
+
+	void Element::setEnabled(bool value) {
+		_isEnabled = value;
+
+		invalidate();
+	}
+
 	Size Element::measure(Display &display, const Size &availableSize) {
 		auto desiredSize = onMeasure(display, availableSize);
 
@@ -49,7 +69,7 @@ namespace grafica {
 	}
 
 	bool Element::handleEvent(Event &event) {
-		if (!event.matches(this))
+		if (!_isEnabled || !event.matches(this))
 			return false;
 
 		auto result = onEvent(event);

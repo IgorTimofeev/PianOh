@@ -55,6 +55,11 @@ namespace grafica {
 
 			// -------------------------------- Getters & setters --------------------------------
 
+			bool isVisible() const;
+			void setVisible(bool value);
+			bool isEnabled() const;
+			void setEnabled(bool value);
+
 			Alignment getHorizontalAlignment() const;
 			void setHorizontalAlignment(Alignment value);
 
@@ -85,10 +90,12 @@ namespace grafica {
 			virtual void onArrange(const Bounds& bounds);
 
 		private:
+			bool _isVisible = true;
+			bool _isEnabled = true;
 			Size _size = Size(Size::calculated, Size::calculated);
 			Alignment _horizontalAlignment = Alignment::stretch;
 			Alignment _verticalAlignment = Alignment::stretch;
-			Margin _margin = Margin();
+			Margin _margin = Margin::zero;
 			Workspace* _workspace = nullptr;
 			Element* _parent = nullptr;
 

@@ -103,6 +103,9 @@ namespace grafica {
 		Size childSize;
 
 		for (auto child : *this) {
+			if (!child->isVisible())
+				continue;
+
 			childSize = child->measure(display, availableSize);
 
 			if (childSize.getWidth() > result.getWidth())
@@ -117,7 +120,8 @@ namespace grafica {
 
 	void Layout::onArrange(const Bounds &bounds) {
 		for (auto child : *this) {
-			child->arrange(bounds);
+			if (child->isVisible())
+				child->arrange(bounds);
 		}
 	}
 }
