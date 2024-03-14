@@ -1,5 +1,6 @@
 #include "workspace.h"
 #include "grafica/display.h"
+#include "element.h"
 
 namespace grafica {
 	void Workspace::render(Display &display) {

@@ -23,6 +23,7 @@ namespace grafica {
 
 	class Display;
 	class Event;
+	class Workspace;
 
 	class Element {
 		public:
@@ -69,8 +70,8 @@ namespace grafica {
 
 			const Bounds& getBounds();
 
-			Element* getFirstParent();
-			void setFirstParent(Element* value);
+			Workspace* getFirstParent();
+			void setFirstParent(Workspace* value);
 
 			Element* getParent();
 			void setParent(Element* value);
@@ -85,7 +86,7 @@ namespace grafica {
 			Alignment _horizontalAlignment = Alignment::stretch;
 			Alignment _verticalAlignment = Alignment::stretch;
 			Margin _margin = Margin();
-			Element* _firstParent = nullptr;
+			Workspace* _workspace = nullptr;
 			Element* _parent = nullptr;
 
 			Bounds _bounds;

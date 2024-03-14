@@ -1,4 +1,5 @@
 #include "element.h"
+#include "workspace.h"
 
 namespace grafica {
 	Size Element::measure(Display &display, const Size &availableSize) {
@@ -69,12 +70,12 @@ namespace grafica {
 		return _parent;
 	}
 
-	void Element::setFirstParent(Element *value) {
-		_firstParent = value;
+	void Element::setFirstParent(Workspace *value) {
+		_workspace = value;
 	}
 
-	Element *Element::getFirstParent() {
-		return _firstParent;
+	Workspace *Element::getFirstParent() {
+		return _workspace;
 	}
 
 	const Bounds &Element::getBounds() {
@@ -244,18 +245,18 @@ namespace grafica {
 	}
 
 	void Element::invalidateRender() {
-		if (_firstParent)
-			_firstParent->invalidateRender();
+		if (_workspace)
+			_workspace->invalidateRender();
 	}
 
 	void Element::invalidateLayout() {
-		if (_firstParent)
-			_firstParent->invalidateLayout();
+		if (_workspace)
+			_workspace->invalidateLayout();
 	}
 
 	void Element::invalidate() {
-		if (_firstParent)
-			_firstParent->invalidate();
+		if (_workspace)
+			_workspace->invalidate();
 	}
 
 	void Element::tick() {
