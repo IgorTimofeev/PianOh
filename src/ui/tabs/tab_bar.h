@@ -16,6 +16,7 @@
 #include "ui/tabs/wave/tab.h"
 #include "ui/tabs/piano/tab.h"
 #include "ui/tabs/strobe/tab.h"
+#include "ui/application.h"
 
 #include "resources/images.h"
 
@@ -76,8 +77,14 @@ namespace ui {
 			void onSelectionChanged() override {
 				_viewLayout.removeChildren();
 
-				if (getSelectedIndex() >= 0)
-					_viewLayout.addChild(_views[getSelectedIndex()]);
+				if (getSelectedIndex() < 0)
+					return;
+
+				auto& tab = _views[getSelectedIndex()];
+
+				Application::getInstance().piano.setEffect(tab->getEffect());
+
+				_viewLayout.addChild(tab);
 			}
 
 		private:
@@ -88,9 +95,9 @@ namespace ui {
 			Rectangle _background = Rectangle(Color::white);
 			Layout _viewLayout = Layout();
 
-			std::vector<Element*> _views {};
+			std::vector<EffectTab*> _views {};
 
-			void addTabAndView(SelectorItem* tab, Element* view) {
+			void addTabAndView(SelectorItem* tab, EffectTab* view) {
 				_views.push_back(view);
 				addItem(tab);
 			}

@@ -6,18 +6,14 @@
 #include "particles_effect.h"
 #include "grafica/number.h"
 #include "grafica/gradient.h"
+#include "ui/elements/piano/piano.h"
+#include "particles/wave_particle.h"
 
 namespace devices {
 	class GradientEffect : public ParticlesEffect {
 		public:
-			GradientEffect() = default;
-
 			~GradientEffect() override {
 				delete _gradient;
-			}
-
-			explicit GradientEffect(LinearGradient* gradient) {
-				setGradient(gradient);
 			}
 
 			void handleEvent(devices::Piano &piano, MidiEvent& event) override {
@@ -39,6 +35,13 @@ namespace devices {
 				piano.clearStrip();
 
 				ParticlesEffect::render(piano, time);
+			}
+
+			Color getSampleColor(devices::Piano &piano, const uint16_t &index) override {
+				if (!_gradient)
+					return Effect::getSampleColor(piano, index);
+
+				return _gradient->getColor((float) index / (float) piano.getStripLength());
 			}
 
 			LinearGradient* getGradient() {

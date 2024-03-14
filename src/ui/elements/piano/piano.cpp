@@ -104,15 +104,15 @@ namespace ui {
 			stripHeight
 		);
 
-		drawStrip(display, stripBounds);
+		renderStrip(display, stripBounds);
 
 		// Keys
 		stripBounds.setY(stripBounds.getY() + stripHeight);
 		stripBounds.setHeight(whiteKeySize.getHeight());
-		drawOctaves(display, stripBounds);
+		renderOctaves(display, stripBounds);
 	}
 
-	void Piano::drawStrip(Display &display, Bounds &bounds) const {
+	void Piano::renderStrip(Display &display, Bounds &bounds) const {
 		display.drawRectangle(bounds, Color::gray);
 
 		auto x = (float) bounds.getX();
@@ -121,14 +121,16 @@ namespace ui {
 		for (uint16_t i = 0; i < Application::getInstance().piano.getStripLength(); i++) {
 			display.drawRectangle(
 				Bounds((int32_t) x, bounds.getY(), 2, stripHeight),
-				Application::getInstance().piano.getStripColor(i)
+				getEffect()
+					? getEffect()->getSampleColor(Application::getInstance().piano, i)
+					: Color::gray
 			);
 
 			x += step;
 		}
 	}
 
-	void Piano::drawWhiteKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
+	void Piano::renderWhiteKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
 		display.drawRectangle(
 			Bounds(
 				x,
@@ -142,7 +144,7 @@ namespace ui {
 		x += whiteKeySize.getWidth() + whiteKeySpacing;
 	}
 
-	void Piano::drawBlackKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
+	void Piano::renderBlackKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
 		display.drawRectangle(
 			Bounds(
 				x,
@@ -156,42 +158,42 @@ namespace ui {
 		x += blackKeySize.getWidth() + blackKeySpacing;
 	}
 
-	void Piano::drawOctave(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
+	void Piano::renderOctave(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
 		// White
-		drawWhiteKey(display, x, y, keyIndex);
+		renderWhiteKey(display, x, y, keyIndex);
 		keyIndex += 2;
-		drawWhiteKey(display, x, y, keyIndex);
+		renderWhiteKey(display, x, y, keyIndex);
 		keyIndex += 2;
-		drawWhiteKey(display, x, y, keyIndex);
+		renderWhiteKey(display, x, y, keyIndex);
 		keyIndex += 1;
-		drawWhiteKey(display, x, y, keyIndex);
+		renderWhiteKey(display, x, y, keyIndex);
 		keyIndex += 2;
-		drawWhiteKey(display, x, y, keyIndex);
+		renderWhiteKey(display, x, y, keyIndex);
 		keyIndex += 2;
-		drawWhiteKey(display, x, y, keyIndex);
+		renderWhiteKey(display, x, y, keyIndex);
 		keyIndex += 2;
-		drawWhiteKey(display, x, y, keyIndex);
+		renderWhiteKey(display, x, y, keyIndex);
 		keyIndex -= 10;
 		auto oldX = x;
 		x = x - (whiteKeySize.getWidth() + whiteKeySpacing) * 6 - blackKeySize.getWidth() / 2 - 1;
 
 		// Black
-		drawBlackKey(display, x, y, keyIndex);
+		renderBlackKey(display, x, y, keyIndex);
 		keyIndex += 2;
-		drawBlackKey(display, x, y, keyIndex);
+		renderBlackKey(display, x, y, keyIndex);
 		keyIndex += 3;
 		x += whiteKeySize.getWidth() + whiteKeySpacing;
 
-		drawBlackKey(display, x, y, keyIndex);
+		renderBlackKey(display, x, y, keyIndex);
 		keyIndex += 2;
-		drawBlackKey(display, x, y, keyIndex);
+		renderBlackKey(display, x, y, keyIndex);
 		keyIndex += 2;
-		drawBlackKey(display, x, y, keyIndex);
+		renderBlackKey(display, x, y, keyIndex);
 		keyIndex += 2;
 		x = oldX;
 	}
 
-	void Piano::drawOctaves(Display &display, Bounds &bounds) {
+	void Piano::renderOctaves(Display &display, Bounds &bounds) {
 		int32_t x = bounds.getX();
 		int32_t y = bounds.getY();
 
@@ -200,23 +202,31 @@ namespace ui {
 		// 0 octave
 
 		// White
-		drawWhiteKey(display, x, y, keyIndex);
+		renderWhiteKey(display, x, y, keyIndex);
 		keyIndex += 2;
-		drawWhiteKey(display, x, y, keyIndex);
+		renderWhiteKey(display, x, y, keyIndex);
 		keyIndex -= 1;
 		auto oldX = x;
 		x = x - whiteKeySize.getWidth() - whiteKeySpacing - blackKeySize.getWidth() / 2 - 1;
 
 		// Black
-		drawBlackKey(display, x, y, keyIndex);
+		renderBlackKey(display, x, y, keyIndex);
 		keyIndex += 2;
 		x = oldX;
 
 		// 7 octaves
 		for (int i = 0; i < 7; i++)
-			drawOctave(display, x, y, keyIndex);
+			renderOctave(display, x, y, keyIndex);
 
 		// Last key
-		drawWhiteKey(display, x, y, keyIndex);
+		renderWhiteKey(display, x, y, keyIndex);
+	}
+
+	Effect *Piano::getEffect() const {
+		return _effect;
+	}
+
+	void Piano::setEffect(Effect *effect) {
+		_effect = effect;
 	}
 }

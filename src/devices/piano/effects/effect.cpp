@@ -7,7 +7,7 @@ namespace devices {
 
 	}
 
-	void Effect::example(ui::Piano &piano) {
-
+	Color Effect::getSampleColor(devices::Piano &piano, const uint16_t &index) {
+		return Color::gray;
 	}
 }

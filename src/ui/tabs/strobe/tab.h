@@ -4,11 +4,12 @@
 #include "grafica/elements/layout.h"
 #include "grafica/elements/text.h"
 #include "grafica/elements/rectangle.h"
+#include "ui/tabs/effect_tab.h"
 
 using namespace grafica;
 
 namespace ui {
-	class StrobeTab : public Layout {
+	class StrobeTab : public EffectTab {
 		public:
 			StrobeTab() {
 				setAlignment(Alignment::center);

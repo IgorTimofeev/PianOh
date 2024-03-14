@@ -4,11 +4,12 @@
 #include "grafica/elements/layout.h"
 #include "grafica/elements/text.h"
 #include "grafica/elements/rectangle.h"
+#include "ui/tabs/effect_tab.h"
 
 using namespace grafica;
 
 namespace ui {
-	class PianoTab : public Layout {
+	class PianoTab : public EffectTab {
 		public:
 			PianoTab() {
 				setAlignment(Alignment::center);

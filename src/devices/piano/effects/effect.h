@@ -1,11 +1,14 @@
 #pragma once
 
 #include "devices/piano/midi_event.h"
+#include "grafica/color.h"
 #include <cstdint>
 
 namespace ui {
 	class Piano;
 }
+
+using namespace grafica;
 
 namespace devices {
 	class Piano;
@@ -20,6 +23,6 @@ namespace devices {
 
 			virtual void render(devices::Piano &piano, const uint32_t& time) = 0;
 
-			virtual void example(ui::Piano& piano);
+			virtual Color getSampleColor(devices::Piano &piano, const uint16_t &index);
 	};
 }

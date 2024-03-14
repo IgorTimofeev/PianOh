@@ -7,12 +7,16 @@
 #include "devices/piano/effects/effect.h"
 
 using namespace grafica;
+using namespace devices;
 
 namespace ui {
 	class Piano : public Element {
 		public:
 			Piano();
 
+			Effect *getEffect() const;
+
+			void setEffect(Effect *effect);
 
 		protected:
 			void render(Display &display) override;
@@ -32,10 +36,12 @@ namespace ui {
 
 			const uint8_t stripHeight = 3;
 
-			void drawStrip(Display &display, Bounds& bounds) const;
-			void drawWhiteKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
-			void drawBlackKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
-			void drawOctave(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
-			void drawOctaves(Display &display, Bounds& bounds);
+			Effect* _effect = nullptr;
+
+			void renderStrip(Display &display, Bounds& bounds) const;
+			void renderWhiteKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
+			void renderBlackKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
+			void renderOctave(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
+			void renderOctaves(Display &display, Bounds& bounds);
 	};
 }

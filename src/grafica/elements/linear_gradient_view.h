@@ -8,12 +8,27 @@
 namespace grafica {
 	class LinearGradientView : public Element {
 		public:
-			LinearGradientView() {
-				gradient.addRainbowStops();
+			uint16_t getSelectedIndex() const {
+				return _selectedIndex;
+			}
+
+			void setSelectedIndex(uint16_t selectedIndex) {
+				_selectedIndex = selectedIndex;
+			}
+
+			LinearGradient *getGradient() const {
+				return _gradient;
+			}
+
+			void setGradient(LinearGradient *gradient) {
+				_gradient = gradient;
 			}
 
 		protected:
 			void render(Display &display) override {
+				if (!_gradient)
+					return;
+
 				auto bounds = getBounds();
 
 				float position = 0;
@@ -24,7 +39,7 @@ namespace grafica {
 					display.drawFastVLine(
 						Point(x, bounds.getY()),
 						bounds.getHeight(),
-						gradient.getColor(position)
+						_gradient->getColor(position)
 					);
 
 					position += positionStep;
@@ -34,14 +49,14 @@ namespace grafica {
 				GradientStop* stop;
 				String text;
 
-				for (size_t i = 0; i < gradient.getStops().size(); i++) {
-					stop = &gradient.getStops()[i];
+				for (size_t i = 0; i < _gradient->getStops().size(); i++) {
+					stop = &_gradient->getStops()[i];
 
 					int32_t x = bounds.getX() + (int32_t) (stop->getPosition() * (float) bounds.getWidth());
 
-					if (i == selectedIndex) {
+					if (i == _selectedIndex) {
 						display.drawRectangle(Bounds(x - 4, bounds.getY() - 4, 8, bounds.getHeight() + 8), Color::black);
-						display.drawRectangle(Bounds(x - 3, bounds.getY() - 3, 6, bounds.getHeight() + 6), gradient.getColor(stop->getPosition()));
+						display.drawRectangle(Bounds(x - 3, bounds.getY() - 3, 6, bounds.getHeight() + 6), _gradient->getColor(stop->getPosition()));
 					}
 					else {
 						display.drawRectangle(Bounds(x, bounds.getY(), 1, bounds.getHeight()), Color::black);
@@ -77,8 +92,8 @@ namespace grafica {
 
 					GradientStop* stop;
 
-					for (size_t i = 0; i < gradient.getStops().size(); i++) {
-						stop = &gradient.getStops()[i];
+					for (size_t i = 0; i < _gradient->getStops().size(); i++) {
+						stop = &_gradient->getStops()[i];
 						delta = abs(stop->getPosition() - position);
 
 						if (delta < closestDelta) {
@@ -87,7 +102,7 @@ namespace grafica {
 						}
 					}
 
-					selectedIndex = closestIndex;
+					_selectedIndex = closestIndex;
 					invalidate();
 				}
 
@@ -95,7 +110,7 @@ namespace grafica {
 			}
 
 		private:
-			uint16_t selectedIndex = 0;
-			LinearGradient gradient = LinearGradient();
+			uint16_t _selectedIndex = 0;
+			LinearGradient* _gradient = nullptr;
 	};
 }

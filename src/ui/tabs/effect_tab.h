@@ -9,15 +9,8 @@ using namespace devices;
 namespace ui {
 	class EffectTab : public Layout {
 		public:
-			Effect* getEffect() const {
-				return _effect;
+			virtual Effect* getEffect() {
+				return nullptr;
 			}
-
-			void setEffect(Effect* effect) {
-				_effect = effect;
-			}
-
-		private:
-			Effect* _effect = nullptr;
 	};
 }

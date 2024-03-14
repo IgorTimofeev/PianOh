@@ -4,11 +4,12 @@
 #include "grafica/elements/layout.h"
 #include "grafica/elements/slider.h"
 #include "grafica/elements/text.h"
+#include "ui/tabs/effect_tab.h"
 
 using namespace grafica;
 
 namespace ui {
-	class WaveTab : public StackLayout {
+	class WaveTab : public EffectTab {
 		public:
 			WaveTab() {
 				setAlignment(Alignment::center);
