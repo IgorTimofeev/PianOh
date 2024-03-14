@@ -27,8 +27,8 @@ namespace ui {
 			const uint8_t displayMargin = 4;
 			const uint8_t displayWidth = 28;
 
-			const Size whiteKeySize = Size(6, 52);
-			const Size blackKeySize = Size(4, 30);
+			const Size whiteKeySize = Size(7, 52);
+			const Size blackKeySize = Size(5, 30);
 			const uint8_t whiteKeySpacing = 1;
 			const uint8_t blackKeySpacing = 3;
 			const Margin keysMargin = Margin(3, 42, 3, 3);

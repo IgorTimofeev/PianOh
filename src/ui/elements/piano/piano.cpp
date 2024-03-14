@@ -113,10 +113,10 @@ namespace ui {
 	}
 
 	void Piano::renderStrip(Display &display, Bounds &bounds) const {
-		display.drawRectangle(bounds, Color::gray);
+		display.drawRectangle(bounds, Color::black);
 
-		auto x = (float) bounds.getX();
 		auto step = (float) bounds.getWidth() / (float) Application::getInstance().piano.getStripLength();
+		auto x = (float) bounds.getX() + step / 2;
 
 		for (uint16_t i = 0; i < Application::getInstance().piano.getStripLength(); i++) {
 			display.drawRectangle(
