@@ -1,6 +1,7 @@
 #include "workspace.h"
 #include "grafica/display.h"
 #include "element.h"
+#include "grafica/animations/animation.h"
 
 namespace grafica {
 	void Workspace::render(Display &display) {
@@ -29,7 +30,7 @@ namespace grafica {
 	}
 
 	Workspace::Workspace() {
-		setFirstParent(this);
+		setWorkspace(this);
 	}
 
 	void Workspace::invalidateLayout() {
@@ -44,5 +45,33 @@ namespace grafica {
 	void Workspace::invalidate() {
 		invalidateLayout();
 		invalidateRender();
+	}
+
+	void Workspace::addAnimation(Element *element, Animation& animation) {
+		_animations.emplace_back(element, animation);
+	}
+
+	void Workspace::animate() {
+		if (_animations.empty())
+			return;
+
+		auto time = micros();
+
+		for (int i = 0; i < _animations.size(); i++) {
+			auto elementAndAnimation = _animations[i];
+
+			elementAndAnimation.second.tick(elementAndAnimation.first, time);
+
+			if (!elementAndAnimation.second.isStarted()) {
+				_animations.erase(_animations.begin() + i);
+				i--;
+			}
+		}
+	}
+
+	void Workspace::tick() {
+		animate();
+
+		Layout::tick();
 	}
 }

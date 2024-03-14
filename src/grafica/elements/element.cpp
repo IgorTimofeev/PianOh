@@ -1,5 +1,6 @@
 #include "element.h"
 #include "workspace.h"
+#include "grafica/animations/animation.h"
 
 namespace grafica {
 	Size Element::measure(Display &display, const Size &availableSize) {
@@ -62,6 +63,11 @@ namespace grafica {
 		_eventHandlers.add(handler);
 	}
 
+	void Element::addAnimation(Animation &animation) {
+		if (_workspace)
+			_workspace->addAnimation(this, animation);
+	}
+
 	void Element::setParent(Element *value) {
 		_parent = value;
 	}
@@ -70,11 +76,11 @@ namespace grafica {
 		return _parent;
 	}
 
-	void Element::setFirstParent(Workspace *value) {
+	void Element::setWorkspace(Workspace *value) {
 		_workspace = value;
 	}
 
-	Workspace *Element::getFirstParent() {
+	Workspace *Element::getWorkspace() {
 		return _workspace;
 	}
 
@@ -172,16 +178,16 @@ namespace grafica {
 			newPosition,
 			newSize
 		);
-
-		if (tag == 1) {
-			Serial.print(desiredSize.getHeight());
-			Serial.print(" x ");
-			Serial.print(bounds.getHeight());
-			Serial.print(" x ");
-			Serial.print(newPosition);
-			Serial.print(" x ");
-			Serial.println(newSize);
-		}
+//
+//		if (tag == 1) {
+//			Serial.print(desiredSize.getHeight());
+//			Serial.print(" x ");
+//			Serial.print(bounds.getHeight());
+//			Serial.print(" x ");
+//			Serial.print(newPosition);
+//			Serial.print(" x ");
+//			Serial.println(newSize);
+//		}
 
 		newBounds.setY(newPosition);
 		newBounds.setHeight(newSize);

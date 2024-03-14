@@ -4,7 +4,7 @@ namespace grafica {
 	void Layout::tick() {
 		for (const auto& child : *this) {
 			child->setParent(this);
-			child->setFirstParent(getFirstParent());
+			child->setWorkspace(getWorkspace());
 
 			child->tick();
 		}
@@ -78,7 +78,7 @@ namespace grafica {
 
 	void Layout::addChild(Element *child) {
 		child->setParent(this);
-		child->setFirstParent(getFirstParent());
+		child->setWorkspace(getWorkspace());
 
 		_children.push_back(child);
 

@@ -10,6 +10,15 @@ namespace grafica {
 		return value;
 	}
 
+	double Number::clampDouble(double value, double minimum, double maximum) {
+		if (value < minimum)
+			value = minimum;
+		else if (value > maximum)
+			value = maximum;
+
+		return value;
+	}
+
 	uint8_t Number::clampUint8(uint8_t value, uint8_t minimum, uint8_t maximum) {
 		if (value < minimum)
 			value = minimum;

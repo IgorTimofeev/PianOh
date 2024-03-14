@@ -18,7 +18,7 @@ namespace ui {
 
 				text.setAlignment(Alignment::center, Alignment::center);
 				text.setMargin(Margin(10));
-				text.setColor(Color::black);
+				text.setForeground(Color::black);
 				text.setText("Timer");
 				addChild(&text);
 			}

@@ -12,5 +12,7 @@ namespace grafica {
 			static int32_t clampInt32(int32_t value, int32_t minimum, int32_t maximum);
 
 			static uint8_t clampUint8(uint8_t value, uint8_t minimum = 0, uint8_t maximum = 255);
+
+			static double clampDouble(double value, double minimum = 0, double maximum = 1);
 	};
 }

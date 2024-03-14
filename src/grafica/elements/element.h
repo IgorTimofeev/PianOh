@@ -24,6 +24,7 @@ namespace grafica {
 	class Display;
 	class Event;
 	class Workspace;
+	class Animation;
 
 	class Element {
 		public:
@@ -48,6 +49,8 @@ namespace grafica {
 
 			virtual void addEventHandler(const std::function<void(Event&)>& handler);
 
+			void addAnimation(Animation& animation);
+
 			int32_t tag = 0;
 
 			// -------------------------------- Getters & setters --------------------------------
@@ -70,8 +73,8 @@ namespace grafica {
 
 			const Bounds& getBounds();
 
-			Workspace* getFirstParent();
-			void setFirstParent(Workspace* value);
+			Workspace* getWorkspace();
+			void setWorkspace(Workspace* value);
 
 			Element* getParent();
 			void setParent(Element* value);
