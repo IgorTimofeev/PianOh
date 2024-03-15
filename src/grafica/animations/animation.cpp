@@ -1,7 +1,6 @@
 #include "animation.h"
 #include "Arduino.h"
 #include "grafica/elements/element.h"
-#include "grafica/number.h"
 
 namespace grafica {
 	void Animation::start() {
@@ -13,7 +12,10 @@ namespace grafica {
 	}
 
 	bool Animation::tick(Element *element) {
-		double position = Number::clampDouble((double) (micros() - _start) / (double) _duration);
+		double position = (double) (micros() - _start) / (double) _duration;
+
+		if (position > 1)
+			position = 1;
 
 		onTick(element, position);
 
