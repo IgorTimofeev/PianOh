@@ -216,7 +216,7 @@ namespace grafica {
 	}
 
 	void Element::handleEvent(Event &event) {
-		if (!isVisible() || !_isEnabled || !event.matches(this))
+		if (!event.matches(this))
 			return;
 
 		onEvent(event);

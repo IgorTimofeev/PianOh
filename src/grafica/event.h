@@ -35,6 +35,8 @@ namespace grafica {
 	class ScreenEvent : public Event {
 		public:
 			explicit ScreenEvent(EventType type);
+
+			bool matches(Element *element) override;
 	};
 
 	class TouchEvent : public ScreenEvent {

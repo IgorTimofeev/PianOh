@@ -18,6 +18,10 @@ namespace grafica {
 		_handled = handled;
 	}
 
+	bool ScreenEvent::matches(Element *element) {
+		return element->isVisible() && element->isEnabled();
+	}
+
 	TouchEvent::TouchEvent(const EventType &type, const Point &position) :
 		ScreenEvent(type),
 		_position(position)
@@ -26,7 +30,12 @@ namespace grafica {
 	}
 
 	bool TouchEvent::matches(Element *element) {
-		return element->isCaptured() || element->getBounds().intersectsWith(_position);
+		return
+			ScreenEvent::matches(element)
+			&& (
+				element->isCaptured()
+				|| element->getBounds().intersectsWith(_position)
+			);
 	}
 
 	const Point &TouchEvent::getPosition() const {
@@ -83,7 +92,14 @@ namespace grafica {
 	}
 
 	bool PinchEvent::matches(Element *element) {
-		return element->isCaptured() || element->getBounds().intersectsWith(_position1) && element->getBounds().intersectsWith(_position2);
+		return
+			ScreenEvent::matches(element)
+			&& (
+				element->isCaptured()
+				||
+				element->getBounds().intersectsWith(_position1)
+				&& element->getBounds().intersectsWith(_position2)
+			);
 	}
 
 	PinchDownEvent::PinchDownEvent(const Point &position1, const Point &position2) : PinchEvent(

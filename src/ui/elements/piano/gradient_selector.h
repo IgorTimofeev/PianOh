@@ -72,42 +72,45 @@ namespace grafica {
 			}
 
 			void onEvent(Event &event) override {
-				if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag)
+				if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag && event.getType() != EventType::touchUp)
 					return;
 
 				auto touchEvent = (TouchEvent&) event;
 				auto bounds = getBounds();
 
 				if (event.getType() == EventType::touchDown) {
-					auto position = (float) (touchEvent.getPosition().getX() - bounds.getX()) / (float) bounds.getWidth();
+					auto position = Number::clampFloat((float) (touchEvent.getPosition().getX() - bounds.getX()) / (float) bounds.getWidth());
 
-					if (position >= 0 && position <= 1) {
-						uint16_t closestIndex = 0;
-						float closestDelta = 99999;
-						float delta;
+					uint16_t closestIndex = 0;
+					float closestDelta = 99999;
+					float delta;
 
-						GradientStop* stop;
+					GradientStop* stop;
 
-						for (size_t i = 0; i < _gradient->getStops().size(); i++) {
-							stop = &_gradient->getStops()[i];
-							delta = abs(stop->getPosition() - position);
+					for (size_t i = 0; i < _gradient->getStops().size(); i++) {
+						stop = &_gradient->getStops()[i];
+						delta = abs(stop->getPosition() - position);
 
-							if (delta < closestDelta) {
-								closestDelta = delta;
-								closestIndex = i;
-							}
+						if (delta < closestDelta) {
+							closestDelta = delta;
+							closestIndex = i;
 						}
-
-						_selectedIndex = closestIndex;
-						invalidate();
 					}
+
+					_selectedIndex = closestIndex;
+					invalidate();
+
+					setCaptured(true);
 				}
 				else if (event.getType() == EventType::touchDrag) {
 					auto& stop = _gradient->getStops()[_selectedIndex];
-					auto position = (float) (touchEvent.getPosition().getX() - bounds.getX()) / (float) bounds.getWidth();
+					auto position = Number::clampFloat((float) (touchEvent.getPosition().getX() - bounds.getX()) / (float) bounds.getWidth());
 
 					stop.setPosition(position);
 					invalidate();
+				}
+				else if (event.getType() == EventType::touchUp) {
+					setCaptured(false);
 				}
 
 				event.setHandled(true);

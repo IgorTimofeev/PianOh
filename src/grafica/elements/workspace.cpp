@@ -82,12 +82,12 @@ namespace grafica {
 		_capturedElement = capturedElement;
 	}
 
-	void Workspace::onEvent(Event &event) {
+	void Workspace::handleEvent(Event &event) {
 		if (getCapturedElement()) {
 			getCapturedElement()->handleEvent(event);
 		}
 		else {
-			Layout::onEvent(event);
+			Element::handleEvent(event);
 		}
 	}
 }

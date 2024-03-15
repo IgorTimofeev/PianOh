@@ -19,13 +19,13 @@ namespace grafica {
 			void invalidate() override;
 			void tick() override;
 
-			void onEvent(Event &event) override;
-
 			void addAnimation(Element* element, Animation* animation);
 
 			Element *getCapturedElement() const;
 
 			void setCapturedElement(Element *capturedElement);
+
+			void handleEvent(Event &event) override;
 
 		private:
 			bool _isRendered = false;
