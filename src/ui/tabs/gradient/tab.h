@@ -28,7 +28,7 @@ namespace ui {
 
 				gradientSelector.setHorizontalAlignment(Alignment::center);
 				gradientSelector.setGradient(&gradient);
-				gradientSelector.setSize(Size(piano.keysWidth, 60));
+				gradientSelector.setSize(Size(piano.keysWidth, 40));
 				gradientSelector.setGripRadius(8);
 				rows.addChild(&gradientSelector);
 

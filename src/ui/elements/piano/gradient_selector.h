@@ -32,14 +32,6 @@ namespace grafica {
 				_gripRadius = gripRadius;
 			}
 
-			uint16_t getTextSpacing() const {
-				return _textSpacing;
-			}
-
-			void setTextSpacing(uint16_t textSpacing) {
-				_textSpacing = textSpacing;
-			}
-
 		protected:
 			void onRender(Display &display) override {
 				if (!_gradient)
@@ -50,51 +42,31 @@ namespace grafica {
 				// Stops
 				GradientStop* stop;
 				String text;
-				Size textSize;
 				int32_t x;
-				int32_t y;
 
 				for (size_t i = 0; i < _gradient->getStops().size(); i++) {
 					stop = &_gradient->getStops()[i];
 
-					text = String(((uint8_t) round(stop->getPosition() * 100)));
-					textSize = display.measureText(text, 1);
-
 					x = bounds.getX() + (int32_t) (stop->getPosition() * (float) bounds.getWidth());
-					y = bounds.getY2() - textSize.getHeight() - _textSpacing - _gripRadius * 2;
 
 					// Line
 					display.drawFastVLine(
 						Point(x, bounds.getY()),
-						y - bounds.getY(),
+						bounds.getHeight() - _gripRadius * 2,
 						Color::black
 					);
 
 					// Ellipse
-					y += _gripRadius;
-
 					display.drawCircle(
-						Point(x, y),
+						Point(x, bounds.getY2() - _gripRadius),
 						i == _selectedIndex ? _gripRadius + 1 : _gripRadius,
 						Color::black
 					);
 
 					display.drawCircle(
-						Point(x, y),
+						Point(x, bounds.getY2() - _gripRadius),
 						_gripRadius - 1,
 						stop->getColor()
-					);
-
-					y += _gripRadius + _textSpacing;
-
-					display.drawText(
-						Point(
-							x - textSize.getWidth() / 2,
-							y
-						),
-						Color::black,
-						text,
-						1
 					);
 				}
 			}

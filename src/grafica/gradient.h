@@ -41,14 +41,17 @@ namespace grafica {
 				if (_stops.size() < 2)
 					return Color::white;
 
+				// |------|----|--|---|
+				//               *
 				size_t fromIndex = 0;
+				size_t sideIndex = 0;
 				float minDelta = 1;
 				float delta;
 
-				// |------|----|--|---|
-				//               *
-
 				for (size_t i = 0; i < _stops.size(); i++) {
+					if (_stops[i].getPosition() < _stops[sideIndex].getPosition())
+						sideIndex = i;
+
 					if (position < _stops[i].getPosition())
 						continue;
 
@@ -60,10 +63,17 @@ namespace grafica {
 					}
 				}
 
+				if (position < _stops[sideIndex].getPosition())
+					return _stops[sideIndex].getColor();
+
 				size_t toIndex = fromIndex;
+				sideIndex = _stops.size() -1;
 				minDelta = 1;
 
 				for (size_t i = 0; i < _stops.size(); i++) {
+					if (_stops[i].getPosition() > _stops[sideIndex].getPosition())
+						sideIndex = i;
+
 					if (_stops[i].getPosition() <= _stops[fromIndex].getPosition())
 						continue;
 
@@ -75,20 +85,16 @@ namespace grafica {
 					}
 				}
 
-				auto fromStep = _stops[fromIndex];
+				if (position > _stops[sideIndex].getPosition())
+					return _stops[sideIndex].getColor();
 
-				if (position <= fromStep.getPosition())
-					return fromStep.getColor();
-
-				auto toStep = _stops[toIndex];
-
-				if (position >= toStep.getPosition())
-					return toStep.getColor();
+				auto& fromStep = _stops[fromIndex];
+				auto& toStep = _stops[toIndex];
 
 				auto spaceBetweenSteps = toStep.getPosition() - fromStep.getPosition();
 				auto positionBetweenSteps = position - fromStep.getPosition();
 
-				auto result = Color(fromStep.getColor());
+				auto result = fromStep.getColor();
 				result.interpolateTo(toStep.getColor(), positionBetweenSteps / spaceBetweenSteps);
 
 				return result;
