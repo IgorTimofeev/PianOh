@@ -58,7 +58,8 @@ namespace grafica {
 		if (_animations.empty())
 			return;
 
-		auto time = millis();
+
+		auto time = micros();
 
 		for (int i = 0; i < _animations.size(); i++) {
 			auto elementAndAnimation = _animations[i];

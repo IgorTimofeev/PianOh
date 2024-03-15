@@ -5,7 +5,7 @@
 
 namespace grafica {
 	void Animation::start() {
-		_start = millis();
+		_start = micros();
 	}
 
 	void Animation::stop() {

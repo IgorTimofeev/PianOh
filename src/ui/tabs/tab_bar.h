@@ -134,7 +134,7 @@ namespace ui {
 				auto animation = new MarginAnimation(
 					Margin(value ? -_menuSize : 0, 0, 0, 0),
 					Margin(value ? 0 : -_menuSize, 0, 0, 0),
-					200
+					200000
 				);
 
 				animation->addOnCompleted([this, value, animation] {

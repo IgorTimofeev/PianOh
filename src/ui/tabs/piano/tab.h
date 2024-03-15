@@ -24,7 +24,7 @@ namespace ui {
 					auto animation = new SizeAnimation(
 						pizda ? Size(320, 100) : Size(120, 40),
 						pizda ? Size(120, 40) : Size(320, 100),
-						200
+						200000
 					);
 
 					button.addAnimation(animation);
