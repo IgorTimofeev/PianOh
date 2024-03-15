@@ -1,9 +1,11 @@
+#include "Arduino.h"
 #include "display.h"
 #include "grafica/elements/workspace.h"
 
 namespace grafica {
-	Display::Display(int8_t sdaPin, int8_t sclPin, uint8_t rstPin, uint8_t intPin) :
+	Display::Display(int8_t sdaPin, int8_t sclPin, uint8_t rstPin, uint8_t intPin, uint8_t brightnessPin) :
 		_intPin(intPin),
+		_brightnessPin(brightnessPin),
 		_touchPanel(FT6336U(
 			sdaPin,
 			sclPin,
@@ -12,10 +14,6 @@ namespace grafica {
 		))
 	{
 		
-	}
-
-	Workspace &Display::getWorkspace() {
-		return _workspace;
 	}
 
 	void Display::begin() {
@@ -27,10 +25,12 @@ namespace grafica {
 		_sprite.setColorDepth(8);
 		_sprite.createSprite(TFT_HEIGHT, TFT_WIDTH);
 
+		// Brightness
+
 		// Touch
 		_touchPanel.begin();
 
-		pinMode (_intPin, INPUT_PULLUP);
+		pinMode(_intPin, INPUT_PULLUP);
 		attachInterrupt(digitalPinToInterrupt(_intPin), Display::onTouchInterrupted, CHANGE);
 
 		// Workspace
@@ -39,6 +39,7 @@ namespace grafica {
 
 	void Display::tick() {
 		readTouch();
+
 		_workspace.tick();
 	}
 
@@ -46,6 +47,15 @@ namespace grafica {
 		_workspace.measure(*this);
 		_workspace.arrange();
 		_workspace.render(*this);
+	}
+
+	void Display::setBrightness(const uint8_t& value) const {
+		// Not on ESP32 C3 :(
+		// dacWrite(_brightnessPin, value);
+	}
+
+	Workspace &Display::getWorkspace() {
+		return _workspace;
 	}
 
 	// ------------------------------------------- Rendering -------------------------------------------

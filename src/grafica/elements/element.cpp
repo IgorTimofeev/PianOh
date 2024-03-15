@@ -215,10 +215,6 @@ namespace grafica {
 		};
 	}
 
-	void Element::onEvent(Event &event) {
-		event.setHandled(true);
-	}
-
 	void Element::handleEvent(Event &event) {
 		if (!isVisible() || !_isEnabled || !event.matches(this))
 			return;
@@ -226,6 +222,10 @@ namespace grafica {
 		onEvent(event);
 
 		_eventHandlers.invoke(event);
+	}
+
+	void Element::onEvent(Event &event) {
+		event.setHandled(true);
 	}
 
 	void Element::addEventHandler(const std::function<void(Event &)> &handler) {

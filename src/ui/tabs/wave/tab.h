@@ -6,6 +6,7 @@
 #include "grafica/elements/text.h"
 #include "ui/tabs/effect_tab.h"
 #include "grafica/elements/stack_layout.h"
+#include "ui/application.h"
 
 using namespace grafica;
 
@@ -15,26 +16,25 @@ namespace ui {
 			WaveTab() {
 				rows.setAlignment(Alignment::center);
 
-				// Slider
-				slider.setCornerRadius(5);
-				slider.setValue(0.7);
-				slider.setSize(Size(150, 40));
+				// Brightness
+				brightnessSlider.setCornerRadius(5);
+				brightnessSlider.setValue(0.7);
+				brightnessSlider.setSize(Size(150, 40));
 
-				rows.addChild(&slider);
+				brightnessSlider.addOnValueChanged([this]() {
+					Application::getInstance().display.setBrightness((uint8_t) (brightnessSlider.getValue() * 255.0f));
+					brightnessText.setText(String("Brightness: ") + (uint8_t) (brightnessSlider.getValue() * 100.0f) + String("%"));
+				});
 
-				// Text
-				text.setText("Initial text");
-				rows.addChild(&text);
+				rows.addChild(&brightnessSlider);
+				rows.addChild(&brightnessText);
 
 				addChild(&rows);
-
-				slider.addOnValueChanged([this]() {
-					text.setText(String("Value: ") + slider.getValue());
-				});
 			}
 
 			StackLayout rows = StackLayout();
-			Slider slider = Slider();
-			Text text = Text();
+
+			Slider brightnessSlider = Slider();
+			Text brightnessText = Text();
 	};
 }

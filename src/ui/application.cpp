@@ -30,7 +30,8 @@ namespace ui {
 
 	void Application::begin() {
 		display.begin();
-		piano.begin();
 		display.getWorkspace().addChild(new TabBar());
+
+		piano.begin();
 	}
 }

@@ -10,7 +10,7 @@ namespace ui {
 		public:
 			static Application& getInstance();
 
-			Display display = Display(4, 5, 9, 8);
+			Display display = Display(4, 5, 9, 8, 13);
 			devices::Piano piano = devices::Piano(180, 18);
 
 			void begin();
