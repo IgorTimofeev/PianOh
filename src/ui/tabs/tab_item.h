@@ -23,6 +23,7 @@ namespace ui {
 				addChild(&_rectangle);
 
 				// Row
+				_row.setSpacing(10);
 				_row.setMargin(Margin(5));
 				_row.setVerticalAlignment(Alignment::center);
 				_row.setOrientation(Orientation::horizontal);

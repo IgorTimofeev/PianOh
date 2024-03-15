@@ -25,7 +25,7 @@ namespace grafica {
 		_sprite.setAttribute(PSRAM_ENABLE, true);
 		_sprite.setColorDepth(8);
 		_sprite.createSprite(TFT_HEIGHT, TFT_WIDTH);
-		_sprite.loadFont(resources::fonts::govno12);
+		_sprite.loadFont(resources::fonts::unscii16);
 //		_sprite.setFreeFont(&FreeSans12pt7b);
 
 		// Brightness
