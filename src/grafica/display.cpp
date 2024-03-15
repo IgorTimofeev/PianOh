@@ -23,6 +23,7 @@ namespace grafica {
 		_screen.init();
 		_screen.setRotation(1);
 
+		_sprite.setAttribute(PSRAM_ENABLE, true);
 		_sprite.setColorDepth(8);
 		_sprite.createSprite(TFT_HEIGHT, TFT_WIDTH);
 
@@ -31,7 +32,7 @@ namespace grafica {
 
 		pinMode (_intPin, INPUT_PULLUP);
 		attachInterrupt(digitalPinToInterrupt(_intPin), Display::onTouchInterrupted, CHANGE);
-		
+
 		// Workspace
 		_workspace.setSize(Size(TFT_HEIGHT, TFT_WIDTH));
 	}
