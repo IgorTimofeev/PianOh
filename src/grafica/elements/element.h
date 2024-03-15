@@ -37,8 +37,8 @@ namespace grafica {
 			void arrange(const Bounds& bounds);
 
 			virtual void tick();
-			void render(Display &display);
-			void handleEvent(Event& event);
+			virtual void render(Display &display);
+			virtual void handleEvent(Event& event);
 
 			virtual void invalidateRender();
 			virtual void invalidateLayout();
@@ -81,6 +81,8 @@ namespace grafica {
 			Element* getParent();
 			void setParent(Element* value);
 
+			void setCaptured(const bool &value);
+			bool isCaptured();
 
 		protected:
 			virtual Size onMeasure(Display& display, const Size& availableSize);

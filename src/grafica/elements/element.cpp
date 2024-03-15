@@ -232,6 +232,15 @@ namespace grafica {
 		_eventHandlers.add(handler);
 	}
 
+	bool Element::isCaptured() {
+		return getWorkspace() && getWorkspace()->getCapturedElement() == this;
+	}
+
+	void Element::setCaptured(const bool& value) {
+		if (getWorkspace())
+			getWorkspace()->setCapturedElement(value ? this : nullptr);
+	}
+
 	void Element::addAnimation(Animation *animation) {
 		if (_workspace)
 			_workspace->addAnimation(this, animation);

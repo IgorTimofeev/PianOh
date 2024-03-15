@@ -17,16 +17,22 @@ namespace grafica {
 			}
 
 			void onEvent(Event &event) override {
-				if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag)
+				if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag && event.getType() != EventType::touchUp)
 					return;
 
 				auto touchEvent = (TouchEvent&) event;
 
-				auto bounds = getBounds();
-				auto part = (float) (touchEvent.getPosition().getX() - bounds.getX()) / (float) bounds.getWidth();
+				if (event.getType() == EventType::touchDown) {
+					setCaptured(true);
+				}
+				else if (event.getType() == EventType::touchUp) {
+					setCaptured(false);
+				}
 
-				if (part >= 0 && part <= 1)
-					setValue(part);
+				auto bounds = getBounds();
+				auto part = Number::clampFloat((float) (touchEvent.getPosition().getX() - bounds.getX()) / (float) bounds.getWidth());
+
+				setValue(part);
 
 				event.setHandled(true);
 			}

@@ -4,6 +4,10 @@
 #include "grafica/animations/animation.h"
 
 namespace grafica {
+	Workspace::Workspace() {
+		setWorkspace(this);
+	}
+
 	void Workspace::onRender(Display &display) {
 		if (_isRendered)
 			return;
@@ -30,10 +34,6 @@ namespace grafica {
 		Layout::measure(display, getSize());
 
 		_isMeasured = true;
-	}
-
-	Workspace::Workspace() {
-		setWorkspace(this);
 	}
 
 	void Workspace::invalidateLayout() {
@@ -72,5 +72,22 @@ namespace grafica {
 		animate();
 
 		Layout::tick();
+	}
+
+	Element *Workspace::getCapturedElement() const {
+		return _capturedElement;
+	}
+
+	void Workspace::setCapturedElement(Element *capturedElement) {
+		_capturedElement = capturedElement;
+	}
+
+	void Workspace::onEvent(Event &event) {
+		if (getCapturedElement()) {
+			getCapturedElement()->handleEvent(event);
+		}
+		else {
+			Layout::onEvent(event);
+		}
 	}
 }

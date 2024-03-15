@@ -26,7 +26,7 @@ namespace grafica {
 	}
 
 	bool TouchEvent::matches(Element *element) {
-		return element->getBounds().intersectsWith(_position);
+		return element->isCaptured() || element->getBounds().intersectsWith(_position);
 	}
 
 	const Point &TouchEvent::getPosition() const {
@@ -83,7 +83,7 @@ namespace grafica {
 	}
 
 	bool PinchEvent::matches(Element *element) {
-		return element->getBounds().intersectsWith(_position1) && element->getBounds().intersectsWith(_position2);
+		return element->isCaptured() || element->getBounds().intersectsWith(_position1) && element->getBounds().intersectsWith(_position2);
 	}
 
 	PinchDownEvent::PinchDownEvent(const Point &position1, const Point &position2) : PinchEvent(

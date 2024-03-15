@@ -19,12 +19,19 @@ namespace grafica {
 			void invalidate() override;
 			void tick() override;
 
+			void onEvent(Event &event) override;
+
 			void addAnimation(Element* element, Animation* animation);
+
+			Element *getCapturedElement() const;
+
+			void setCapturedElement(Element *capturedElement);
 
 		private:
 			bool _isRendered = false;
 			bool _isMeasured = false;
 			bool _isArranged = false;
+			Element* _capturedElement = nullptr;
 			std::vector<std::pair<Element*, Animation*>> _animations {};
 
 			void animate();
