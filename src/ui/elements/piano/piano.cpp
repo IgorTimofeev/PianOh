@@ -80,7 +80,7 @@ namespace ui {
 		display.drawRectangle(buttonBounds, Color::black);
 
 		// Sl88 studio
-		String sl88Text = "SL88|";
+		String sl88Text = "SL88 | ";
 		auto sl88Size = display.measureText(sl88Text, 1);
 
 		String studioText = "STUDIO";

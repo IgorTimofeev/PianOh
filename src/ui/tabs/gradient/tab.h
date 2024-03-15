@@ -4,7 +4,7 @@
 
 #include "grafica/elements/stack_layout.h"
 #include "grafica/gradient.h"
-#include "grafica/elements/linear_gradient_view.h"
+#include "ui/elements/piano/gradient_selector.h"
 #include "devices/piano/effects/gradient_effect.h"
 #include "ui/elements/piano/piano.h"
 #include "ui/tabs/effect_tab.h"
@@ -17,17 +17,20 @@ namespace ui {
 		public:
 			GradientTab() {
 				rows.setAlignment(Alignment::center);
-				rows.setSpacing(50);
 
 				gradient.addRainbowStops();
 
-				gradientView.setGradient(&gradient);
-				gradientView.setSize(Size(piano.getSize().getWidth(), 20));
-				rows.addChild(&gradientView);
-
 				gradientEffect.setGradient(&gradient);
+
+				piano.setHorizontalAlignment(Alignment::center);
 				piano.setEffect(&gradientEffect);
 				rows.addChild(&piano);
+
+				gradientSelector.setHorizontalAlignment(Alignment::center);
+				gradientSelector.setGradient(&gradient);
+				gradientSelector.setSize(Size(piano.keysWidth, 60));
+				gradientSelector.setGripRadius(8);
+				rows.addChild(&gradientSelector);
 
 				addChild(&rows);
 			}
@@ -35,7 +38,7 @@ namespace ui {
 			StackLayout rows = StackLayout();
 			Piano piano = Piano();
 			LinearGradient gradient = LinearGradient();
-			LinearGradientView gradientView = LinearGradientView();
+			GradientSelector gradientSelector = GradientSelector();
 			devices::GradientEffect gradientEffect = devices::GradientEffect();
 
 			Effect* getEffect() const {

@@ -31,10 +31,10 @@ namespace devices {
 				}
 			}
 
-			void render(devices::Piano &piano, const uint32_t& time) override {
+			void render(devices::Piano &piano) override {
 				piano.clearStrip();
 
-				ParticlesEffect::render(piano, time);
+				ParticlesEffect::render(piano);
 			}
 
 			Color getSampleColor(devices::Piano &piano, const uint16_t &index) override {

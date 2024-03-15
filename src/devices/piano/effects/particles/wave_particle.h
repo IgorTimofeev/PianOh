@@ -17,7 +17,7 @@ namespace devices {
 				color = Color::water;
 			}
 
-			void render(Piano &piano, const uint32_t &time) override {
+			void render(Piano &piano) override {
 				int intPosition = (int) round(position);
 				float sideFactor;
 
@@ -41,7 +41,7 @@ namespace devices {
 					piano.setStripColor(i, newColor);
 				}
 
-				Particle::render(piano, time);
+				Particle::render(piano);
 			}
 	};
 }

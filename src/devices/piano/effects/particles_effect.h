@@ -26,13 +26,13 @@ namespace devices {
 				delete particle;
 			}
 
-			void render(devices::Piano &piano, const uint32_t& time) override {
+			void render(devices::Piano &piano) override {
 				Particle* particle;
 
 				for (int i = 0; i < particles.size(); i++) {
 					particle = particles[i];
 
-					particle->render(piano, time);
+					particle->render(piano);
 
 					if (particle->life <= 0) {
 						removeParticleAt(i);

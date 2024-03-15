@@ -5,7 +5,7 @@
 #include "grafica/elements/selector.h"
 #include "grafica/elements/selector_item.h"
 #include "grafica/elements/image.h"
-#include "grafica/elements/linear_gradient_view.h"
+#include "ui/elements/piano/gradient_selector.h"
 #include "grafica/animations/margin_animation.h"
 
 #include "tab_item.h"

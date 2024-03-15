@@ -60,9 +60,9 @@ namespace devices {
 		_strip.begin();
 	}
 
-	void Piano::renderStrip(const uint32_t& time) {
+	void Piano::renderStrip() {
 		if (_effect) {
-			_effect->render(*this, time);
+			_effect->render(*this);
 		}
 		else {
 			clearStrip();

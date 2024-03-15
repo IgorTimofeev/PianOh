@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "display.h"
 #include "grafica/elements/workspace.h"
+#include "resources/fonts.h"
 
 namespace grafica {
 	Display::Display(int8_t sdaPin, int8_t sclPin, uint8_t rstPin, uint8_t intPin, uint8_t brightnessPin) :
@@ -24,6 +25,8 @@ namespace grafica {
 		_sprite.setAttribute(PSRAM_ENABLE, true);
 		_sprite.setColorDepth(8);
 		_sprite.createSprite(TFT_HEIGHT, TFT_WIDTH);
+		_sprite.loadFont(resources::fonts::govno12);
+//		_sprite.setFreeFont(&FreeSans12pt7b);
 
 		// Brightness
 
@@ -80,7 +83,7 @@ namespace grafica {
 	}
 
 	void Display::drawCircle(const Point &position, int32_t radius, const Color &color) {
-		_sprite.fillCircle(
+		_sprite.fillSmoothCircle(
 			(int16_t) position.getX(),
 			(int16_t) position.getY(),
 			(int16_t) radius,
@@ -96,7 +99,7 @@ namespace grafica {
 	}
 
 	void Display::drawRectangle(const Bounds &bounds, uint16_t radius, const Color &color) {
-		_sprite.fillRoundRect(
+		_sprite.fillSmoothRoundRect(
 			(int16_t) bounds.getX(),
 			(int16_t) bounds.getY(),
 			(int16_t) bounds.getWidth(),

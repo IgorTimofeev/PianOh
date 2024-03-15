@@ -37,7 +37,7 @@ namespace devices {
 
 			void begin();
 
-			void renderStrip(const uint32_t& time);
+			void renderStrip();
 
 			void clearStrip();
 

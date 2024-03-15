@@ -21,7 +21,7 @@ namespace devices {
 
 			virtual void handleEvent(devices::Piano &piano, MidiEvent& event);
 
-			virtual void render(devices::Piano &piano, const uint32_t& time) = 0;
+			virtual void render(devices::Piano &piano) = 0;
 
 			virtual Color getSampleColor(devices::Piano &piano, const uint16_t &index);
 	};

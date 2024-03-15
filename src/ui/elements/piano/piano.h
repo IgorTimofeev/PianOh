@@ -2,7 +2,7 @@
 
 #include "Arduino.h"
 #include "grafica/elements/layout.h"
-#include "grafica/elements/linear_gradient_view.h"
+#include "gradient_selector.h"
 #include "Adafruit_NeoPixel.h"
 #include "devices/piano/effects/effect.h"
 
@@ -14,14 +14,6 @@ namespace ui {
 		public:
 			Piano();
 
-			Effect *getEffect() const;
-
-			void setEffect(Effect *effect);
-
-		protected:
-			void onRender(Display &display) override;
-
-		private:
 			const uint8_t controlsWidth = 62;
 			const uint8_t controlsMargin = 7;
 			const uint8_t displayMargin = 4;
@@ -35,6 +27,16 @@ namespace ui {
 			const uint16_t keysWidth = (whiteKeySize.getWidth() + whiteKeySpacing) * 52 - whiteKeySpacing;
 
 			const uint8_t stripHeight = 3;
+
+			Effect *getEffect() const;
+
+			void setEffect(Effect *effect);
+
+		protected:
+			void onRender(Display &display) override;
+
+		private:
+
 
 			Effect* _effect = nullptr;
 

@@ -15,7 +15,7 @@ namespace devices {
 
 			virtual ~Particle() = default;
 
-			virtual void render(Piano &piano, const uint32_t &time) {
+			virtual void render(Piano &piano) {
 				// Life
 				life = Number::clampFloat(life + lifeVector, 0.0f, 1.0f);
 

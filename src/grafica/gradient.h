@@ -42,22 +42,49 @@ namespace grafica {
 					return Color::white;
 
 				size_t fromIndex = 0;
+				float minDelta = 1;
+				float delta;
 
-				// |------------|---|
+				// |------|----|--|---|
 				//               *
 
-				for (size_t i = 1; i < _stops.size(); i++) {
-					if (_stops[i].getPosition() < position) {
+				for (size_t i = 0; i < _stops.size(); i++) {
+					if (position < _stops[i].getPosition())
+						continue;
+
+					delta = position - _stops[i].getPosition();
+
+					if (delta < minDelta) {
+						minDelta = delta;
 						fromIndex = i;
-					}
-					else {
-						break;
 					}
 				}
 
-				auto toIndex = min(fromIndex + 1, _stops.size() - 1);
+				size_t toIndex = fromIndex;
+				minDelta = 1;
+
+				for (size_t i = 0; i < _stops.size(); i++) {
+					if (_stops[i].getPosition() <= _stops[fromIndex].getPosition())
+						continue;
+
+					delta = _stops[i].getPosition() - _stops[fromIndex].getPosition();
+
+					if (delta < minDelta) {
+						minDelta = delta;
+						toIndex = i;
+					}
+				}
+
 				auto fromStep = _stops[fromIndex];
+
+				if (position <= fromStep.getPosition())
+					return fromStep.getColor();
+
 				auto toStep = _stops[toIndex];
+
+				if (position >= toStep.getPosition())
+					return toStep.getColor();
+
 				auto spaceBetweenSteps = toStep.getPosition() - fromStep.getPosition();
 				auto positionBetweenSteps = position - fromStep.getPosition();
 
@@ -78,6 +105,12 @@ namespace grafica {
 				_stops.emplace_back(0.6, Color(0x00, 0xFF, 0x00));
 				_stops.emplace_back(0.8, Color(0xFF, 0xFF, 0x00));
 				_stops.emplace_back(1, Color(0xFF, 0x00, 0x00));
+			}
+
+			void addRGBStops() {
+				_stops.emplace_back(0, Color(0xFF, 0x00, 0x00));
+				_stops.emplace_back(0.5, Color(0x00, 0xff, 0x00));
+				_stops.emplace_back(1, Color(0x00, 0x00, 0xFF));
 			}
 
 		private:

@@ -124,7 +124,7 @@ namespace grafica {
 			}
 
 		private:
-			uint16_t _spacing = 10;
+			uint16_t _spacing = 0;
 			Orientation _orientation = Orientation::vertical;
 	};
 }
