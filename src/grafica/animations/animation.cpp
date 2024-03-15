@@ -12,8 +12,8 @@ namespace grafica {
 		_start = 0;
 	}
 
-	bool Animation::tick(Element *element, uint32_t time) {
-		double position = Number::clampDouble((double) (time - _start) / (double) _duration);
+	bool Animation::tick(Element *element) {
+		double position = Number::clampDouble((double) (micros() - _start) / (double) _duration);
 
 		onTick(element, position);
 

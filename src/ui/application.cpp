@@ -22,7 +22,7 @@ namespace ui {
 		// Render
 		if (micros() > _renderDeadline) {
 			display.render();
-//			piano.renderStrip(micros());
+			piano.renderStrip(micros());
 
 			_renderDeadline = micros() + 1000000 / _fps;
 		}

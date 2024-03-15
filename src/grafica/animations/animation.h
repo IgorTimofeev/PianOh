@@ -13,7 +13,7 @@ namespace grafica {
 
 			void stop();
 
-			bool tick(Element* element, uint32_t time);
+			bool tick(Element *element);
 
 			uint32_t getDuration() const;
 

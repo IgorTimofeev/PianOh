@@ -58,13 +58,10 @@ namespace grafica {
 		if (_animations.empty())
 			return;
 
-
-		auto time = micros();
-
 		for (int i = 0; i < _animations.size(); i++) {
 			auto elementAndAnimation = _animations[i];
 
-			if (elementAndAnimation.second->tick(elementAndAnimation.first, time)) {
+			if (elementAndAnimation.second->tick(elementAndAnimation.first)) {
 				_animations.erase(_animations.begin() + i);
 				i--;
 			}
