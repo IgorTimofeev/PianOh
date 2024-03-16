@@ -1,7 +1,7 @@
 #include "workspace.h"
 #include "grafica/display.h"
 #include "element.h"
-#include "grafica/animations/animation.h"
+#include "grafica/animation.h"
 
 namespace grafica {
 	Workspace::Workspace() {
@@ -50,7 +50,7 @@ namespace grafica {
 		invalidateRender();
 	}
 
-	void Workspace::startAnimation(Animation *animation) {
+	void Workspace::startAnimation(Animation* animation) {
 		_animations.push_back(animation);
 
 		animation->start();

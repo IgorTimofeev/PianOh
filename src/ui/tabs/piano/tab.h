@@ -4,7 +4,7 @@
 #include "ui/tabs/effect_tab.h"
 #include "grafica/elements/layout.h"
 #include "grafica/elements/button.h"
-#include "grafica/animations/size_animation.h"
+#include "grafica/animation.h"
 
 using namespace grafica;
 
@@ -21,19 +21,14 @@ namespace ui {
 				button.setText("Click");
 
 				button.addOnClick([this](Event& event) {
-					auto animation = new SizeAnimation(
+					button.startAnimation(new SizeAnimation(
 						pizda ? Size(320, 100) : Size(120, 40),
 						pizda ? Size(120, 40) : Size(320, 100),
-						200000
-					);
-
-					button.addAnimation(animation);
-
-					animation->start();
-
-					animation->addOnCompleted([animation]() {
-						delete animation;
-					});
+						200000,
+						[this](const Size& size) {
+							button.setSize(size);
+						}
+					));
 
 					pizda = !pizda;
 				});

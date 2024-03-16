@@ -1,6 +1,6 @@
 #include "element.h"
 #include "workspace.h"
-#include "grafica/animations/animation.h"
+#include "grafica/animation.h"
 
 namespace grafica {
 	bool Element::isVisible() const {
@@ -241,7 +241,7 @@ namespace grafica {
 			getWorkspace()->setCapturedElement(value ? this : nullptr);
 	}
 
-	void Element::startAnimation(Animation *animation) {
+	void Element::startAnimation(Animation* animation) {
 		if (_workspace)
 			_workspace->startAnimation(animation);
 	}

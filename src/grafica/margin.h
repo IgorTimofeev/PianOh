@@ -35,6 +35,8 @@ namespace grafica {
 
 			int32_t getVertical() const;
 
+			Margin interpolate(const Margin& to, const double& position) const;
+
 		private:
 			int32_t left = 0;
 			int32_t top = 0;

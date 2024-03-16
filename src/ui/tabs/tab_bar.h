@@ -6,7 +6,7 @@
 #include "grafica/elements/selector_item.h"
 #include "grafica/elements/image.h"
 #include "ui/elements/piano/gradient_selector.h"
-#include "grafica/animations/margin_animation.h"
+#include "grafica/animation.h"
 
 #include "tab_item.h"
 
@@ -134,20 +134,20 @@ namespace ui {
 				auto animation = new MarginAnimation(
 					Margin(value ? -_menuSize : 0, 0, 0, 0),
 					Margin(value ? 0 : -_menuSize, 0, 0, 0),
-					200000
+					200000,
+					[this](const Margin& margin) {
+						_menu.setMargin(margin);
+					}
 				);
 
-				animation->addOnCompleted([this, value, animation] {
+				animation->addOnCompleted([this, value] {
 					if (!value) {
 						_menuOverlay.setVisible(false);
 						_menu.setVisible(false);
 					}
-
-					delete animation;
 				});
 
-				_menu.addAnimation(animation);
-
+				_menu.startAnimation(animation);
 			}
 	};
 }

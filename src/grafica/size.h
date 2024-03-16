@@ -42,6 +42,13 @@ namespace grafica {
 				Serial.print(getHeight());
 			}
 
+			Size interpolate(const Size &to, const double &position) const {
+				return {
+					(uint16_t) (getWidth() + position * (to.getWidth() - getWidth())),
+					(uint16_t) (getHeight() + position * (to.getHeight() - getHeight()))
+				};
+			}
+
 		private:
 			uint16_t width = 0;
 			uint16_t height = 0;

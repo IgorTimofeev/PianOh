@@ -22,7 +22,7 @@ namespace grafica {
 			void tick() override;
 			void handleEvent(Event &event) override;
 
-			void startAnimation(Animation *animation) override;
+			void startAnimation(Animation* animation) override;
 
 			Element *getCapturedElement() const;
 			void setCapturedElement(Element *capturedElement);

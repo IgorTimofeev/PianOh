@@ -52,16 +52,27 @@ namespace grafica {
 
 			// -------------------------------- Getters & setters --------------------------------
 
+			Workspace* getWorkspace();
+			void setWorkspace(Workspace* value);
+
+			Element* getParent();
+			void setParent(Element* value);
+
 			bool isVisible() const;
 			void setVisible(bool value);
+
 			bool isEnabled() const;
 			void setEnabled(bool value);
+
+			void setCaptured(const bool &value);
+			bool isCaptured();
 
 			Alignment getHorizontalAlignment() const;
 			void setHorizontalAlignment(Alignment value);
 
 			Alignment getVerticalAlignment() const;
 			void setVerticalAlignment(Alignment value);
+
 			void setAlignment(Alignment horizontal, Alignment vertical);
 			void setAlignment(Alignment uniformValue);
 
@@ -74,16 +85,6 @@ namespace grafica {
 			const Size& getDesiredSize();
 
 			const Bounds& getBounds();
-
-			Workspace* getWorkspace();
-			void setWorkspace(Workspace* value);
-
-			Element* getParent();
-			void setParent(Element* value);
-
-			void setCaptured(const bool &value);
-			bool isCaptured();
-
 		protected:
 			virtual Size onMeasure(Display& display, const Size& availableSize);
 			virtual void onArrange(const Bounds& bounds);
