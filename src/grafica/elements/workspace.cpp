@@ -50,8 +50,10 @@ namespace grafica {
 		invalidateRender();
 	}
 
-	void Workspace::addAnimation(Element *element, Animation* animation) {
-		_animations.emplace_back(element, animation);
+	void Workspace::startAnimation(Animation *animation) {
+		_animations.push_back(animation);
+
+		animation->start();
 	}
 
 	void Workspace::animate() {
@@ -59,12 +61,14 @@ namespace grafica {
 			return;
 
 		for (int i = 0; i < _animations.size(); i++) {
-			auto elementAndAnimation = _animations[i];
+			if (_animations[i]->tick())
+				continue;
 
-			if (elementAndAnimation.second->tick(elementAndAnimation.first)) {
-				_animations.erase(_animations.begin() + i);
-				i--;
-			}
+			_animations[i]->stop();
+			_animations.erase(_animations.begin() + i);
+			delete _animations[i];
+
+			i--;
 		}
 	}
 

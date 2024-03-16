@@ -13,26 +13,26 @@ namespace grafica {
 
 			void measure(Display& display);
 			void arrange();
+
 			void onRender(Display& display) override;
 			void invalidateLayout() override;
 			void invalidateRender() override;
 			void invalidate() override;
-			void tick() override;
 
-			void addAnimation(Element* element, Animation* animation);
+			void tick() override;
+			void handleEvent(Event &event) override;
+
+			void startAnimation(Animation *animation) override;
 
 			Element *getCapturedElement() const;
-
 			void setCapturedElement(Element *capturedElement);
-
-			void handleEvent(Event &event) override;
 
 		private:
 			bool _isRendered = false;
 			bool _isMeasured = false;
 			bool _isArranged = false;
 			Element* _capturedElement = nullptr;
-			std::vector<std::pair<Element*, Animation*>> _animations {};
+			std::vector<Animation*> _animations {};
 
 			void animate();
 	};

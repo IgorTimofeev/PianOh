@@ -241,9 +241,9 @@ namespace grafica {
 			getWorkspace()->setCapturedElement(value ? this : nullptr);
 	}
 
-	void Element::addAnimation(Animation *animation) {
+	void Element::startAnimation(Animation *animation) {
 		if (_workspace)
-			_workspace->addAnimation(this, animation);
+			_workspace->startAnimation(animation);
 	}
 
 	void Element::setParent(Element *value) {

@@ -7,24 +7,13 @@
 #include "grafica/size.h"
 
 namespace grafica {
-	class SizeAnimation : public Animation {
+	class SizeAnimation : public Animation<Size> {
 		public:
-			SizeAnimation() = default;
+			SizeAnimation();
 
-			SizeAnimation(const Size& from, const Size& to, uint32_t duration);
+			SizeAnimation(const Size &from, const Size &to, const uint32_t &duration);
 
-			void onTick(Element* element, double position) override;
-
-			const Size &getFrom() const;
-
-			void setFrom(const Size &from);
-
-			const Size &getTo() const;
-
-			void setTo(const Size &to);
-
-		private:
-			Size _from;
-			Size _to;
+		protected:
+			Size interpolate(const double &position) override;
 	};
 }

@@ -118,7 +118,6 @@ namespace grafica {
 
 		private:
 			uint16_t _gripRadius = 16;
-			uint16_t _textSpacing = 10;
 			uint16_t _selectedIndex = 0;
 			LinearGradient* _gradient = nullptr;
 	};

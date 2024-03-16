@@ -7,24 +7,12 @@
 #include "grafica/margin.h"
 
 namespace grafica {
-	class MarginAnimation : public Animation {
+	class MarginAnimation : public Animation<Margin> {
 		public:
-			MarginAnimation() = default;
+			MarginAnimation();
+			MarginAnimation(const Margin &from, const Margin &to, const uint32_t &duration);
 
-			MarginAnimation(const Margin& from, const Margin& to, uint32_t duration);
-
-			void onTick(Element* element, double position) override;
-
-			const Margin &getFrom() const;
-
-			void setFrom(const Margin &from);
-
-			const Margin &getTo() const;
-
-			void setTo(const Margin &to);
-
-		private:
-			Margin _from;
-			Margin _to;
+		protected:
+			Margin interpolate(const double &position) override;
 	};
 }

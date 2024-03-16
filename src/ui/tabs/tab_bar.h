@@ -148,7 +148,6 @@ namespace ui {
 
 				_menu.addAnimation(animation);
 
-				animation->start();
 			}
 	};
 }
