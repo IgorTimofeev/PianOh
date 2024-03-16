@@ -4,17 +4,17 @@
 #include "grafica/event.h"
 
 namespace grafica {
-	class Display;
+	class Screen;
 	class Animation;
 
 	class Workspace : public Layout {
 		public:
 			Workspace();
 
-			void measure(Display& display);
+			void measure(Screen& display);
 			void arrange();
 
-			void onRender(Display& display) override;
+			void onRender(Screen& display) override;
 			void invalidateLayout() override;
 			void invalidateRender() override;
 			void invalidate() override;

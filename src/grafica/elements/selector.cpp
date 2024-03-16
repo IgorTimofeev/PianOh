@@ -40,7 +40,7 @@ namespace grafica {
 
 		onSelectionChanged();
 
-		_selectionChanged.invoke();
+		_selectionChanged.call();
 	}
 
 	void Selector::onSelectionChanged() {

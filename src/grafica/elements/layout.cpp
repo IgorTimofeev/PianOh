@@ -10,7 +10,7 @@ namespace grafica {
 		}
 	}
 
-	void Layout::onRender(Display &display) {
+	void Layout::onRender(Screen &display) {
 		for (const auto& child : *this) {
 			child->render(display);
 		}
@@ -96,7 +96,7 @@ namespace grafica {
 		removeChild(child);
 	}
 
-	Size Layout::onMeasure(Display &display, const Size &availableSize) {
+	Size Layout::onMeasure(Screen &display, const Size &availableSize) {
 		auto result = Size();
 
 		Size childSize;

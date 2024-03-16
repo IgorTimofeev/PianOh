@@ -109,7 +109,7 @@ namespace devices {
 				break;
 		}
 
-		_onMidiRead.invoke(event);
+		_onMidiRead.call(event);
 
 		if (_effect)
 			_effect->handleEvent(*this, event);

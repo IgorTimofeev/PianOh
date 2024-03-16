@@ -32,7 +32,7 @@ namespace grafica {
 			return true;
 		}
 		else {
-			_onCompleted.invoke();
+			_onCompleted.call();
 
 			return false;
 		}

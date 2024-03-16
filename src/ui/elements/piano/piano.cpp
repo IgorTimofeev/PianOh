@@ -25,7 +25,7 @@ namespace ui {
 		});
 	}
 
-	void Piano::onRender(Display &display) {
+	void Piano::onRender(Screen &display) {
 		auto bounds = getBounds();
 
 		// Casing
@@ -112,7 +112,7 @@ namespace ui {
 		renderOctaves(display, stripBounds);
 	}
 
-	void Piano::renderStrip(Display &display, Bounds &bounds) const {
+	void Piano::renderStrip(Screen &display, Bounds &bounds) const {
 		display.drawRectangle(bounds, Color::black);
 
 		auto step = (float) bounds.getWidth() / (float) PianoApplication::getInstance().getPiano().getStripLength();
@@ -130,7 +130,7 @@ namespace ui {
 		}
 	}
 
-	void Piano::renderWhiteKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
+	void Piano::renderWhiteKey(Screen &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
 		display.drawRectangle(
 			Bounds(
 				x,
@@ -144,7 +144,7 @@ namespace ui {
 		x += whiteKeySize.getWidth() + whiteKeySpacing;
 	}
 
-	void Piano::renderBlackKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
+	void Piano::renderBlackKey(Screen &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
 		display.drawRectangle(
 			Bounds(
 				x,
@@ -158,7 +158,7 @@ namespace ui {
 		x += blackKeySize.getWidth() + blackKeySpacing;
 	}
 
-	void Piano::renderOctave(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
+	void Piano::renderOctave(Screen &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
 		// White
 		renderWhiteKey(display, x, y, keyIndex);
 		keyIndex += 2;
@@ -193,7 +193,7 @@ namespace ui {
 		x = oldX;
 	}
 
-	void Piano::renderOctaves(Display &display, Bounds &bounds) {
+	void Piano::renderOctaves(Screen &display, Bounds &bounds) {
 		int32_t x = bounds.getX();
 		int32_t y = bounds.getY();
 

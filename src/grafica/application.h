@@ -1,21 +1,12 @@
 #pragma once
 
-#include "display.h"
+#include <cstdint>
+#include "screen.h"
 
 namespace grafica {
 	class Application {
 		public:
-			Application(int8_t sdaPin, int8_t sclPin, uint8_t rstPin, uint8_t intPin, uint8_t ledPin) :
-				_display(
-					sdaPin,
-					sclPin,
-					rstPin,
-					intPin,
-					ledPin
-				)
-			{
-
-			}
+			Application(const Size &size, const uint8_t &sdaPin, const uint8_t &sclPin, const uint8_t &rstPin, const uint8_t &intPin, const uint8_t &ledPin);
 
 			virtual void begin();
 			virtual void tick();
@@ -23,8 +14,8 @@ namespace grafica {
 			virtual void onTick();
 			virtual void onRender();
 
-			Display& getDisplay() {
-				return _display;
+			Screen& getScreen() {
+				return _screen;
 			}
 
 			const uint16_t &getTps() const {
@@ -43,12 +34,18 @@ namespace grafica {
 				_fps = fps;
 			}
 
+			Workspace &getWorkspace() {
+				return _workspace;
+			}
+
 		private:
-			Display _display;
-			uint32_t _tickDeadline = 0;
-			uint32_t _renderDeadline = 0;
+			Workspace _workspace;
+			Screen _screen;
+
 			uint16_t _tps = 60;
 			uint16_t _fps = 60;
 
+			uint32_t _tickDeadline = 0;
+			uint32_t _renderDeadline = 0;
 	};
 }

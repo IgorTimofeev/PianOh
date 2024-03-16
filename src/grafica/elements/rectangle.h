@@ -2,7 +2,7 @@
 
 #include "shape.h"
 #include "grafica/color.h"
-#include "grafica/display.h"
+#include "grafica/screen.h"
 
 namespace grafica {
 	class Rectangle : public Shape {
@@ -13,7 +13,7 @@ namespace grafica {
 				setFillColor(color);
 			}
 
-			void onRender(Display& display) override {
+			void onRender(Screen& display) override {
 				display.drawRectangle(getBounds(), getCornerRadius(), getFillColor());
 			}
 

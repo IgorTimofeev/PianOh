@@ -1,14 +1,14 @@
 #pragma once
 
 #include "element.h"
-#include "grafica/display.h"
+#include "grafica/screen.h"
 #include "grafica/bounds.h"
 #include "grafica/image_source.h"
 
 namespace grafica {
 	class Image : public Element {
 		public:
-			void onRender(Display& display) override {
+			void onRender(Screen& display) override {
 				if (!getSource() || !getSource()->getPixels())
 					return;
 

@@ -11,7 +11,7 @@ namespace grafica {
 				this->push_back(f);
 			}
 
-			void invoke(const T&... args) {
+			void call(const T&... args) {
 				for (const auto& f: *this) {
 					f(args...);
 				}

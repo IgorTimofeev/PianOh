@@ -33,17 +33,17 @@ namespace ui {
 			void setEffect(Effect *effect);
 
 		protected:
-			void onRender(Display &display) override;
+			void onRender(Screen &display) override;
 
 		private:
 
 
 			Effect* _effect = nullptr;
 
-			void renderStrip(Display &display, Bounds& bounds) const;
-			void renderWhiteKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
-			void renderBlackKey(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
-			void renderOctave(Display &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
-			void renderOctaves(Display &display, Bounds& bounds);
+			void renderStrip(Screen &display, Bounds& bounds) const;
+			void renderWhiteKey(Screen &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
+			void renderBlackKey(Screen &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
+			void renderOctave(Screen &display, int32_t &x, int32_t &y, uint8_t &keyIndex);
+			void renderOctaves(Screen &display, Bounds& bounds);
 	};
 }

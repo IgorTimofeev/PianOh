@@ -21,7 +21,7 @@ namespace grafica {
 		vertical,
 	};
 
-	class Display;
+	class Screen;
 	class Event;
 	class Workspace;
 	class Animation;
@@ -32,12 +32,12 @@ namespace grafica {
 
 			virtual ~Element() = default;
 
-			Size measure(Display& display, const Size& availableSize);
+			Size measure(Screen& display, const Size& availableSize);
 
 			void arrange(const Bounds& bounds);
 
 			virtual void tick();
-			virtual void render(Display &display);
+			virtual void render(Screen &display);
 			virtual void handleEvent(Event& event);
 
 			virtual void invalidateRender();
@@ -86,9 +86,9 @@ namespace grafica {
 
 			const Bounds& getBounds();
 		protected:
-			virtual Size onMeasure(Display& display, const Size& availableSize);
+			virtual Size onMeasure(Screen& display, const Size& availableSize);
 			virtual void onArrange(const Bounds& bounds);
-			virtual void onRender(Display& display);
+			virtual void onRender(Screen& display);
 			virtual void onEvent(Event& event);
 
 		private:

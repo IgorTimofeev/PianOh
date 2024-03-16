@@ -1,5 +1,5 @@
 #include "workspace.h"
-#include "grafica/display.h"
+#include "grafica/screen.h"
 #include "element.h"
 #include "grafica/animation.h"
 
@@ -8,7 +8,7 @@ namespace grafica {
 		setWorkspace(this);
 	}
 
-	void Workspace::onRender(Display &display) {
+	void Workspace::onRender(Screen &display) {
 		if (_isRendered)
 			return;
 
@@ -27,7 +27,7 @@ namespace grafica {
 		_isArranged = true;
 	}
 
-	void Workspace::measure(Display &display) {
+	void Workspace::measure(Screen &display) {
 		if (_isMeasured)
 			return;
 

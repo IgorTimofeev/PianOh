@@ -38,7 +38,7 @@ namespace grafica {
 			newSize = 0;
 	}
 
-	Size Element::measure(Display &display, const Size &availableSize) {
+	Size Element::measure(Screen &display, const Size &availableSize) {
 		auto desiredSize = onMeasure(display, availableSize);
 
 		auto size = getSize();
@@ -208,7 +208,7 @@ namespace grafica {
 
 	}
 
-	Size Element::onMeasure(Display &display, const Size &availableSize) {
+	Size Element::onMeasure(Screen &display, const Size &availableSize) {
 		return {
 			0,
 			0,
@@ -221,7 +221,7 @@ namespace grafica {
 
 		onEvent(event);
 
-		_eventHandlers.invoke(event);
+		_eventHandlers.call(event);
 	}
 
 	void Element::onEvent(Event &event) {
@@ -340,14 +340,14 @@ namespace grafica {
 
 	}
 
-	void Element::render(Display &display) {
+	void Element::render(Screen &display) {
 		if (!isVisible())
 			return;
 
 		onRender(display);
 	}
 
-	void Element::onRender(Display &display) {
+	void Element::onRender(Screen &display) {
 
 	}
 }

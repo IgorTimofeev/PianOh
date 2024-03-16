@@ -22,7 +22,7 @@ namespace ui {
 				brightnessSlider.setSize(Size(150, 40));
 
 				brightnessSlider.addOnValueChanged([this]() {
-					PianoApplication::getInstance()._display.setBrightness((uint8_t) (brightnessSlider.getValue() * 255.0f));
+					PianoApplication::getInstance().getScreen().setBrightness((uint8_t) (brightnessSlider.getValue() * 255.0f));
 					brightnessText.setText(String("Brightness: ") + (uint8_t) (brightnessSlider.getValue() * 100.0f) + String("%"));
 				});
 

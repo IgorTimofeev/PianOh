@@ -2,7 +2,7 @@
 
 #include "element.h"
 #include "grafica/color.h"
-#include "grafica/display.h"
+#include "grafica/screen.h"
 #include "background_aware.h"
 #include "foreground_aware.h"
 #include "text_aware.h"
@@ -15,7 +15,7 @@ namespace grafica {
 			}
 
 		public:
-			void onRender(Display &display) override {
+			void onRender(Screen &display) override {
 				auto& bounds = getBounds();
 				auto& text = getText();
 				auto textSize = display.measureText(text, getFontSize());
@@ -37,7 +37,7 @@ namespace grafica {
 				if (event.getType() != EventType::touchDown && event.getType() != EventType::touchDrag)
 					return;
 
-				_onClick.invoke(event);
+				_onClick.call(event);
 			}
 
 		private:

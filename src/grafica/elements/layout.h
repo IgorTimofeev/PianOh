@@ -9,7 +9,7 @@ namespace grafica {
 		public:
 			void tick() override;
 
-			void onRender(Display& display) override;
+			void onRender(Screen& display) override;
 
 			void onEvent(Event& event) override;
 
@@ -38,7 +38,7 @@ namespace grafica {
 			virtual void operator-=(Element* child);
 
 		protected:
-			Size onMeasure(Display& display, const Size& availableSize) override;
+			Size onMeasure(Screen& display, const Size& availableSize) override;
 
 			void onArrange(const Bounds& bounds) override;
 

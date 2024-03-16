@@ -2,7 +2,7 @@
 
 #include "element.h"
 #include "grafica/color.h"
-#include "grafica/display.h"
+#include "grafica/screen.h"
 
 namespace grafica {
 	class Shape : public Element {

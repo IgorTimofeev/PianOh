@@ -2,13 +2,13 @@
 
 #include "shape.h"
 #include "grafica/color.h"
-#include "grafica/display.h"
+#include "grafica/screen.h"
 #include "cmath"
 
 namespace grafica {
 	class Circle : public Shape {
 		public:
-			void onRender(Display& display) override {
+			void onRender(Screen& display) override {
 				auto bounds = getBounds();
 
 				display.drawCircle(

@@ -2,7 +2,7 @@
 
 #include "element.h"
 #include "grafica/color.h"
-#include "grafica/display.h"
+#include "grafica/screen.h"
 #include "cmath"
 #include "grafica/action.h"
 #include "background_aware.h"
@@ -37,7 +37,7 @@ namespace grafica {
 				event.setHandled(true);
 			}
 
-			void onRender(Display& display) override {
+			void onRender(Screen& display) override {
 				auto bounds = getBounds();
 				auto part = (uint16_t) round(_value * (float) bounds.getWidth());
 
@@ -80,7 +80,7 @@ namespace grafica {
 				clampValue();
 				invalidateRender();
 
-				_onValueChanged.invoke();
+				_onValueChanged.call();
 			}
 
 			virtual void addOnValueChanged(const std::function<void()>& handler) {

@@ -11,14 +11,14 @@ namespace ui {
 		return instance;
 	}
 
-	PianoApplication::PianoApplication() : Application(4, 5, 9, 8, 13) {
+	PianoApplication::PianoApplication() : Application(Size(TFT_WIDTH, TFT_HEIGHT), 4, 5, 9, 8, 13) {
 
 	}
 
 	void PianoApplication::begin() {
 		Application::begin();
 
-		getDisplay().getWorkspace().addChild(new TabBar());
+		getWorkspace().addChild(new TabBar());
 
 		_piano.begin();
 	}

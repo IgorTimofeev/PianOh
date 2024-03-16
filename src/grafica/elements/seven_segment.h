@@ -3,7 +3,7 @@
 #include "shape.h"
 #include "stack_layout.h"
 #include "grafica/color.h"
-#include "grafica/display.h"
+#include "grafica/screen.h"
 #include "cmath"
 #include "background_aware.h"
 #include "foreground_aware.h"
@@ -16,14 +16,14 @@ namespace grafica {
 				setForeground(Color::black);
 			}
 
-			Size onMeasure(Display &display, const Size &availableSize) override {
+			Size onMeasure(Screen &display, const Size &availableSize) override {
 				return {
 					(uint16_t) (((getDigitWidth() + getSpacing()) * getDigitCount()) - getSpacing()),
 					getDigitHeight()
 				};
 			}
 
-			void onRender(Display& display) override {
+			void onRender(Screen& display) override {
 				auto bounds = getBounds();
 				bounds.setX(bounds.getX() + (getDigitWidth() + getSpacing()) * (getDigitCount() - 1));
 
@@ -111,7 +111,7 @@ namespace grafica {
 			uint8_t _segmentLength = 9;
 
 			void drawSegments(
-				Display& display,
+				Screen& display,
 				const Point& position,
 				bool s0,
 				bool s1,
@@ -133,7 +133,7 @@ namespace grafica {
 				display.drawRectangle(Bounds(position.getX() + t, position.getY() + t + l, l, t), s6 ? getForeground() : getBackground());
 			}
 
-			void drawDigit(Display& display, const Point& position, uint8_t digit) {
+			void drawDigit(Screen& display, const Point& position, uint8_t digit) {
 				switch (digit) {
 					case 0:
 						drawSegments(

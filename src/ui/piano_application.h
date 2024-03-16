@@ -8,8 +8,6 @@ namespace ui {
 		public:
 			static PianoApplication& getInstance();
 
-			PianoApplication();
-
 			void begin() override;
 			void onTick() override;
 			void onRender() override;
@@ -17,6 +15,8 @@ namespace ui {
 			devices::Piano &getPiano();
 
 		private:
+			PianoApplication();
+
 			devices::Piano _piano = devices::Piano(180, 18);
 	};
 }

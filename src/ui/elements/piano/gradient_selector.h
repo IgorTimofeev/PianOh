@@ -1,7 +1,7 @@
 #pragma once
 
 #include "grafica/elements/element.h"
-#include "grafica/display.h"
+#include "grafica/screen.h"
 #include "grafica/color.h"
 #include "grafica/gradient.h"
 
@@ -33,7 +33,7 @@ namespace grafica {
 			}
 
 		protected:
-			void onRender(Display &display) override {
+			void onRender(Screen &display) override {
 				if (!_gradient)
 					return;
 

@@ -22,7 +22,7 @@ namespace grafica {
 			}
 
 		protected:
-			Size onMeasure(Display& display, const Size& availableSize) override {
+			Size onMeasure(Screen& display, const Size& availableSize) override {
 				auto result = Size();
 
 				size_t visibleChildrenCount = 0;
