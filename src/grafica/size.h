@@ -14,32 +14,26 @@ namespace grafica {
 			Size(const Size& size) = default;
 
 			Size(uint16_t width, uint16_t height) :
-				width(width),
-				height(height)
+				_width(width),
+				_height(height)
 			{
 
 			}
 
 			uint16_t getWidth() const {
-				return width;
+				return _width;
 			}
 
 			void setWidth(uint16_t value) {
-				width = value;
+				_width = value;
 			}
 
 			uint16_t getHeight() const {
-				return height;
+				return _height;
 			}
 
 			void setHeight(uint16_t value) {
-				height = value;
-			}
-
-			void debugPrint() const {
-				Serial.print(getWidth());
-				Serial.print(" x ");
-				Serial.print(getHeight());
+				_height = value;
 			}
 
 			Size interpolate(const Size &to, const double &position) const {
@@ -50,7 +44,7 @@ namespace grafica {
 			}
 
 		private:
-			uint16_t width = 0;
-			uint16_t height = 0;
+			uint16_t _width = 0;
+			uint16_t _height = 0;
 	};
 }

@@ -6,7 +6,14 @@
 namespace grafica {
 	class Application {
 		public:
-			Application(const Size &size, const uint8_t &sdaPin, const uint8_t &sclPin, const uint8_t &rstPin, const uint8_t &intPin, const uint8_t &ledPin);
+			Application(
+				const Size &resolution,
+				const uint8_t &tftLedPin,
+				const uint8_t &touchSdaPin,
+				const uint8_t &touchSclPin,
+				const uint8_t &touchRstPin,
+				const uint8_t &touchIntPin
+			);
 
 			virtual void begin();
 			virtual void tick();

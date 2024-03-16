@@ -5,15 +5,22 @@
 #include "resources/fonts.h"
 
 namespace grafica {
-	Screen::Screen(const Size &resolution, const uint8_t &tftLedPin, const uint8_t &touchSdaPin, const uint8_t &touchSclPin, const uint8_t &touchRstPin, const uint8_t &touchIntPin) :
+	Screen::Screen(
+		const Size &resolution,
+		const uint8_t &tftLedPin,
+		const uint8_t &touchSdaPin,
+		const uint8_t &touchSclPin,
+		const uint8_t &touchRstPin,
+		const uint8_t &touchIntPin
+	) :
 		_resolution(resolution),
 		_touchIntPin(touchIntPin),
 		_tftLedPin(tftLedPin),
 		_touchPanel(FT6336U(
 			(int8_t) touchSdaPin,
 			(int8_t) touchSclPin,
-			(int8_t) touchRstPin,
-			(int8_t) touchIntPin
+			touchRstPin,
+			touchIntPin
 		))
 	{
 
@@ -26,7 +33,7 @@ namespace grafica {
 
 		_buffer.setAttribute(PSRAM_ENABLE, true);
 		_buffer.setColorDepth(8);
-		_buffer.createSprite((int16_t) _resolution.getHeight(), (int16_t) _resolution.getWidth());
+		_buffer.createSprite((int16_t) _resolution.getWidth(), (int16_t) _resolution.getHeight());
 		_buffer.loadFont(resources::fonts::unscii16);
 
 		// Brightness
@@ -157,7 +164,7 @@ namespace grafica {
 			case 1:
 				auto tmp = x;
 				x = y;
-				y = _resolution.getWidth() - tmp;
+				y = _resolution.getHeight() - tmp;
 
 				break;
 		}
@@ -174,27 +181,15 @@ namespace grafica {
 	}
 
 	void Screen::onTouchDown(const Point& point) {
-//		Serial.print("Down ");
-//		Serial.print(_touchPoints[0].position.getX());
-//		Serial.print("x");
-//		Serial.print(_touchPoints[0].position.getY());
-//		Serial.println();
+
 	}
 
 	void Screen::onTouchDrag(const Point& point) {
-//		Serial.print("Drag ");
-//		Serial.print(_touchPoints[0].position.getX());
-//		Serial.print("x");
-//		Serial.print(_touchPoints[0].position.getY());
-//		Serial.println();
+
 	}
 
 	void Screen::onTouchUp(const Point& point) {
-//		Serial.print("Up ");
-//		Serial.print(_touchPoints[0].position.getX());
-//		Serial.print("x");
-//		Serial.print(_touchPoints[0].position.getY());
-//		Serial.println();
+
 	}
 
 	void Screen::onPinchDown(const Point& point1, const Point& point2) {
@@ -255,8 +250,8 @@ namespace grafica {
 	}
 
 	void Screen::readTouch() {
-//		if (!_touchInterrupted)
-//			return;
+		if (!_touchInterrupted)
+			return;
 
 		_touchInterrupted = false;
 

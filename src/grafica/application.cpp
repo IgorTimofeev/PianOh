@@ -3,24 +3,27 @@
 #include "event.h"
 
 namespace grafica {
-	Application::Application(const Size &size, const uint8_t &sdaPin, const uint8_t &sclPin, const uint8_t &rstPin, const uint8_t &intPin, const uint8_t &ledPin) :
+	Application::Application(
+		const Size &resolution,
+		const uint8_t &tftLedPin,
+		const uint8_t &touchSdaPin,
+		const uint8_t &touchSclPin,
+		const uint8_t &touchRstPin,
+		const uint8_t &touchIntPin
+	) :
 		_screen(
-			size,
-			sdaPin,
-			sclPin,
-			rstPin,
-			intPin,
-			ledPin
-		),
-		_workspace()
+			resolution,
+			tftLedPin,
+			touchSdaPin,
+			touchSclPin,
+			touchRstPin,
+			touchIntPin
+		)
 	{
-		_workspace.setSize(_screen.getResolution());
+		_workspace.setSize(resolution);
 
 		// Touch
 		_screen.addOnTouchDown([this](const Point& point) {
-			Serial.print("Touch doan:");
-			Serial.println();
-
 			auto event = TouchDownEvent(point);
 			_workspace.handleEvent(event);
 		});

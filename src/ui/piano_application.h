@@ -3,14 +3,17 @@
 #include "grafica/application.h"
 #include "devices/piano/piano.h"
 
+using namespace grafica;
+
 namespace ui {
-	class PianoApplication : public grafica::Application {
+	class PianoApplication : public Application {
 		public:
 			static PianoApplication& getInstance();
 
-			void begin() override;
 			void onTick() override;
 			void onRender() override;
+
+			void begin() override;
 
 			devices::Piano &getPiano();
 
