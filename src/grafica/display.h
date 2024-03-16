@@ -19,7 +19,7 @@ namespace grafica {
 
 	class Display {
 		public:
-			Display(int8_t sdaPin, int8_t sclPin, uint8_t rstPin, uint8_t intPin, uint8_t brightnessPin);
+			Display(int8_t sdaPin, int8_t sclPin, uint8_t rstPin, uint8_t intPin, uint8_t ledPin);
 
 			virtual void clear();
 			virtual Size measureText(const String& text, const uint8_t& fontSize);
@@ -51,10 +51,10 @@ namespace grafica {
 			static volatile bool _touchInterrupted;
 
 			uint8_t _intPin;
-			uint8_t _brightnessPin;
+			uint8_t _ledPin;
 
-			TFT_eSPI _screen = TFT_eSPI();
-			TFT_eSprite _sprite = TFT_eSprite(&_screen);
+			TFT_eSPI _tft = TFT_eSPI();
+			TFT_eSprite _buffer = TFT_eSprite(&_tft);
 			FT6336U _touchPanel;
 
 			Workspace _workspace;

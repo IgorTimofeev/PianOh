@@ -4,9 +4,9 @@
 #include "resources/fonts.h"
 
 namespace grafica {
-	Display::Display(int8_t sdaPin, int8_t sclPin, uint8_t rstPin, uint8_t intPin, uint8_t brightnessPin) :
+	Display::Display(int8_t sdaPin, int8_t sclPin, uint8_t rstPin, uint8_t intPin, uint8_t ledPin) :
 		_intPin(intPin),
-		_brightnessPin(brightnessPin),
+		_ledPin(ledPin),
 		_touchPanel(FT6336U(
 			sdaPin,
 			sclPin,
@@ -18,14 +18,14 @@ namespace grafica {
 	}
 
 	void Display::begin() {
-		// Display
-		_screen.init();
-		_screen.setRotation(1);
+		// TFT
+		_tft.init();
+		_tft.setRotation(1);
 
-		_sprite.setAttribute(PSRAM_ENABLE, true);
-		_sprite.setColorDepth(8);
-		_sprite.createSprite(TFT_HEIGHT, TFT_WIDTH);
-		_sprite.loadFont(resources::fonts::unscii16);
+		_buffer.setAttribute(PSRAM_ENABLE, true);
+		_buffer.setColorDepth(8);
+		_buffer.createSprite(TFT_HEIGHT, TFT_WIDTH);
+		_buffer.loadFont(resources::fonts::unscii16);
 //		_sprite.setFreeFont(&FreeSans12pt7b);
 
 		// Brightness
@@ -64,16 +64,16 @@ namespace grafica {
 	// ------------------------------------------- Rendering -------------------------------------------
 
 	Size Display::measureText(const String &text, const uint8_t& fontSize) {
-		_sprite.setTextSize(fontSize);
+		_buffer.setTextSize(fontSize);
 
 		return {
-			(uint16_t) _sprite.textWidth(text),
-			(uint16_t) _sprite.fontHeight()
+			(uint16_t) _buffer.textWidth(text),
+			(uint16_t) _buffer.fontHeight()
 		};
 	}
 
 	void Display::drawImage(const Bounds &bounds, const uint16_t *data) {
-		_sprite.pushImage(
+		_buffer.pushImage(
 			bounds.getX(),
 			bounds.getY(),
 			bounds.getWidth(),
@@ -83,66 +83,65 @@ namespace grafica {
 	}
 
 	void Display::drawCircle(const Point &position, int32_t radius, const Color &color) {
-		_sprite.fillSmoothCircle(
+		_buffer.fillSmoothCircle(
 			(int16_t) position.getX(),
 			(int16_t) position.getY(),
 			(int16_t) radius,
-			_sprite.color24to16(color.toUint32())
+			_buffer.color24to16(color.toUint32())
 		);
 	}
 
 	void Display::drawText(const Point &position, const Color &color, const String &text, const uint8_t &size) {
-		_sprite.setTextColor(_sprite.color24to16(color.toUint32()));
-		_sprite.setCursor((int16_t) position.getX(), (int16_t) position.getY());
-		_sprite.setTextSize(size);
-		_sprite.print(text);
+		_buffer.setTextColor(_buffer.color24to16(color.toUint32()));
+		_buffer.setCursor((int16_t) position.getX(), (int16_t) position.getY());
+		_buffer.setTextSize(size);
+		_buffer.print(text);
 	}
 
 	void Display::drawRectangle(const Bounds &bounds, uint16_t radius, const Color &color) {
-		_sprite.fillSmoothRoundRect(
+		_buffer.fillSmoothRoundRect(
 			(int16_t) bounds.getX(),
 			(int16_t) bounds.getY(),
 			(int16_t) bounds.getWidth(),
 			(int16_t) bounds.getHeight(),
 			(int16_t) radius,
-			_sprite.color24to16(color.toUint32())
+			_buffer.color24to16(color.toUint32())
 		);
 	}
 
 	void Display::drawRectangle(const Bounds &bounds, const Color &color) {
-		_sprite.fillRect(
+		_buffer.fillRect(
 			(int16_t) bounds.getX(),
 			(int16_t) bounds.getY(),
 			(int16_t) bounds.getWidth(),
 			(int16_t) bounds.getHeight(),
-			_sprite.color24to16(color.toUint32())
+			_buffer.color24to16(color.toUint32())
 		);
 	}
 
 	void Display::clear() {
-		_sprite.fillSprite(TFT_BLACK);
+		_buffer.fillSprite(TFT_BLACK);
 	}
 
-
 	void Display::flush() {
-		_sprite.pushSprite(0, 0);
+		_buffer.pushSprite(0, 0);
 	}
 
 	void Display::drawFastHLine(const Point &position, uint16_t size, const Color &color) {
-		_sprite.drawFastHLine(
+		_buffer.drawFastHLine(
 			position.getX(),
 			position.getY(),
 			size,
-			_sprite.color24to16(color.toUint32())
+			_buffer.color24to16(color.toUint32())
 		);
 	}
 
 	void Display::drawFastVLine(const Point &position, uint16_t size, const Color &color) {
-		_sprite.drawFastVLine(
+		_buffer.drawFastVLine(
 			position.getX(),
 			position.getY(),
 			size,
-			_sprite.color24to16(color.toUint32())
+			_buffer.color24to16(color.toUint32())
 		);
 	}
 
@@ -155,7 +154,7 @@ namespace grafica {
 	}
 
 	Point Display::rotateTouchPoint(uint16_t x, uint16_t y) {
-		switch (_screen.getRotation()) {
+		switch (_tft.getRotation()) {
 			// 270
 			case 1:
 				auto tmp = x;
