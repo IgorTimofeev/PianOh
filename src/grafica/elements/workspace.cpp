@@ -65,8 +65,8 @@ namespace grafica {
 				continue;
 
 			_animations[i]->stop();
-			_animations.erase(_animations.begin() + i);
 			delete _animations[i];
+			_animations.erase(_animations.begin() + i);
 
 			i--;
 		}
