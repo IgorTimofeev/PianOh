@@ -81,10 +81,10 @@ namespace ui {
 
 		// Sl88 studio
 		String sl88Text = "SL88 | ";
-		auto sl88Size = display.measureText(sl88Text, 1);
+		auto sl88Size = display.measureText(sl88Text);
 
 		String studioText = "STUDIO";
-		auto studioSize = display.measureText(studioText, 1);
+		auto studioSize = display.measureText(studioText);
 
 		Point sl88Position = Point(
 			bounds.getX2() - sl88Size.getWidth() - studioSize.getWidth() - 4,

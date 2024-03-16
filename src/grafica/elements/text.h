@@ -11,11 +11,12 @@ namespace grafica {
 	class Text : public TextAware, public ForegroundAware {
 		public:
 			Size onMeasure(Screen& display, const Size& availableSize) override {
-				return display.measureText(getText(), getFontSize());
+				return display.measureText(getText());
 			}
 
 			void onRender(Screen& display) override {
 //				display.drawRectangle(getBounds(), Color::gold);
+
 				display.renderText(getBounds().getPosition(), getForeground(), getText());
 			}
 	};

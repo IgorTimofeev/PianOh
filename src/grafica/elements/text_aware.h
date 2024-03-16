@@ -14,16 +14,7 @@ namespace grafica {
 				_text = value;
 			}
 
-			uint8_t getFontSize() const {
-				return _fontSize;
-			}
-
-			void setFontSize(uint8_t value) {
-				_fontSize = value;
-			}
-
 		private:
 			String _text = "Hello";
-			uint8_t _fontSize = 1;
 	};
 }

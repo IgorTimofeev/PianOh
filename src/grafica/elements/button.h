@@ -17,8 +17,9 @@ namespace grafica {
 		public:
 			void onRender(Screen &display) override {
 				auto& bounds = getBounds();
+
 				auto& text = getText();
-				auto textSize = display.measureText(text, getFontSize());
+				auto textSize = display.measureText(text);
 
 				display.renderRectangle(bounds, getBackground());
 
@@ -28,7 +29,8 @@ namespace grafica {
 						bounds.getY() + bounds.getHeight() / 2 - textSize.getHeight() / 2
 					),
 					getForeground(),
-					text);
+					text
+				);
 			}
 
 			void onEvent(Event &event) override {

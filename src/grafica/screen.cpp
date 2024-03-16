@@ -58,9 +58,7 @@ namespace grafica {
 
 	// -------------------------------- Rendering --------------------------------
 
-	Size Screen::measureText(const String &text, const uint8_t& fontSize) {
-		_buffer.setTextSize(fontSize);
-
+	Size Screen::measureText(const String &text) {
 		return {
 			(uint16_t) _buffer.textWidth(text),
 			(uint16_t) _buffer.fontHeight()
@@ -70,10 +68,6 @@ namespace grafica {
 	void Screen::setFont(const uint8_t* array) {
 		_buffer.unloadFont();
 		_buffer.loadFont(array);
-	}
-
-	void Screen::setFontSize(const uint8_t& value) {
-		_buffer.setTextSize(value);
 	}
 
 	void Screen::renderImage(const Bounds &bounds, const uint16_t *data) {

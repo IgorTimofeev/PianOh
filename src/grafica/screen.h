@@ -34,8 +34,7 @@ namespace grafica {
 			virtual void clear();
 
 			void setFont(const uint8_t *array);
-			void setFontSize(const uint8_t &value);
-			virtual Size measureText(const String& text, const uint8_t& fontSize);
+			virtual Size measureText(const String &text);
 
 			virtual void renderText(const Point &position, const Color &color, const String &text);
 			virtual void renderCircle(const Point& position, int32_t radius, const Color& color);

@@ -50,7 +50,6 @@ namespace ui {
 				_menuButton.setSize(Size(40, 40));
 				_menuButton.setAlignment(Alignment::start, Alignment::start);
 				_menuButton.setBackground(Color::white);
-				_menuButton.setFontSize(4);
 				_menuButton.setText("=");
 
 				_menuButton.addOnClick([this](Event& event) {
