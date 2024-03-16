@@ -2,7 +2,6 @@
 #include "Arduino.h"
 #include "screen.h"
 #include "grafica/elements/workspace.h"
-#include "resources/fonts.h"
 
 namespace grafica {
 	Screen::Screen(
@@ -34,7 +33,6 @@ namespace grafica {
 		_buffer.setAttribute(PSRAM_ENABLE, true);
 		_buffer.setColorDepth(8);
 		_buffer.createSprite((int16_t) _resolution.getWidth(), (int16_t) _resolution.getHeight());
-		_buffer.loadFont(resources::fonts::unscii16);
 
 		// Brightness
 
