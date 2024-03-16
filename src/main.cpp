@@ -1,14 +1,14 @@
 #include <Arduino.h>
-#include "ui/application.h"
+#include "ui/piano_application.h"
 
 using namespace ui;
 
-Application& application = Application::getInstance();
+PianoApplication& application = PianoApplication::getInstance();
 
 void setup() {
 	application.begin();
 }
 
 void loop() {
-	application.loop();
+	application.tick();
 }

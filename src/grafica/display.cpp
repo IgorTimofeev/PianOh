@@ -26,7 +26,6 @@ namespace grafica {
 		_buffer.setColorDepth(8);
 		_buffer.createSprite(TFT_HEIGHT, TFT_WIDTH);
 		_buffer.loadFont(resources::fonts::unscii16);
-//		_sprite.setFreeFont(&FreeSans12pt7b);
 
 		// Brightness
 

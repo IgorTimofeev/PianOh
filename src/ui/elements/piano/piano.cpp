@@ -1,6 +1,6 @@
 #include "piano.h"
 #include "grafica/color.h"
-#include "ui/application.h"
+#include "ui/piano_application.h"
 
 using namespace devices;
 
@@ -12,7 +12,7 @@ namespace ui {
 		));
 
 		// Callbacks
-		Application::getInstance().piano.addOnMidiRead([this](MidiEvent& event) {
+		PianoApplication::getInstance().getPiano().addOnMidiRead([this](MidiEvent& event) {
 			switch (event.getType()) {
 				case NoteOn:
 				case NoteOff:
@@ -115,14 +115,14 @@ namespace ui {
 	void Piano::renderStrip(Display &display, Bounds &bounds) const {
 		display.drawRectangle(bounds, Color::black);
 
-		auto step = (float) bounds.getWidth() / (float) Application::getInstance().piano.getStripLength();
+		auto step = (float) bounds.getWidth() / (float) PianoApplication::getInstance().getPiano().getStripLength();
 		auto x = (float) bounds.getX() + step / 2;
 
-		for (uint16_t i = 0; i < Application::getInstance().piano.getStripLength(); i++) {
+		for (uint16_t i = 0; i < PianoApplication::getInstance().getPiano().getStripLength(); i++) {
 			display.drawRectangle(
 				Bounds((int32_t) x, bounds.getY(), 2, stripHeight),
 				getEffect()
-					? getEffect()->getSampleColor(Application::getInstance().piano, i)
+					? getEffect()->getSampleColor(PianoApplication::getInstance().getPiano(), i)
 					: Color::gray
 			);
 
@@ -138,7 +138,7 @@ namespace ui {
 				whiteKeySize.getWidth(),
 				whiteKeySize.getHeight()
 			),
-			Application::getInstance().piano.getKeyVelocity(keyIndex) > 0 ? Color::gold : Color::white
+			PianoApplication::getInstance().getPiano().getKeyVelocity(keyIndex) > 0 ? Color::gold : Color::white
 		);
 
 		x += whiteKeySize.getWidth() + whiteKeySpacing;
@@ -152,7 +152,7 @@ namespace ui {
 				blackKeySize.getWidth(),
 				blackKeySize.getHeight()
 			),
-			Application::getInstance().piano.getKeyVelocity(keyIndex) > 0 ? Color::gold : Color::black
+			PianoApplication::getInstance().getPiano().getKeyVelocity(keyIndex) > 0 ? Color::gold : Color::black
 		);
 
 		x += blackKeySize.getWidth() + blackKeySpacing;

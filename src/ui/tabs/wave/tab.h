@@ -6,7 +6,7 @@
 #include "grafica/elements/text.h"
 #include "ui/tabs/effect_tab.h"
 #include "grafica/elements/stack_layout.h"
-#include "ui/application.h"
+#include "ui/piano_application.h"
 
 using namespace grafica;
 
@@ -22,7 +22,7 @@ namespace ui {
 				brightnessSlider.setSize(Size(150, 40));
 
 				brightnessSlider.addOnValueChanged([this]() {
-					Application::getInstance().display.setBrightness((uint8_t) (brightnessSlider.getValue() * 255.0f));
+					PianoApplication::getInstance()._display.setBrightness((uint8_t) (brightnessSlider.getValue() * 255.0f));
 					brightnessText.setText(String("Brightness: ") + (uint8_t) (brightnessSlider.getValue() * 100.0f) + String("%"));
 				});
 

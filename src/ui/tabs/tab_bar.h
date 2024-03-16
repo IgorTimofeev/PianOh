@@ -17,7 +17,7 @@
 #include "ui/tabs/wave/tab.h"
 #include "ui/tabs/piano/tab.h"
 #include "ui/tabs/strobe/tab.h"
-#include "ui/application.h"
+#include "ui/piano_application.h"
 
 #include "resources/images.h"
 
@@ -102,7 +102,7 @@ namespace ui {
 
 				auto& tab = _views[getSelectedIndex()];
 
-				Application::getInstance().piano.setEffect(tab->getEffect());
+				PianoApplication::getInstance().getPiano().setEffect(tab->getEffect());
 
 				_tabLayout.addChild(tab);
 			}

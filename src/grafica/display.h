@@ -73,6 +73,5 @@ namespace grafica {
 			Point readTouchPoint1();
 			Point readTouchPoint2();
 			void readTouch();
-
 	};
 }
