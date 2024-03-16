@@ -5,7 +5,7 @@ namespace grafica {
 	SelectorItem *Selector::getItemAt(size_t index) {
 		return
 			_itemsLayout
-			? reinterpret_cast<SelectorItem*>(_itemsLayout->getChildAt(index))
+			? (SelectorItem*) _itemsLayout->getChildAt(index)
 			: nullptr;
 	}
 
@@ -35,7 +35,7 @@ namespace grafica {
 		_selectedIndex = value;
 
 		for (size_t i = 0; i < _itemsLayout->getChildrenCount(); i++) {
-			reinterpret_cast<SelectorItem*>(_itemsLayout->getChildAt(i))->setSelected(i == value);
+			((SelectorItem*) _itemsLayout->getChildAt(i))->setSelected(i == value);
 		}
 
 		onSelectionChanged();
