@@ -1,6 +1,7 @@
 #include <cstdint>
 #include "piano_application.h"
 #include "tabs/tab_bar.h"
+#include "resources/fonts.h"
 
 using namespace grafica;
 
@@ -11,16 +12,28 @@ namespace ui {
 		return instance;
 	}
 
-	PianoApplication::PianoApplication() : Application(Size(TFT_HEIGHT, TFT_WIDTH), 13, 4, 5, 9, 8) {
+	PianoApplication::PianoApplication() : Application(
+		Size(TFT_HEIGHT, TFT_WIDTH),
+		13,
+		4,
+		5,
+		9,
+		8
+	) {
 
 	}
 
 	void PianoApplication::begin() {
 		Application::begin();
 
-		_piano.begin();
+		// Screen
+		getScreen().setFont(resources::fonts::unscii16);
 
+		// Workspace
 		getWorkspace().addChild(new TabBar());
+
+		// Piano
+		_piano.begin();
 	}
 
 	void PianoApplication::onTick() {

@@ -25,21 +25,28 @@ namespace grafica {
 			);
 
 			const Size &getResolution() const;
-
-			virtual void clear();
-			virtual Size measureText(const String& text, const uint8_t& fontSize);
-			virtual void drawText(const Point& position, const Color& color, const String& text, const uint8_t& size);
-			virtual void drawCircle(const Point& position, int32_t radius, const Color& color);
-			virtual void drawRectangle(const Bounds& bounds, const Color& color);
-			virtual void drawRectangle(const Bounds& bounds, uint16_t radius, const Color& color);
-			virtual void drawFastHLine(const Point& position, uint16_t size, const Color& color);
-			virtual void drawFastVLine(const Point& position, uint16_t size, const Color& color);
-			virtual void drawImage(const Bounds& bounds, const uint16_t* data);
-			virtual void flush();
 			void setBrightness(const uint8_t &value) const;
-
 			virtual void begin();
 			virtual void tick();
+
+			// -------------------------------- Rendering --------------------------------
+
+			virtual void clear();
+
+			void setFont(const uint8_t *array);
+			void setFontSize(const uint8_t &value);
+			virtual Size measureText(const String& text, const uint8_t& fontSize);
+
+			virtual void renderText(const Point &position, const Color &color, const String &text);
+			virtual void renderCircle(const Point& position, int32_t radius, const Color& color);
+			virtual void renderRectangle(const Bounds& bounds, const Color& color);
+			virtual void renderRectangle(const Bounds& bounds, uint16_t radius, const Color& color);
+			virtual void renderHorizontalLine(const Point& position, uint16_t size, const Color& color);
+			virtual void renderVerticalLine(const Point& position, uint16_t size, const Color& color);
+			virtual void renderImage(const Bounds& bounds, const uint16_t* data);
+			virtual void flush();
+
+			// -------------------------------- Touch --------------------------------
 
 			TouchPoint& getTouchPoint1();
 			TouchPoint& getTouchPoint2();

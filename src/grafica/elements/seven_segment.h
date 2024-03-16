@@ -124,13 +124,13 @@ namespace grafica {
 				uint8_t t = getSegmentThickness();
 				uint8_t l = getSegmentLength();
 
-				display.drawRectangle(Bounds(position.getX() + t, position.getY(), l, t), s0 ? getForeground() : getBackground());
-				display.drawRectangle(Bounds(position.getX() + t + l, position.getY() + t, t, l), s1 ? getForeground() : getBackground());
-				display.drawRectangle(Bounds(position.getX() + t + l, position.getY() + t + l + t, t, l), s2 ? getForeground() : getBackground());
-				display.drawRectangle(Bounds(position.getX() + t, position.getY() + (t + l) * 2, l, t), s3 ? getForeground() : getBackground());
-				display.drawRectangle(Bounds(position.getX(), position.getY() + t + l + t, t, l), s4 ? getForeground() : getBackground());
-				display.drawRectangle(Bounds(position.getX(), position.getY() + t, t, l), s5 ? getForeground() : getBackground());
-				display.drawRectangle(Bounds(position.getX() + t, position.getY() + t + l, l, t), s6 ? getForeground() : getBackground());
+				display.renderRectangle(Bounds(position.getX() + t, position.getY(), l, t), s0 ? getForeground() : getBackground());
+				display.renderRectangle(Bounds(position.getX() + t + l, position.getY() + t, t, l), s1 ? getForeground() : getBackground());
+				display.renderRectangle(Bounds(position.getX() + t + l, position.getY() + t + l + t, t, l), s2 ? getForeground() : getBackground());
+				display.renderRectangle(Bounds(position.getX() + t, position.getY() + (t + l) * 2, l, t), s3 ? getForeground() : getBackground());
+				display.renderRectangle(Bounds(position.getX(), position.getY() + t + l + t, t, l), s4 ? getForeground() : getBackground());
+				display.renderRectangle(Bounds(position.getX(), position.getY() + t, t, l), s5 ? getForeground() : getBackground());
+				display.renderRectangle(Bounds(position.getX() + t, position.getY() + t + l, l, t), s6 ? getForeground() : getBackground());
 			}
 
 			void drawDigit(Screen& display, const Point& position, uint8_t digit) {

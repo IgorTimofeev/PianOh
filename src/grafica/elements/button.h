@@ -20,17 +20,15 @@ namespace grafica {
 				auto& text = getText();
 				auto textSize = display.measureText(text, getFontSize());
 
-				display.drawRectangle(bounds, getBackground());
+				display.renderRectangle(bounds, getBackground());
 
-				display.drawText(
+				display.renderText(
 					Point(
 						bounds.getX() + bounds.getWidth() / 2 - textSize.getWidth() / 2,
 						bounds.getY() + bounds.getHeight() / 2 - textSize.getHeight() / 2
 					),
 					getForeground(),
-					text,
-					getFontSize()
-				);
+					text);
 			}
 
 			void onEvent(Event &event) override {

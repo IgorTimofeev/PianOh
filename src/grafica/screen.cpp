@@ -58,7 +58,7 @@ namespace grafica {
 		return _resolution;
 	}
 
-	// ------------------------------------------- Rendering -------------------------------------------
+	// -------------------------------- Rendering --------------------------------
 
 	Size Screen::measureText(const String &text, const uint8_t& fontSize) {
 		_buffer.setTextSize(fontSize);
@@ -69,7 +69,16 @@ namespace grafica {
 		};
 	}
 
-	void Screen::drawImage(const Bounds &bounds, const uint16_t *data) {
+	void Screen::setFont(const uint8_t* array) {
+		_buffer.unloadFont();
+		_buffer.loadFont(array);
+	}
+
+	void Screen::setFontSize(const uint8_t& value) {
+		_buffer.setTextSize(value);
+	}
+
+	void Screen::renderImage(const Bounds &bounds, const uint16_t *data) {
 		_buffer.pushImage(
 			bounds.getX(),
 			bounds.getY(),
@@ -79,7 +88,7 @@ namespace grafica {
 		);
 	}
 
-	void Screen::drawCircle(const Point &position, int32_t radius, const Color &color) {
+	void Screen::renderCircle(const Point &position, int32_t radius, const Color &color) {
 		_buffer.fillSmoothCircle(
 			(int16_t) position.getX(),
 			(int16_t) position.getY(),
@@ -88,14 +97,13 @@ namespace grafica {
 		);
 	}
 
-	void Screen::drawText(const Point &position, const Color &color, const String &text, const uint8_t &size) {
+	void Screen::renderText(const Point &position, const Color &color, const String &text) {
 		_buffer.setTextColor(_buffer.color24to16(color.toUint32()));
 		_buffer.setCursor((int16_t) position.getX(), (int16_t) position.getY());
-		_buffer.setTextSize(size);
 		_buffer.print(text);
 	}
 
-	void Screen::drawRectangle(const Bounds &bounds, uint16_t radius, const Color &color) {
+	void Screen::renderRectangle(const Bounds &bounds, uint16_t radius, const Color &color) {
 		_buffer.fillSmoothRoundRect(
 			(int16_t) bounds.getX(),
 			(int16_t) bounds.getY(),
@@ -106,7 +114,7 @@ namespace grafica {
 		);
 	}
 
-	void Screen::drawRectangle(const Bounds &bounds, const Color &color) {
+	void Screen::renderRectangle(const Bounds &bounds, const Color &color) {
 		_buffer.fillRect(
 			(int16_t) bounds.getX(),
 			(int16_t) bounds.getY(),
@@ -124,7 +132,7 @@ namespace grafica {
 		_buffer.pushSprite(0, 0);
 	}
 
-	void Screen::drawFastHLine(const Point &position, uint16_t size, const Color &color) {
+	void Screen::renderHorizontalLine(const Point &position, uint16_t size, const Color &color) {
 		_buffer.drawFastHLine(
 			position.getX(),
 			position.getY(),
@@ -133,7 +141,7 @@ namespace grafica {
 		);
 	}
 
-	void Screen::drawFastVLine(const Point &position, uint16_t size, const Color &color) {
+	void Screen::renderVerticalLine(const Point &position, uint16_t size, const Color &color) {
 		_buffer.drawFastVLine(
 			position.getX(),
 			position.getY(),
@@ -142,7 +150,7 @@ namespace grafica {
 		);
 	}
 
-	// ------------------------------------------- Touch -------------------------------------------
+	// -------------------------------- Touch --------------------------------
 
 	volatile bool Screen::_touchInterrupted = false;
 	

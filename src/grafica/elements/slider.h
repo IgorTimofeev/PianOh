@@ -41,13 +41,13 @@ namespace grafica {
 				auto bounds = getBounds();
 				auto part = (uint16_t) round(_value * (float) bounds.getWidth());
 
-				display.drawRectangle(
+				display.renderRectangle(
 					bounds,
 					_cornerRadius,
 					getBackground()
 				);
 
-				display.drawRectangle(
+				display.renderRectangle(
 					Bounds(
 						bounds.getPosition(),
 						Size(

@@ -16,7 +16,7 @@ namespace grafica {
 
 			void onRender(Screen& display) override {
 //				display.drawRectangle(getBounds(), Color::gold);
-				display.drawText(getBounds().getPosition(), getForeground(), getText(), getFontSize());
+				display.renderText(getBounds().getPosition(), getForeground(), getText());
 			}
 	};
 }

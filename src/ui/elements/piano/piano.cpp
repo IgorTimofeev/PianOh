@@ -29,7 +29,7 @@ namespace ui {
 		auto bounds = getBounds();
 
 		// Casing
-		display.drawRectangle(bounds, Color::black);
+		display.renderRectangle(bounds, Color::black);
 
 		// Controls
 		Size controlsSize = Size(controlsWidth, keysMargin.getTop() - controlsMargin - controlsMargin);
@@ -43,7 +43,7 @@ namespace ui {
 		);
 
 		// Glass
-		display.drawRectangle(controlsBounds, Color::gray);
+		display.renderRectangle(controlsBounds, Color::gray);
 
 		// Screen
 		auto screenBounds = Bounds(
@@ -53,7 +53,7 @@ namespace ui {
 			controlsSize.getHeight() - displayMargin * 2
 		);
 
-		display.drawRectangle(screenBounds, Color::white);
+		display.renderRectangle(screenBounds, Color::white);
 
 		// Knob
 		auto knobPosition = Point(
@@ -61,7 +61,7 @@ namespace ui {
 			screenBounds.getY() + screenBounds.getHeight() / 2
 		);
 
-		display.drawCircle(knobPosition, 5, Color::black);
+		display.renderCircle(knobPosition, 5, Color::black);
 
 		// Buttons
 		auto buttonBounds = Bounds(
@@ -71,13 +71,13 @@ namespace ui {
 			3
 		);
 
-		display.drawRectangle(buttonBounds, Color::black);
+		display.renderRectangle(buttonBounds, Color::black);
 
 		buttonBounds.setY(buttonBounds.getY() + buttonBounds.getHeight() + 3);
-		display.drawRectangle(buttonBounds, Color::black);
+		display.renderRectangle(buttonBounds, Color::black);
 
 		buttonBounds.setY(buttonBounds.getY() + buttonBounds.getHeight() + 3);
-		display.drawRectangle(buttonBounds, Color::black);
+		display.renderRectangle(buttonBounds, Color::black);
 
 		// Sl88 studio
 		String sl88Text = "SL88 | ";
@@ -91,10 +91,10 @@ namespace ui {
 			bounds.getY() + keysMargin.getTop() - sl88Size.getHeight() - 4
 		);
 
-		display.drawText(sl88Position, Color::white, sl88Text, 1);
+		display.renderText(sl88Position, Color::white, sl88Text);
 
 		sl88Position.setX(sl88Position.getX() + sl88Size.getWidth());
-		display.drawText(sl88Position, Color::gold, studioText, 1);
+		display.renderText(sl88Position, Color::gold, studioText);
 
 		// Strip
 		auto stripBounds = Bounds(
@@ -113,17 +113,17 @@ namespace ui {
 	}
 
 	void Piano::renderStrip(Screen &display, Bounds &bounds) const {
-		display.drawRectangle(bounds, Color::black);
+		display.renderRectangle(bounds, Color::black);
 
 		auto step = (float) bounds.getWidth() / (float) PianoApplication::getInstance().getPiano().getStripLength();
 		auto x = (float) bounds.getX() + step / 2;
 
 		for (uint16_t i = 0; i < PianoApplication::getInstance().getPiano().getStripLength(); i++) {
-			display.drawRectangle(
+			display.renderRectangle(
 				Bounds((int32_t) x, bounds.getY(), 2, stripHeight),
 				getEffect()
-					? getEffect()->getSampleColor(PianoApplication::getInstance().getPiano(), i)
-					: Color::gray
+				? getEffect()->getSampleColor(PianoApplication::getInstance().getPiano(), i)
+				: Color::gray
 			);
 
 			x += step;
@@ -131,7 +131,7 @@ namespace ui {
 	}
 
 	void Piano::renderWhiteKey(Screen &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
-		display.drawRectangle(
+		display.renderRectangle(
 			Bounds(
 				x,
 				y,
@@ -145,7 +145,7 @@ namespace ui {
 	}
 
 	void Piano::renderBlackKey(Screen &display, int32_t &x, int32_t &y, uint8_t &keyIndex) {
-		display.drawRectangle(
+		display.renderRectangle(
 			Bounds(
 				x,
 				y,

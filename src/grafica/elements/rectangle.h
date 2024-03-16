@@ -14,7 +14,7 @@ namespace grafica {
 			}
 
 			void onRender(Screen& display) override {
-				display.drawRectangle(getBounds(), getCornerRadius(), getFillColor());
+				display.renderRectangle(getBounds(), getCornerRadius(), getFillColor());
 			}
 
 			// -------------------------------- Getters & setters --------------------------------

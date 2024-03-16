@@ -12,7 +12,7 @@ namespace grafica {
 				if (!getSource() || !getSource()->getPixels())
 					return;
 
-				display.drawImage(
+				display.renderImage(
 					Bounds(
 						getBounds().getPosition(),
 						getSource()->getSize()

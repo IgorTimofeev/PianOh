@@ -11,7 +11,7 @@ namespace grafica {
 			void onRender(Screen& display) override {
 				auto bounds = getBounds();
 
-				display.drawCircle(
+				display.renderCircle(
 					Point(bounds.getX() + bounds.getWidth() / 2, bounds.getY() + bounds.getHeight() / 2),
 					min(bounds.getWidth(), bounds.getHeight()) / 2,
 					getFillColor()

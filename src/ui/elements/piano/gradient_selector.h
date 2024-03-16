@@ -50,20 +50,20 @@ namespace grafica {
 					x = bounds.getX() + (int32_t) (stop->getPosition() * (float) bounds.getWidth());
 
 					// Line
-					display.drawFastVLine(
+					display.renderVerticalLine(
 						Point(x, bounds.getY()),
 						bounds.getHeight() - _gripRadius * 2,
 						Color::black
 					);
 
 					// Ellipse
-					display.drawCircle(
+					display.renderCircle(
 						Point(x, bounds.getY2() - _gripRadius),
 						i == _selectedIndex ? _gripRadius + 1 : _gripRadius,
 						Color::black
 					);
 
-					display.drawCircle(
+					display.renderCircle(
 						Point(x, bounds.getY2() - _gripRadius),
 						_gripRadius - 1,
 						stop->getColor()
