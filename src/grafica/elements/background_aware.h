@@ -4,7 +4,7 @@
 #include "grafica/color.h"
 
 namespace grafica {
-	class BackgroundAware : virtual public Element {
+	class BackgroundAware : public virtual Element {
 		public:
 			const Color &getBackground() const {
 				return _background;

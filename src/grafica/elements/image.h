@@ -30,7 +30,7 @@ namespace grafica {
 			void setSource(ImageSource* source) {
 				_source = source;
 
-				invalidate();
+				invalidateRender();
 			}
 
 		private:

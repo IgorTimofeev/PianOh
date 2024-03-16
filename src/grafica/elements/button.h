@@ -6,9 +6,10 @@
 #include "background_aware.h"
 #include "foreground_aware.h"
 #include "text_aware.h"
+#include "font_aware.h"
 
 namespace grafica {
-	class Button : public TextAware, public BackgroundAware, public ForegroundAware {
+	class Button : public TextAware, public FontAware, public BackgroundAware, public ForegroundAware {
 		public:
 			void addOnClick(const std::function<void(Event&)>& value) {
 				_onClick.add(value);
@@ -17,6 +18,8 @@ namespace grafica {
 		public:
 			void onRender(Screen &display) override {
 				auto& bounds = getBounds();
+
+				display.setFont(getFont());
 
 				auto& text = getText();
 				auto textSize = display.measureText(text);

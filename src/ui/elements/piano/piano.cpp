@@ -1,6 +1,7 @@
 #include "piano.h"
 #include "grafica/color.h"
 #include "ui/piano_application.h"
+#include "resources/fonts.h"
 
 using namespace devices;
 
@@ -80,6 +81,8 @@ namespace ui {
 		display.renderRectangle(buttonBounds, Color::black);
 
 		// Sl88 studio
+		display.setFont(resources::fonts::unscii8);
+
 		String sl88Text = "SL88 | ";
 		auto sl88Size = display.measureText(sl88Text);
 

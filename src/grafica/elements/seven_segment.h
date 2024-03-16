@@ -72,7 +72,7 @@ namespace grafica {
 			void setValue(uint32_t value) {
 				_value = value;
 
-				invalidate();
+				invalidateRender();
 			}
 
 			uint8_t getDigitCount() const {

@@ -33,7 +33,9 @@ namespace grafica {
 
 			virtual void clear();
 
-			void setFont(const uint8_t *array);
+			void setDefaultFont(const uint8_t* value);
+			void setFont(const uint8_t *value);
+
 			virtual Size measureText(const String &text);
 
 			virtual void renderText(const Point &position, const Color &color, const String &text);
@@ -92,6 +94,9 @@ namespace grafica {
 			TFT_eSPI _tft = TFT_eSPI();
 			TFT_eSprite _buffer = TFT_eSprite(&_tft);
 			FT6336U _touchPanel;
+
+			const uint8_t* _defaultFont = nullptr;
+			const uint8_t* _font = nullptr;
 
 			bool _isTouched = false;
 			bool _isPinched = false;

@@ -65,9 +65,19 @@ namespace grafica {
 		};
 	}
 
-	void Screen::setFont(const uint8_t* array) {
-		_buffer.unloadFont();
-		_buffer.loadFont(array);
+	void Screen::setDefaultFont(const uint8_t *value) {
+		_defaultFont = value;
+	}
+
+	void Screen::setFont(const uint8_t* value) {
+		if (!value)
+			value = _defaultFont;
+
+		if (value == _font)
+			return;
+
+		_font = value;
+		_buffer.loadFont(_font);
 	}
 
 	void Screen::renderImage(const Bounds &bounds, const uint16_t *data) {

@@ -98,7 +98,7 @@ namespace grafica {
 					}
 
 					_selectedIndex = closestIndex;
-					invalidate();
+					invalidateRender();
 
 					setCaptured(true);
 				}
@@ -107,7 +107,7 @@ namespace grafica {
 					auto position = Number::clampFloat((float) (touchEvent.getPosition().getX() - bounds.getX()) / (float) bounds.getWidth());
 
 					stop.setPosition(position);
-					invalidate();
+					invalidateRender();
 				}
 				else if (event.getType() == EventType::touchUp) {
 					setCaptured(false);

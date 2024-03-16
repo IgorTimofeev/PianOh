@@ -4,7 +4,7 @@
 #include "grafica/color.h"
 
 namespace grafica {
-	class ForegroundAware : virtual public Element {
+	class ForegroundAware : public virtual Element {
 		public:
 			const Color &getForeground() const {
 				return foreground;

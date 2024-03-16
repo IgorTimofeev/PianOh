@@ -27,7 +27,7 @@ namespace ui {
 		Application::begin();
 
 		// Screen
-		getScreen().setFont(resources::fonts::unscii16);
+		getScreen().setDefaultFont(resources::fonts::unscii16);
 
 		// Workspace
 		getWorkspace().addChild(new TabBar());
