@@ -1,5 +1,3 @@
-#pragma once
-
 #include "touch_point.h"
 
 namespace grafica {

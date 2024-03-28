@@ -9,6 +9,7 @@
       <file path="$PROJECT_DIR$/src/ui/traits" />
     </sourceRoots>
     <excludeRoots>
+      <file path="$PROJECT_DIR$/.pio" />
       <file path="$PROJECT_DIR$/resources" />
     </excludeRoots>
   </component>

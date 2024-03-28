@@ -14,11 +14,11 @@ namespace ui {
 
 	PianoApplication::PianoApplication() : Application(
 		Size(TFT_HEIGHT, TFT_WIDTH),
-		13,
+		25,
+		21,
+		22,
 		4,
-		5,
-		9,
-		8
+		0
 	) {
 
 	}
@@ -31,6 +31,7 @@ namespace ui {
 
 		// Workspace
 		getWorkspace().addChild(new TabBar());
+		//getWorkspace().addChild(new Rectangle(Color::water));
 
 		// Piano
 		_piano.begin();

@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <driver/dac_common.h>
 #include "Arduino.h"
 #include "screen.h"
 #include "grafica/elements/workspace.h"
@@ -31,10 +32,11 @@ namespace grafica {
 		_tft.setRotation(1);
 
 		_buffer.setAttribute(PSRAM_ENABLE, true);
-		_buffer.setColorDepth(8);
 		_buffer.createSprite((int16_t) _resolution.getWidth(), (int16_t) _resolution.getHeight());
 
-		// Brightness
+		// Led
+		dac_output_enable(DAC_CHANNEL_1);
+		dac_output_voltage(DAC_CHANNEL_1, 5);
 
 		// Touch
 		_touchPanel.begin();
@@ -48,8 +50,7 @@ namespace grafica {
 	}
 
 	void Screen::setBrightness(const uint8_t& value) const {
-		// Not on ESP32 C3 :(
-		// dacWrite(_brightnessPin, value);
+		 dacWrite(_tftLedPin, value);
 	}
 
 	const Size &Screen::getResolution() const {
