@@ -77,7 +77,7 @@ namespace ui {
 				_menu.addChild(&_menuBackground);
 
 //				_menuItemsLayout.setMargin(Margin(10));
-//				_menuItemsLayout.setSpacing(10);
+//				_menuItemsLayout.setSpacing(5);
 				_menu.addChild(&_menuItemsLayout);
 				setItemsLayout(&_menuItemsLayout);
 

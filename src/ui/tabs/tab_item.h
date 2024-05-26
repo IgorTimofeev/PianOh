@@ -27,7 +27,7 @@ namespace ui {
 
 				// Row
 				_row.setSpacing(10);
-				_row.setMargin(Margin(8, 5, 5, 5));
+				_row.setMargin(Margin(12, 8, 8, 8));
 				_row.setVerticalAlignment(Alignment::center);
 				_row.setOrientation(Orientation::horizontal);
 				addChild(&_row);
