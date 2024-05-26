@@ -12,8 +12,8 @@ namespace grafica {
 	class SevenSegment : public BackgroundAware, public ForegroundAware {
 		public:
 			SevenSegment() {
-				setBackground(Color::white);
-				setForeground(Color::black);
+				setBackground(Color::main9);
+				setForeground(Color::main1);
 			}
 
 			Size onMeasure(Screen &display, const Size &availableSize) override {

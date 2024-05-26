@@ -8,6 +8,6 @@ namespace devices {
 	}
 
 	Color Effect::getSampleColor(devices::Piano &piano, const uint16_t &index) {
-		return Color::gray;
+		return Color::main3;
 	}
 }

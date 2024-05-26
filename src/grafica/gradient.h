@@ -39,7 +39,7 @@ namespace grafica {
 		public:
 			Color getColor(float position) {
 				if (_stops.size() < 2)
-					return Color::white;
+					return Color::black;
 
 				// |------|----|--|---|
 				//               *

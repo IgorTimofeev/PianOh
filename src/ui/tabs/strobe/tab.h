@@ -23,7 +23,7 @@ namespace ui {
 
 				text.setAlignment(Alignment::center);
 //				text.setMargin(Margin(10));
-				text.setForeground(Color::black);
+				text.setForeground(Color::main1);
 				text.setText("Timer");
 				holder.addChild(&text);
 			}

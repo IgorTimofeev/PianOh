@@ -15,6 +15,6 @@ namespace grafica {
 			}
 
 		private:
-			Color _background = Color::black;
+			Color _background = Color::main1;
 	};
 }

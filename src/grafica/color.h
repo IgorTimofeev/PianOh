@@ -18,10 +18,29 @@ namespace grafica {
 	class Color {
 		public:
 			static const Color black;
-			static const Color gray;
-			static const Color gold;
 			static const Color white;
+			static const Color gold;
 			static const Color water;
+
+			static const Color main1;
+			static const Color main2;
+			static const Color main3;
+			static const Color main4;
+			static const Color main5;
+			static const Color main6;
+			static const Color main7;
+			static const Color main8;
+			static const Color main9;
+
+			static const Color alt1;
+			static const Color alt2;
+			static const Color alt3;
+			static const Color alt4;
+			static const Color alt5;
+			static const Color alt6;
+			static const Color alt7;
+			static const Color alt8;
+			static const Color alt9;
 
 			uint8_t r = 0;
 			uint8_t g = 0;

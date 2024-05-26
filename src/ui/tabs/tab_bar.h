@@ -49,7 +49,7 @@ namespace ui {
 				// Menu button
 				_menuButton.setSize(Size(40, 40));
 				_menuButton.setAlignment(Alignment::start, Alignment::start);
-				_menuButton.setBackground(Color::white);
+				_menuButton.setBackground(Color::main3);
 				_menuButton.setText("=");
 
 				_menuButton.addOnClick([this](Event& event) {
@@ -76,8 +76,8 @@ namespace ui {
 				_menu.setVisible(false);
 				_menu.addChild(&_menuBackground);
 
-				_menuItemsLayout.setMargin(Margin(10));
-				_menuItemsLayout.setSpacing(10);
+//				_menuItemsLayout.setMargin(Margin(10));
+//				_menuItemsLayout.setSpacing(10);
 				_menu.addChild(&_menuItemsLayout);
 				setItemsLayout(&_menuItemsLayout);
 
@@ -107,14 +107,14 @@ namespace ui {
 			}
 
 		private:
-			Rectangle _background = Rectangle(Color::white);
+			Rectangle _background = Rectangle(Color::main1);
 			Layout _tabLayout = Layout();
 
 			Button _menuButton = Button();
 			Element _menuOverlay = Element();
 			const uint16_t _menuSize = 180;
 			Layout _menu = Layout();
-			Rectangle _menuBackground = Rectangle(Color::black);
+			Rectangle _menuBackground = Rectangle(Color::main2);
 			StackLayout _menuItemsLayout = StackLayout();
 
 			std::vector<EffectTab*> _views {};

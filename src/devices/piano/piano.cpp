@@ -39,7 +39,7 @@ namespace devices {
 
 	Color Piano::getStripColor(uint16_t index) {
 		if (!isStripIndexInRange(index))
-			return Color::black;
+			return Color::main1;
 
 		invertStripIndexIfRequired(index);
 

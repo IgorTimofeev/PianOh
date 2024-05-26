@@ -1,5 +1,4 @@
 #include "piano.h"
-#include "grafica/color.h"
 #include "ui/piano_application.h"
 #include "resources/fonts.h"
 
@@ -30,7 +29,7 @@ namespace ui {
 		auto bounds = getBounds();
 
 		// Casing
-		display.renderRectangle(bounds, Color::black);
+		display.renderRectangle(bounds, Piano::backgroundColor);
 
 		// Controls
 		Size controlsSize = Size(controlsWidth, keysMargin.getTop() - controlsMargin - controlsMargin);
@@ -44,7 +43,7 @@ namespace ui {
 		);
 
 		// Glass
-		display.renderRectangle(controlsBounds, Color::gray);
+		display.renderRectangle(controlsBounds, Piano::screenGlassColor);
 
 		// Screen
 		auto screenBounds = Bounds(
@@ -54,7 +53,7 @@ namespace ui {
 			controlsSize.getHeight() - displayMargin * 2
 		);
 
-		display.renderRectangle(screenBounds, Color::white);
+		display.renderRectangle(screenBounds, Piano::screenColor);
 
 		// Knob
 		auto knobPosition = Point(
@@ -62,7 +61,7 @@ namespace ui {
 			screenBounds.getY() + screenBounds.getHeight() / 2
 		);
 
-		display.renderCircle(knobPosition, 5, Color::black);
+		display.renderCircle(knobPosition, 5, Piano::knobColor);
 
 		// Buttons
 		auto buttonBounds = Bounds(
@@ -72,13 +71,13 @@ namespace ui {
 			3
 		);
 
-		display.renderRectangle(buttonBounds, Color::black);
+		display.renderRectangle(buttonBounds, Piano::knobColor);
 
 		buttonBounds.setY(buttonBounds.getY() + buttonBounds.getHeight() + 3);
-		display.renderRectangle(buttonBounds, Color::black);
+		display.renderRectangle(buttonBounds, Piano::knobColor);
 
 		buttonBounds.setY(buttonBounds.getY() + buttonBounds.getHeight() + 3);
-		display.renderRectangle(buttonBounds, Color::black);
+		display.renderRectangle(buttonBounds, Piano::knobColor);
 
 		// Sl88 studio
 		display.setFont(resources::fonts::unscii8);
@@ -94,7 +93,7 @@ namespace ui {
 			bounds.getY() + keysMargin.getTop() - sl88Size.getHeight() - 4
 		);
 
-		display.renderText(sl88Position, Color::white, sl88Text);
+		display.renderText(sl88Position, Color::alt1, sl88Text);
 
 		sl88Position.setX(sl88Position.getX() + sl88Size.getWidth());
 		display.renderText(sl88Position, Color::gold, studioText);
@@ -116,7 +115,7 @@ namespace ui {
 	}
 
 	void Piano::renderStrip(Screen &display, Bounds &bounds) const {
-		display.renderRectangle(bounds, Color::black);
+		display.renderRectangle(bounds, Piano::backgroundColor);
 
 		auto step = (float) bounds.getWidth() / (float) PianoApplication::getInstance().getPiano().getStripLength();
 		auto x = (float) bounds.getX() + step / 2;
@@ -126,7 +125,7 @@ namespace ui {
 				Bounds((int32_t) x, bounds.getY(), 2, stripHeight),
 				getEffect()
 				? getEffect()->getSampleColor(PianoApplication::getInstance().getPiano(), i)
-				: Color::gray
+				: Color::main3
 			);
 
 			x += step;
@@ -141,7 +140,7 @@ namespace ui {
 				whiteKeySize.getWidth(),
 				whiteKeySize.getHeight()
 			),
-			PianoApplication::getInstance().getPiano().getKeyVelocity(keyIndex) > 0 ? Color::gold : Color::white
+			PianoApplication::getInstance().getPiano().getKeyVelocity(keyIndex) > 0 ? Piano::keyWhitePressedColor : Piano::keyWhiteDefaultColor
 		);
 
 		x += whiteKeySize.getWidth() + whiteKeySpacing;
@@ -155,7 +154,7 @@ namespace ui {
 				blackKeySize.getWidth(),
 				blackKeySize.getHeight()
 			),
-			PianoApplication::getInstance().getPiano().getKeyVelocity(keyIndex) > 0 ? Color::gold : Color::black
+			PianoApplication::getInstance().getPiano().getKeyVelocity(keyIndex) > 0 ? Piano::keyBlackPressedColor : Piano::keyBlackDefaultColor
 		);
 
 		x += blackKeySize.getWidth() + blackKeySpacing;

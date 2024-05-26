@@ -2,11 +2,30 @@
 #include "number.h"
 
 namespace grafica {
-	const Color Color::black = Color(0, 0, 0);
-	const Color Color::gray = Color(0x44, 0x44, 0x44);
-	const Color Color::gold = Color(0xF2, 0xB3, 0x3A);
+	const Color Color::black = Color(0x00, 0x00, 0x00);
 	const Color Color::white = Color(0xFF, 0xFF, 0xFF);
+	const Color Color::gold = Color(0xF2, 0xB3, 0x3A);
 	const Color Color::water = Color(0x00, 0x73, 0xB5);
+
+	const Color Color::main1 = Color(0x00, 0x00, 0x00);
+	const Color Color::main2 = Color(0x08, 0x08, 0x08);
+	const Color Color::main3 = Color(0x10, 0x10, 0x10);
+	const Color Color::main4 = Color(0x18, 0x18, 0x18);
+	const Color Color::main5 = Color(0x21, 0x20, 0x21);
+	const Color Color::main6 = Color(0x29, 0x28, 0x29);
+	const Color Color::main7 = Color(0x31, 0x30, 0x31);
+	const Color Color::main8 = Color(0x39, 0x38, 0x39);
+	const Color Color::main9 = Color(0x42, 0x40, 0x42);
+
+	const Color Color::alt1 = Color(0xFF, 0xFF, 0xFF);
+	const Color Color::alt2 = Color(0xEE, 0xEE, 0xEE);
+	const Color Color::alt3 = Color(0xDD, 0xDD, 0xDD);
+	const Color Color::alt4= Color(0xCC, 0xCC, 0xCC);
+	const Color Color::alt5 = Color(0xBB, 0xBB, 0xBB);
+	const Color Color::alt6 = Color(0xAA, 0xAA, 0xAA);
+	const Color Color::alt7 = Color(0x99, 0x99, 0x99);
+	const Color Color::alt8 = Color(0x88, 0x88, 0x88);
+	const Color Color::alt9 = Color(0x77, 0x77, 0x77);
 
 	Color::Color(uint8_t _r, uint8_t _g, uint8_t _b) {
 		r = _r;

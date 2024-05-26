@@ -16,6 +16,6 @@ namespace grafica {
 			}
 
 		private:
-			Color _fillColor = Color::black;
+			Color _fillColor = Color::main1;
 	};
 }

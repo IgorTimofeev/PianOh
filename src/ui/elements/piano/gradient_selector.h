@@ -53,14 +53,14 @@ namespace grafica {
 					display.renderVerticalLine(
 						Point(x, bounds.getY()),
 						bounds.getHeight() - _gripRadius * 2,
-						Color::black
+						Color::main1
 					);
 
 					// Ellipse
 					display.renderCircle(
 						Point(x, bounds.getY2() - _gripRadius),
 						i == _selectedIndex ? _gripRadius + 1 : _gripRadius,
-						Color::black
+						Color::main1
 					);
 
 					display.renderCircle(

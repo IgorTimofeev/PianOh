@@ -17,7 +17,7 @@ namespace ui {
 				button.setSize(Size(120, 40));
 				button.setAlignment(Alignment::center, Alignment::center);
 				button.setBackground(Color::gold);
-				button.setForeground(Color::black);
+				button.setForeground(Color::main1);
 				button.setText("Click");
 
 				button.addOnClick([this](Event& event) {

@@ -12,8 +12,8 @@ namespace grafica {
 	class Slider : public BackgroundAware, public ForegroundAware {
 		public:
 			Slider() {
-				setBackground(Color::black);
-				setForeground(Color::gray);
+				setBackground(Color::main1);
+				setForeground(Color::main3);
 			}
 
 			void onEvent(Event &event) override {

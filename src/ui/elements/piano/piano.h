@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Arduino.h"
+#include "grafica/color.h"
 #include "grafica/elements/layout.h"
 #include "gradient_selector.h"
 #include "Adafruit_NeoPixel.h"
@@ -12,7 +13,14 @@ using namespace devices;
 namespace ui {
 	class Piano : public Element {
 		public:
-			Piano();
+			const Color backgroundColor = Color::main3;
+			const Color knobColor = Color::alt3;
+			const Color screenGlassColor = Color::alt3;
+			const Color screenColor = Color::alt1;
+			const Color keyWhiteDefaultColor = Color::alt1;
+			const Color keyWhitePressedColor = Color::alt3;
+			const Color keyBlackDefaultColor = Color::main1;
+			const Color keyBlackPressedColor = Color::main5;
 
 			const uint8_t controlsWidth = 62;
 			const uint8_t controlsMargin = 7;
@@ -28,6 +36,8 @@ namespace ui {
 
 			const uint8_t stripHeight = 3;
 
+			Piano();
+
 			Effect *getEffect() const;
 
 			void setEffect(Effect *effect);
@@ -36,8 +46,6 @@ namespace ui {
 			void onRender(Screen &display) override;
 
 		private:
-
-
 			Effect* _effect = nullptr;
 
 			void renderStrip(Screen &display, Bounds& bounds) const;

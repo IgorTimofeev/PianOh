@@ -18,13 +18,16 @@ namespace ui {
 				_imageSourceOn(imageSourceOn),
 				_imageSourceOff(imageSourceOff)
 			{
-				// Background rect
-				_rectangle.setCornerRadius(4);
-				addChild(&_rectangle);
+				// Selection
+				addChild(&_selectionBackground);
+
+				_selectionLine.setSize(Size(3, Size::calculated));
+				_selectionLine.setHorizontalAlignment(Alignment::start);
+				addChild(&_selectionLine);
 
 				// Row
 				_row.setSpacing(10);
-				_row.setMargin(Margin(5));
+				_row.setMargin(Margin(8, 5, 5, 5));
 				_row.setVerticalAlignment(Alignment::center);
 				_row.setOrientation(Orientation::horizontal);
 				addChild(&_row);
@@ -43,13 +46,18 @@ namespace ui {
 			}
 
 			void setSelected(const bool &value) override {
-				_rectangle.setFillColor(value ? Color::white : Color::black);
+				_selectionBackground.setVisible(value);
+				_selectionLine.setVisible(value);
+
+				_text.setForeground(value ? Color::alt1 : Color::alt7);
+
 				_image.setSource(value ? _imageSourceOn : _imageSourceOff);
-				_text.setForeground(value ? Color::black : Color::gray);
 			}
 
 		private:
-			Rectangle _rectangle = Rectangle(Color::white);
+			Rectangle _selectionBackground = Rectangle(Color::main3);
+			Rectangle _selectionLine = Rectangle(Color::gold);
+
 			StackLayout _row = StackLayout();
 
 			Image _image = Image();

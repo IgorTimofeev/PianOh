@@ -11,7 +11,7 @@ namespace devices {
 			float positionVector = 0;
 			float life = 1;
 			float lifeVector = 0;
-			Color color = Color::white;
+			Color color = Color::alt1;
 
 			virtual ~Particle() = default;
 
