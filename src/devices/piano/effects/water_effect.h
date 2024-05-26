@@ -27,12 +27,12 @@ namespace devices {
 				}
 			}
 
-			void render(devices::Piano &piano, const uint32_t &time) override {
+			void render(devices::Piano &piano) override {
 				// Clearing
 				piano.clearStrip();
 
 				// Rendering particles
-				ParticlesEffect::render(piano, time);
+				ParticlesEffect::render(piano);
 			}
 
 		private:

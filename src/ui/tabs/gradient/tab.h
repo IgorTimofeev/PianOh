@@ -5,25 +5,25 @@
 #include "grafica/elements/stack_layout.h"
 #include "grafica/gradient.h"
 #include "ui/elements/piano/gradient_selector.h"
-#include "devices/piano/effects/gradient_effect.h"
 #include "ui/elements/piano/piano.h"
-#include "ui/tabs/effect_tab.h"
+#include "ui/tabs/tab.h"
+#include "devices/piano/effects/gradient_effect.h"
 
 using namespace grafica;
 using namespace devices;
 
 namespace ui {
-	class GradientTab : public EffectTab {
+	class GradientTab : public Tab {
 		public:
 			GradientTab() {
 				rows.setAlignment(Alignment::center);
 
 				gradient.addRainbowStops();
-
 				gradientEffect.setGradient(&gradient);
+				setEffect(&gradientEffect);
 
 				piano.setHorizontalAlignment(Alignment::center);
-				piano.setEffect(&gradientEffect);
+				piano.setEffect(getEffect());
 				rows.addChild(&piano);
 
 				gradientSelector.setHorizontalAlignment(Alignment::center);
@@ -36,13 +36,10 @@ namespace ui {
 			}
 
 			StackLayout rows = StackLayout();
-			Piano piano = Piano();
+			ui::Piano piano = ui::Piano();
 			LinearGradient gradient = LinearGradient();
 			GradientSelector gradientSelector = GradientSelector();
-			devices::GradientEffect gradientEffect = devices::GradientEffect();
 
-			Effect* getEffect() const {
-				return (Effect*) &gradientEffect;
-			}
+			devices::GradientEffect gradientEffect = devices::GradientEffect();
 	};
 }

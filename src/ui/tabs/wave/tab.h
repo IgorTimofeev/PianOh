@@ -3,15 +3,17 @@
 #include "Arduino.h"
 #include "grafica/elements/layout.h"
 #include "grafica/elements/slider.h"
-#include "grafica/elements/text.h"
-#include "ui/tabs/effect_tab.h"
 #include "grafica/elements/stack_layout.h"
+#include "grafica/elements/text.h"
+#include "ui/tabs/tab.h"
 #include "ui/piano_application.h"
+#include "devices/piano/effects/water_effect.h"
 
 using namespace grafica;
+using namespace devices;
 
 namespace ui {
-	class WaveTab : public EffectTab {
+	class WaveTab : public Tab {
 		public:
 			WaveTab() {
 				rows.setAlignment(Alignment::center);

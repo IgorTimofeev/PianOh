@@ -3,12 +3,14 @@
 #include "Arduino.h"
 #include "grafica/elements/layout.h"
 #include "grafica/elements/seven_segment.h"
-#include "ui/tabs/effect_tab.h"
+#include "ui/tabs/tab.h"
+#include "devices/piano/effects/flame_effect.h"
 
 using namespace grafica;
+using namespace devices;
 
 namespace ui {
-	class FlameTab : public EffectTab {
+	class FlameTab : public Tab {
 		public:
 			SevenSegment sevenSegment = SevenSegment();
 

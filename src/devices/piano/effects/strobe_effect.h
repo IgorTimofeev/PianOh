@@ -29,10 +29,10 @@ namespace devices {
 				}
 			}
 
-			void render(devices::Piano &piano, const uint32_t &time) override {
+			void render(devices::Piano &piano) override {
 				piano.clearStrip();
 
-				if (time < _strobeDeadline || _pressedStripIndicesAndVelocities.empty())
+				if (micros() < _strobeDeadline || _pressedStripIndicesAndVelocities.empty())
 					return;
 
 				Color color;
@@ -43,7 +43,7 @@ namespace devices {
 					piano.setStripColor(stripIndexAndVelocity.first, color);
 				}
 
-				_strobeDeadline = time + _strobeInterval;
+				_strobeDeadline = micros() + _strobeInterval;
 			}
 
 			uint16_t getStrobeInterval() const {

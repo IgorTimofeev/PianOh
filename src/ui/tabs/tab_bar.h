@@ -117,9 +117,9 @@ namespace ui {
 			Rectangle _menuBackground = Rectangle(Color::main2);
 			StackLayout _menuItemsLayout = StackLayout();
 
-			std::vector<EffectTab*> _views {};
+			std::vector<Tab*> _views {};
 
-			void addTabAndView(SelectorItem* tab, EffectTab* view) {
+			void addTabAndView(SelectorItem* tab, Tab* view) {
 				_views.push_back(view);
 				addItem(tab);
 			}

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Arduino.h"
-#include "ui/tabs/effect_tab.h"
+#include "ui/tabs/tab.h"
 #include "grafica/elements/layout.h"
 #include "grafica/elements/button.h"
 #include "grafica/animation.h"
@@ -9,7 +9,7 @@
 using namespace grafica;
 
 namespace ui {
-	class PianoTab : public EffectTab {
+	class PianoTab : public Tab {
 		public:
 			PianoTab() {
 				setAlignment(Alignment::center);

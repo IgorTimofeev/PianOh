@@ -21,8 +21,8 @@ namespace devices {
 				color = Color::gold;
 			}
 
-			void render(Piano &piano, const uint32_t &time) override {
-				WaveParticle::render(piano, time);
+			void render(Piano &piano) override {
+				WaveParticle::render(piano);
 
 				// Brightness
 				brightness = Number::clampFloat(
@@ -31,9 +31,9 @@ namespace devices {
 					brightnessMaximum
 				);
 
-				if (time > brightnessFactorUpdateDeadline) {
+				if (micros() > brightnessFactorUpdateDeadline) {
 					brightnessVector = Random::get(-0.05f, 0.05f);
-					brightnessFactorUpdateDeadline = time + 100;
+					brightnessFactorUpdateDeadline = micros() + 100;
 				}
 			}
 	};

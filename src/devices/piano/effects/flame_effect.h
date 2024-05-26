@@ -28,14 +28,14 @@ namespace devices {
 				}
 			}
 
-			void render(devices::Piano &piano, const uint32_t &time) override {
+			void render(devices::Piano &piano) override {
 				// Clearing
 				for (int i = 0; i < piano.getStripLength(); i++) {
 					piano.setStripColor(i, _backgroundColor);
 				}
 
 				// Rendering particles
-				ParticlesEffect::render(piano, time);
+				ParticlesEffect::render(piano);
 
 				spawnSparks();
 			}

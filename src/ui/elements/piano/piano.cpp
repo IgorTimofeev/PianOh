@@ -125,7 +125,7 @@ namespace ui {
 				Bounds((int32_t) x, bounds.getY(), 2, stripHeight),
 				getEffect()
 				? getEffect()->getSampleColor(PianoApplication::getInstance().getPiano(), i)
-				: Color::main3
+				: Color::main1
 			);
 
 			x += step;

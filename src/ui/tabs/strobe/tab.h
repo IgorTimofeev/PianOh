@@ -4,12 +4,14 @@
 #include "grafica/elements/layout.h"
 #include "grafica/elements/text.h"
 #include "grafica/elements/rectangle.h"
-#include "ui/tabs/effect_tab.h"
+#include "ui/tabs/tab.h"
+#include "devices/piano/effects/strobe_effect.h"
 
 using namespace grafica;
+using namespace devices;
 
 namespace ui {
-	class StrobeTab : public EffectTab {
+	class StrobeTab : public Tab {
 		public:
 			StrobeTab() {
 				setAlignment(Alignment::center);
