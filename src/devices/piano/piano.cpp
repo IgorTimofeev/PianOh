@@ -21,7 +21,7 @@ namespace devices {
 
 	void Piano::invertStripIndexIfRequired(uint16_t& index) {
 		if (getIsStripInverted())
-			index = getStripLength() - index - 1;
+			index = getStripLength() - index - 2;
 	}
 
 	bool Piano::isStripIndexInRange(uint16_t index) {

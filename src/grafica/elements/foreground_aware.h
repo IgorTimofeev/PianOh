@@ -15,6 +15,6 @@ namespace grafica {
 			}
 
 		private:
-			Color foreground = Color::main1;
+			Color foreground = Color::alt1;
 	};
 }

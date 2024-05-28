@@ -81,7 +81,7 @@ namespace devices {
 					return;
 
 				FlameParticle *particle = noteAndParticle->second;
-				particle->lifeVector = -0.09;
+				particle->lifeVector = -0.06;
 				_notesAndParticlesMap.erase(note);
 			}
 
@@ -113,7 +113,7 @@ namespace devices {
 					particle->brightnessRight = isLeft ? 0.1 : 0.2;
 
 					particle->life = 1;
-					particle->lifeVector = Random::get(-0.04f, -0.12f);
+					particle->lifeVector = Random::get(-0.02f, -0.6f);
 
 					addParticle(particle);
 				}

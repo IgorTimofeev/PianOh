@@ -11,6 +11,12 @@
 namespace grafica {
 	class Text : public TextAware, public FontAware, public ForegroundAware {
 		public:
+			Text() = default;
+
+			explicit Text(const String& value) {
+				setText(value);
+			}
+
 			Size onMeasure(Screen& display, const Size& availableSize) override {
 				display.setFont(getFont());
 
