@@ -17,6 +17,8 @@ namespace ui {
 			FlameTab() {
 				setAlignment(Alignment::center);
 
+				setEffect(&flameEffect);
+
 				// SevenSegment
 				sevenSegment.setSegmentThickness(3);
 				sevenSegment.setSegmentLength(9);
@@ -32,5 +34,7 @@ namespace ui {
 
 				addChild(&sevenSegment);
 			}
+
+			FlameEffect flameEffect = FlameEffect();
 	};
 }

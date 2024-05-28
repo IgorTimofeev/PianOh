@@ -6,7 +6,8 @@
 
 namespace devices {
 	struct CustomBaudRateSettings : public MIDI_NAMESPACE::DefaultSerialSettings {
-		static const long BaudRate = 115200;
+//		static const long BaudRate = 115200;
+		static const long BaudRate = 31250;
 	};
 
 	MIDI_NAMESPACE::SerialMIDI<HardwareSerial, CustomBaudRateSettings> MIDISerial(Serial);

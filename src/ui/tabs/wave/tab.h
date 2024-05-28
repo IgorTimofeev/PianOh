@@ -18,6 +18,8 @@ namespace ui {
 			WaveTab() {
 				rows.setAlignment(Alignment::center);
 
+				setEffect(&waterEffect);
+
 				// Brightness
 				brightnessSlider.setCornerRadius(5);
 				brightnessSlider.setValue(0.7);
@@ -38,5 +40,7 @@ namespace ui {
 
 			Slider brightnessSlider = Slider();
 			Text brightnessText = Text();
+
+			WaterEffect waterEffect = WaterEffect();
 	};
 }

@@ -12,17 +12,17 @@ namespace ui {
 		));
 
 		// Callbacks
-		PianoApplication::getInstance().getPiano().addOnMidiRead([this](MidiEvent& event) {
-			switch (event.getType()) {
-				case NoteOn:
-				case NoteOff:
-					invalidateRender();
-					break;
-
-				default:
-					break;
-			}
-		});
+//		PianoApplication::getInstance().getPiano().addOnMidiRead([this](MidiEvent& event) {
+//			switch (event.getType()) {
+//				case NoteOn:
+//				case NoteOff:
+//					invalidateRender();
+//					break;
+//
+//				default:
+//					break;
+//			}
+//		});
 	}
 
 	void Piano::onRender(Screen &display) {

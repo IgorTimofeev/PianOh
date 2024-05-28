@@ -14,6 +14,8 @@ namespace ui {
 	class StrobeTab : public Tab {
 		public:
 			StrobeTab() {
+				setEffect(&strobeEffect);
+
 				setAlignment(Alignment::center);
 				addChild(&rectangle);
 
@@ -35,5 +37,7 @@ namespace ui {
 
 			Rectangle rectangle = Rectangle(Color::gold);
 			Text text = Text();
+
+			StrobeEffect strobeEffect = StrobeEffect(Color::white);
 	};
 }
