@@ -58,7 +58,7 @@ namespace devices {
 			std::map<uint8_t, float> _pressedStripIndicesAndVelocities;
 			Color _color;
 			uint32_t _strobeDeadline = 0;
-			uint32_t _strobeInterval = 100000;
+			uint32_t _strobeInterval = 50000;
 
 			void onNoteOn(Piano &piano, uint8_t note, uint8_t velocity) {
 				_pressedStripIndicesAndVelocities[piano.noteToStripIndex(note)] = (float) velocity / 127.f;

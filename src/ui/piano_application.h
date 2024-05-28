@@ -20,6 +20,6 @@ namespace ui {
 		private:
 			PianoApplication();
 
-			devices::Piano _piano = devices::Piano(180, 27);
+			devices::Piano _piano = devices::Piano(177, 27);
 	};
 }

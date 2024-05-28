@@ -49,7 +49,7 @@ namespace grafica {
 			Workspace _workspace;
 			Screen _screen;
 
-			uint16_t _tps = 120;
+			uint16_t _tps = 60;
 			uint16_t _fps = 60;
 
 			uint32_t _tickDeadline = 0;

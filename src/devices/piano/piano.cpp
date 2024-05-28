@@ -5,13 +5,11 @@
 #include "MIDI.h"
 
 namespace devices {
-	struct CustomBaudRateSettings : public MIDI_NAMESPACE::DefaultSerialSettings {
-//		static const long BaudRate = 115200;
+	struct CustomMIDISettings : public MIDI_NAMESPACE::DefaultSettings {
 		static const long BaudRate = 31250;
 	};
 
-	MIDI_NAMESPACE::SerialMIDI<HardwareSerial, CustomBaudRateSettings> MIDISerial(Serial);
-	MIDI_NAMESPACE::MidiInterface<MIDI_NAMESPACE::SerialMIDI<HardwareSerial, CustomBaudRateSettings>> MIDI((MIDI_NAMESPACE::SerialMIDI<HardwareSerial, CustomBaudRateSettings>&) MIDISerial);
+	MIDI_CREATE_CUSTOM_INSTANCE(HardwareSerial, Serial, MIDI, CustomMIDISettings);
 
 	Piano::Piano(uint16_t stripLEDCount, int16_t stripPin) {
 		_strip = Adafruit_NeoPixel(stripLEDCount, stripPin, NEO_GRB + NEO_KHZ800);
@@ -22,7 +20,7 @@ namespace devices {
 	}
 
 	void Piano::invertStripIndexIfRequired(uint16_t& index) {
-		if (_isStripInverted)
+		if (getIsStripInverted())
 			index = getStripLength() - index - 1;
 	}
 
@@ -87,33 +85,32 @@ namespace devices {
 	}
 
 	void Piano::tick() {
-		if (!MIDI.read())
-			return;
+		while (MIDI.read()) {
+			MidiEvent event = MidiEvent(
+				MIDI.getType(),
+				MIDI.getChannel(),
+				MIDI.getData1(),
+				MIDI.getData2()
+			);
 
-		MidiEvent event = MidiEvent(
-			MIDI.getType(),
-			MIDI.getChannel(),
-			MIDI.getData1(),
-			MIDI.getData2()
-		);
+			switch (event.getType()) {
+				case MidiType::NoteOn:
+					pressedKeysVelocities[Piano::noteToKey(event.getData1())] = event.getData2();
+					break;
 
-		switch (event.getType()) {
-			case MidiType::NoteOn:
-				pressedKeysVelocities[Piano::noteToKey(event.getData1())] = event.getData2();
-				break;
+				case MidiType::NoteOff:
+					pressedKeysVelocities.erase(Piano::noteToKey(event.getData1()));
+					break;
 
-			case MidiType::NoteOff:
-				pressedKeysVelocities.erase(Piano::noteToKey(event.getData1()));
-				break;
+				default:
+					break;
+			}
 
-			default:
-				break;
+			_onMidiRead.call(event);
+
+			if (_effect)
+				_effect->handleEvent(*this, event);
 		}
-
-		_onMidiRead.call(event);
-
-		if (_effect)
-			_effect->handleEvent(*this, event);
 	}
 
 	void Piano::addOnMidiRead(const std::function<void(MidiEvent&)> &callback) {
@@ -125,7 +122,7 @@ namespace devices {
 	}
 
 	uint16_t Piano::keyToStripIndex(uint16_t key) {
-		return (uint16_t) ((float) key / (float) _keyCount * (float) getStripLength());
+		return (uint16_t) round(((float) key / (float) _keyCount * (float) getStripLength()));
 	}
 
 	uint16_t Piano::noteToStripIndex(uint8_t note) {

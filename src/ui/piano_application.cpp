@@ -38,15 +38,15 @@ namespace ui {
 	}
 
 	void PianoApplication::onTick() {
-		Application::onTick();
-
 		_piano.tick();
+
+		Application::onTick();
 	}
 
 	void PianoApplication::onRender() {
-		Application::onRender();
-
 		_piano.renderStrip();
+
+		Application::onRender();
 	}
 
 	devices::Piano &PianoApplication::getPiano() {
